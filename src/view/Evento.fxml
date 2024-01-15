@@ -36,10 +36,10 @@
       </ImageView>
       <TableView fx:id="tbvEvento" layoutX="31.0" layoutY="264.0" prefHeight="504.0" prefWidth="1042.0">
          <columns>
-            <TableColumn fx:id="tbcNombre" prefWidth="126.39998626708984" style="-fx-font-size: 18;" text="Nombre" />
-            <TableColumn fx:id="tbcDescripcion" prefWidth="275.9999694824219" style="-fx-font-size: 18;" text="Descripcion" />
-            <TableColumn fx:id="tbcAforo" prefWidth="242.40005493164062" style="-fx-font-size: 18;" text="Aforo" />
-            <TableColumn fx:id="tbcCatering" prefWidth="193.60000610351562" style="-fx-font-size: 18;" text="Catering" />
+            <TableColumn fx:id="tbcNombre" prefWidth="317.59997367858887" style="-fx-font-size: 18;" text="Nombre" />
+            <TableColumn fx:id="tbcDescripcion" prefWidth="300.7999572753906" style="-fx-font-size: 18;" text="Descripcion" />
+            <TableColumn fx:id="tbcAforo" prefWidth="112.0" style="-fx-font-size: 18;" text="Aforo" />
+            <TableColumn fx:id="tbcCatering" prefWidth="112.0" style="-fx-font-size: 18;" text="Catering" />
             <TableColumn fx:id="tbcFechaEvento" prefWidth="204.79986572265625" style="-fx-font-size: 18;" text="FechaEvento" />
          </columns>
          <contextMenu>
