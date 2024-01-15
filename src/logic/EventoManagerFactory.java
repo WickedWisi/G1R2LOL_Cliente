@@ -5,7 +5,7 @@
  */
 package logic;
 
-import logic.EventRESTfulClient;
+import logic.EventRESTClient;
 /**
  * La clase {@code EventoManagerFactory} es responsable de proporcionar instancias de la
  * interfaz {@code EventoManager}. Específicamente, devuelve una instancia de la clase
@@ -29,7 +29,7 @@ public class EventoManagerFactory {
      * @return Una instancia de la interfaz {@code EventoManager}.
      */
     public EventoManager getFactory() {
-        EventoManager eventm = new EventRESTfulClient();
+        EventoManager eventm = new EventRESTClient();
         return eventm;
     }
 }

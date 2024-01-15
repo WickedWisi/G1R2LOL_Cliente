@@ -9,11 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-
+import model.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import model.Patrocinador;
-import model.Sede;
-import model.Socio;
+
 
 /**
  *
@@ -42,35 +40,6 @@ public class Evento implements Serializable {
 
     private Socio socio;
     
-     @Override
-    public String toString() {
-        return "Evento{" + "id_evento=" + id_evento + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.id_evento);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Evento other = (Evento) obj;
-        if (!Objects.equals(this.id_evento, other.id_evento)) {
-            return false;
-        }
-        return true;
-    }
 
     public Integer getId_evento() {
         return id_evento;
@@ -142,6 +111,37 @@ public class Evento implements Serializable {
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+    
+         @Override
+    public String toString() {
+        return "Evento{" + "id_evento=" + id_evento + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.id_evento);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Evento other = (Evento) obj;
+        if (!Objects.equals(this.id_evento, other.id_evento)) {
+            return false;
+        }
+        return true;
     }
 
 }
