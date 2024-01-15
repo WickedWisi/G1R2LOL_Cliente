@@ -2,6 +2,7 @@ package logic;
 
 import java.util.List;
 import javax.ws.rs.ClientErrorException;
+import javax.ws.rs.WebApplicationException;
 import model.Evento;
 
 
@@ -23,7 +24,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> findEventByEventId_XML(Class<Evento> responseType, String id_evento) throws ClientErrorException;
+    public List<Evento> findEventByEventId_XML(Class<Evento> responseType, String id_evento) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato JSON basada en el ID del evento proporcionado.
@@ -33,7 +34,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> findEventByEventId_JSON(Class<Evento> responseType, String id_evento) throws ClientErrorException;
+    public List<Evento> findEventByEventId_JSON(Class<Evento> responseType, String id_evento) throws WebApplicationException;
 
     /**
      * Modifica un evento en formato XML basado en la entidad de solicitud proporcionada.
@@ -41,7 +42,7 @@ public interface EventoManager {
      * @param requestEntity La entidad que contiene las modificaciones para el evento.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public void modifyEvent_XML(Object requestEntity) throws ClientErrorException;
+    public void modifyEvent_XML(Object requestEntity) throws WebApplicationException;
 
     /**
      * Modifica un evento en formato JSON basado en la entidad de solicitud proporcionada.
@@ -49,7 +50,7 @@ public interface EventoManager {
      * @param requestEntity La entidad que contiene las modificaciones para el evento.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public void modifyEvent_JSON(Object requestEntity) throws ClientErrorException;
+    public void modifyEvent_JSON(Object requestEntity) throws WebApplicationException;
 
     /**
      * Crea un evento en formato XML basado en la entidad de solicitud proporcionada.
@@ -57,7 +58,7 @@ public interface EventoManager {
      * @param requestEntity La entidad que contiene la información para crear el evento.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public void createEvent_XML(Object requestEntity) throws ClientErrorException;
+    public void createEvent_XML(Object requestEntity) throws WebApplicationException;
 
     /**
      * Crea un evento en formato JSON basado en la entidad de solicitud proporcionada.
@@ -65,7 +66,7 @@ public interface EventoManager {
      * @param requestEntity La entidad que contiene la información para crear el evento.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public void createEvent_JSON(Object requestEntity) throws ClientErrorException;
+    public void createEvent_JSON(Object requestEntity) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato XML basada en la fecha proporcionada.
@@ -75,7 +76,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewEventoByDate_XML(Class<Evento> responseType, String fechaEvento) throws ClientErrorException;
+    public List<Evento> viewEventoByDate_XML(Class<Evento> responseType, String fechaEvento) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato JSON basada en la fecha proporcionada.
@@ -85,7 +86,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewEventoByDate_JSON(Class<Evento> responseType, String fechaEvento) throws ClientErrorException;
+    public List<Evento> viewEventoByDate_JSON(Class<Evento> responseType, String fechaEvento) throws WebApplicationException;
 
     /**
      * Recupera una lista de todos los eventos en formato XML.
@@ -94,7 +95,7 @@ public interface EventoManager {
      * @return Una lista de todos los eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewEvents_XML(Class<Evento> responseType) throws ClientErrorException;
+    public List<Evento> viewEvents_XML(Class<Evento> responseType) throws WebApplicationException;
 
     /**
      * Recupera una lista de todos los eventos en formato JSON.
@@ -103,7 +104,7 @@ public interface EventoManager {
      * @return Una lista de todos los eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewEvents_JSON(Class<Evento> responseType) throws ClientErrorException;
+    public List<Evento> viewEvents_JSON(Class<Evento> responseType) throws WebApplicationException;
 
     /**
      * Elimina un evento basado en el ID proporcionado.
@@ -111,7 +112,7 @@ public interface EventoManager {
      * @param id_evento El ID del evento a eliminar.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public void deleteEvent(String id_evento) throws ClientErrorException;
+    public void deleteEvent(String id_evento) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato XML basada en la capacidad máxima de asientos proporcionada.
@@ -121,7 +122,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws ClientErrorException;
+    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato JSON basada en la capacidad máxima de asientos proporcionada.
@@ -131,7 +132,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws ClientErrorException;
+    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException;
 
 }
 

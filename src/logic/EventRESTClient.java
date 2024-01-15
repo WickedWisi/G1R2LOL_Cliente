@@ -38,7 +38,7 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> findEventByEventId_XML(Class<Evento> responseType, String id_evento) throws ClientErrorException {
+    public List<Evento> findEventByEventId_XML(Class<Evento> responseType, String id_evento) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("FindEventBy/{0}", new Object[]{id_evento}));
         // return (List<Evento>) resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML);
@@ -47,7 +47,7 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> findEventByEventId_JSON(Class<Evento> responseType, String id_evento) throws ClientErrorException {
+    public List<Evento> findEventByEventId_JSON(Class<Evento> responseType, String id_evento) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("FindEventBy/{0}", new Object[]{id_evento}));
         //return (List<Evento>) resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON);
@@ -56,7 +56,7 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> viewEventoByDate_XML(Class<Evento> responseType, String fechaEvento) throws ClientErrorException {
+    public List<Evento> viewEventoByDate_XML(Class<Evento> responseType, String fechaEvento) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("viewEventByDate/{0}", new Object[]{fechaEvento}));
         //return (List<Evento>) resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML);
@@ -65,7 +65,7 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> viewEventoByDate_JSON(Class<Evento> responseType, String fechaEvento) throws ClientErrorException {
+    public List<Evento> viewEventoByDate_JSON(Class<Evento> responseType, String fechaEvento) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("viewEventByDate/{0}", new Object[]{fechaEvento}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
@@ -73,28 +73,28 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> viewEvents_XML(Class<Evento> responseType) throws ClientErrorException {
+    public List<Evento> viewEvents_XML(Class<Evento> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>() {
         });
     }
 
     @Override
-    public List<Evento> viewEvents_JSON(Class<Evento> responseType) throws ClientErrorException {
+    public List<Evento> viewEvents_JSON(Class<Evento> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
         });
     }
 
     @Override
-    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws ClientErrorException {
+    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>(){});
     }
 
     @Override
-    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws ClientErrorException {
+    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
          return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
