@@ -5,10 +5,15 @@
  */
 package controller;
 
+import exception.EmptyTextFieldsException;
+import exception.FormatErrorException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -43,11 +48,13 @@ public class EventoController {
 
     private static final Logger LOGGER = Logger.getLogger("controller");
 
-    Evento eventito = new Evento();
+    private Evento eventito = new Evento();
 
     private EventoManagerFactory eventofact = new EventoManagerFactory();
 
     private ObservableList<Evento> eventoData;
+
+    private Set<Evento> listaEvento;
     @FXML
     private Stage stage;
     @FXML
@@ -73,7 +80,7 @@ public class EventoController {
     @FXML
     private Button btnInforme;
     @FXML
-    private TableView tbvEvento;
+    private TableView<Evento> tbvEvento;
     @FXML
     private TableColumn tbcNombre;
     @FXML
@@ -126,6 +133,7 @@ public class EventoController {
         btnBuscar.setOnAction(this::handleBuscarButtonAction);
         stage.setOnCloseRequest(this::handleExitButtonAction);
         tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
+
         //Con el siguiente codigo asignamos a las columnas los tipos y los nombres 
         tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tbcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
@@ -183,6 +191,65 @@ public class EventoController {
     @FXML
     private void handleCrearButtonAction(ActionEvent event) {
 
+        try {
+            //aqui estamos validando que los campos no esten vacios 
+            if (this.tfNombre.getText().isEmpty() || this.taDescripcion.getText().isEmpty() || this.tfAforo.getText().isEmpty() || dpFechaEvento.getValue() == null) {
+
+                throw new EmptyTextFieldsException("CAMPOS NO INFORMADOS");
+
+            }
+            //Validar que el aforo esta solo formado por numeros
+
+            String text = tfAforo.getText();
+            if (text.matches("//d+")) {
+
+                throw new FormatErrorException("Error, Por favor, ingrese solo números.");
+
+            }
+            //validar que la fecha este en el formato correcto 
+            String dateStr = dpFechaEvento.getEditor().getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
+            } else {
+                try {
+
+                    //escribimos en el objeto lugar los fields de los campos ha introducir 
+                    eventito.setNombre(tfNombre.getText());
+                    eventito.setDescripcion(taDescripcion.getText());
+                    eventito.setAforo(Integer.parseInt(tfAforo.getText()));
+                    eventito.setCatering(cbCatering.isSelected());
+                    eventito.setFechaEvento(Date.from(dpFechaEvento.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+
+                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos 
+                    eventofact.getFactory().createEvent_XML(eventito);
+                    //llamamos a nuestro metodo de cargarTodo para refrescar nuestra tabla y salga el nuevo lugar creado
+                    eventoData = FXCollections.observableArrayList(cargarTodo());
+                    //Una vez creado el lugar pondremos en blanco de nuevo los campos y mostraremos un mensaje de lugar creado con exito
+                    tfNombre.setText("");
+                    taDescripcion.setText("");
+                    tfAforo.setText("");
+                    cbCatering.isDisable();
+                    dpFechaEvento.setValue(null);
+                    throw new Exception("LUGAR CREADO CON EXITO");
+
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+                }
+
+            }
+
+        } catch (Exception e) {
+            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            tfNombre.setText("");
+            taDescripcion.setText("");
+            tfAforo.setText("");
+            cbCatering.isDisable();
+            dpFechaEvento.setValue(null);
+
+        }
+
     }
 
     @FXML
@@ -193,10 +260,103 @@ public class EventoController {
     @FXML
     private void handleEliminarButtonAction(ActionEvent event) {
 
+        //lo primero que hacemos sera seleccionar una fila de nuestra tabla 
+        Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
+        try {
+            try {
+                Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+                ventanita.setHeaderText(null);
+                ventanita.setTitle("Advertencia");
+                ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
+                //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+                Optional<ButtonType> action = ventanita.showAndWait();
+                //Si le da a OK el borrara ese lugar 
+                if (action.get() == ButtonType.OK) {
+                    eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
+                    eventoData = FXCollections.observableArrayList(cargarTodo());
+                    tfNombre.setText("");
+                    taDescripcion.setText("");
+                    tfAforo.setText("");
+                    cbCatering.isDisable();
+                    dpFechaEvento.setValue(null);
+                    throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
+                } else {
+                    //Si le da a cancelar la ventana emergente se cerrará 
+                    ventanita.close();
+                }
+
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
+
     }
 
     @FXML
     private void handleModificarButtonAction(ActionEvent event) {
+
+        try {
+            //aqui estamos validando que los campos no esten vacios 
+            if (this.tfNombre.getText().isEmpty() || this.taDescripcion.getText().isEmpty() || this.tfAforo.getText().isEmpty() || dpFechaEvento.getValue() == null) {
+
+                throw new EmptyTextFieldsException("CAMPOS NO INFORMADOS");
+
+            }
+            //Validar que el aforo esta solo formado por numeros
+
+            String text = tfAforo.getText();
+            if (text.matches("//d+")) {
+
+                throw new FormatErrorException("Error, Por favor, ingrese solo números.");
+
+            }
+            //validar que la fecha este en el formato correcto 
+            String dateStr = dpFechaEvento.getEditor().getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
+            } else {
+                try {
+
+                    //escribimos en el objeto lugar los fields de los campos ha introducir 
+                    eventito.setId_evento(tbvEvento.getSelectionModel().getSelectedItem().getId_evento());
+                    eventito.setNombre(tfNombre.getText());
+                    eventito.setDescripcion(taDescripcion.getText());
+                    eventito.setAforo(Integer.parseInt(tfAforo.getText()));
+                    eventito.setCatering(cbCatering.isSelected());
+                    eventito.setFechaEvento(Date.from(dpFechaEvento.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+
+                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos 
+                    eventofact.getFactory().modifyEvent_XML(eventito);
+                    //llamamos a nuestro metodo de cargarTodo para refrescar nuestra tabla y salga el nuevo lugar creado
+                    eventoData = FXCollections.observableArrayList(cargarTodo());
+                    //Una vez creado el lugar pondremos en blanco de nuevo los campos y mostraremos un mensaje de lugar creado con exito
+                    tfNombre.setText("");
+                    taDescripcion.setText("");
+                    tfAforo.setText("");
+                    cbCatering.isDisable();
+                    dpFechaEvento.setValue(null);
+                    throw new Exception("LUGAR MODIFICADO CON EXITO");
+
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+                }
+
+            }
+
+        } catch (Exception e) {
+            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            tfNombre.setText("");
+            taDescripcion.setText("");
+            tfAforo.setText("");
+            cbCatering.isDisable();
+            dpFechaEvento.setValue(null);
+
+        }
 
     }
 
@@ -214,14 +374,26 @@ public class EventoController {
             tfNombre.setText(evento.getNombre());
             taDescripcion.setText(evento.getDescripcion());
             tfAforo.setText(evento.getAforo().toString());
-           // cbCatering.getse.select(lugar.getTipoLugar());
-           // dteTiempoReservado.setValue(lugar.getTiempo().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            cbCatering.setSelected(evento.getCatering());
+            dpFechaEvento.setValue(evento.getFechaEvento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         }
 
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    private ObservableList<Evento> cargarTodo() {
+        ObservableList<Evento> listaEvento;
+        List<Evento> todosEventos;
+        todosEventos = eventofact.getFactory().viewEvents_XML(Evento.class);
+
+        listaEvento = FXCollections.observableArrayList(todosEventos);
+        tbvEvento.setItems(listaEvento);
+        tbvEvento.refresh();
+        return listaEvento;
     }
 
 }
