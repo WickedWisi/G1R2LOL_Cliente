@@ -362,10 +362,44 @@ public class EventoController {
     @FXML
     private void handleBuscarButtonAction(ActionEvent event) {
 
-        
-        
-        
-        
+        try {
+
+            String text = tfFiltro.getText();
+            if (!text.matches("\\d+") || Integer.parseInt(tfFiltro.getText()) <= 0) {
+                throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
+            } else {
+
+                ObservableList<Evento> listaEvento;
+                List<Evento> todosEventos;
+                todosEventos = eventofact.getFactory().viewSedeByAforoMax_XML(Evento.class, text);
+
+                listaEvento = FXCollections.observableArrayList(todosEventos);
+                tbvEvento.setItems(listaEvento);
+                tbvEvento.refresh();
+            }
+
+            String dateStr = dpFechaEvento.getEditor().getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
+                throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
+            } else{
+            
+                ObservableList<Evento> listaEvento;
+                List<Evento> todosEventos;
+                todosEventos = eventofact.getFactory().viewEventoByDate_XML(Evento.class, dateStr);
+
+                listaEvento = FXCollections.observableArrayList(todosEventos);
+                tbvEvento.setItems(listaEvento);
+                tbvEvento.refresh();
+                
+            }
+
+        } catch (FormatErrorException e) {
+
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            tfFiltro.setText("");
+        }
+
     }
 
     @FXML
