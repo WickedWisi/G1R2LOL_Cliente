@@ -177,14 +177,14 @@ public class EventoController {
         ventanita.setHeaderText(null);
         ventanita.setTitle("Advertencia");
         ventanita.setContentText("¿Deseas Salir?");
-        //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+        // Con este Optional<ButtonType> creamos botones de Ok y cancelar
         Optional<ButtonType> action = ventanita.showAndWait();
-        //Si le da a OK el programa cesará de existir, se cierra por completo
-        if (action.get() == ButtonType.OK) {
+        // Si le da a OK el programa cesará de existir, se cierra por completo
+        if (action.orElse(ButtonType.CANCEL) == ButtonType.OK) {
             Platform.exit();
         } else {
-            //Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
-            ventanita.close();
+            // Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
+            event.consume();  // Consume el evento para evitar que se cierre
         }
     }
 
@@ -201,17 +201,16 @@ public class EventoController {
             //Validar que el aforo esta solo formado por numeros
 
             String text = tfAforo.getText();
-            if (text.matches("//d+")) {
-
-                throw new FormatErrorException("Error, Por favor, ingrese solo números.");
-
-            }
+            if (!text.matches("\\d+") || Integer.parseInt(tfAforo.getText()) <= 0) {
+                throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
+            } /*
             //validar que la fecha este en el formato correcto 
             String dateStr = dpFechaEvento.getEditor().getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } else {
+            } 
+             */ else {
                 try {
 
                     //escribimos en el objeto lugar los fields de los campos ha introducir 
@@ -239,7 +238,7 @@ public class EventoController {
 
             }
 
-        } catch (Exception e) {
+        } catch (EmptyTextFieldsException | FormatErrorException e) {
             //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
             tfNombre.setText("");
@@ -308,17 +307,17 @@ public class EventoController {
             //Validar que el aforo esta solo formado por numeros
 
             String text = tfAforo.getText();
-            if (text.matches("//d+")) {
 
-                throw new FormatErrorException("Error, Por favor, ingrese solo números.");
-
-            }
+            if (!text.matches("\\d+") || Integer.parseInt(tfAforo.getText()) <= 0) {
+                throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
+            } /* /*
             //validar que la fecha este en el formato correcto 
             String dateStr = dpFechaEvento.getEditor().getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } else {
+            } 
+             */ else {
                 try {
 
                     //escribimos en el objeto lugar los fields de los campos ha introducir 
@@ -347,7 +346,7 @@ public class EventoController {
 
             }
 
-        } catch (Exception e) {
+        } catch (EmptyTextFieldsException | FormatErrorException e) {
             //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
             tfNombre.setText("");
@@ -363,6 +362,10 @@ public class EventoController {
     @FXML
     private void handleBuscarButtonAction(ActionEvent event) {
 
+        
+        
+        
+        
     }
 
     @FXML
