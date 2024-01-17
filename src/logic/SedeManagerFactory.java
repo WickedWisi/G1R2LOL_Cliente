@@ -11,9 +11,13 @@ package logic;
  */
 public class SedeManagerFactory {
 
+    /**
+     * Recupera una instancia de la interfaz {@code EventoManager}.
+     *
+     * @return Una instancia de la interfaz {@code EventoManager}.
+     */
     public SedeManager getFactory() {
-        SedeManager sedes = new SedeRESTClient();
-        return sedes;
+        SedeManager sede = new SedeRESTClient();
+        return sede;
     }
-
 }

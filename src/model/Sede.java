@@ -8,11 +8,13 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Eneko.
  */
+@XmlRootElement
 public class Sede implements Serializable {
 
     private Integer id_sede;
