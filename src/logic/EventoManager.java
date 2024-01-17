@@ -122,7 +122,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException;
+    public List<Evento> viewEventoByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException;
 
     /**
      * Recupera una lista de eventos en formato JSON basada en la capacidad máxima de asientos proporcionada.
@@ -132,7 +132,7 @@ public interface EventoManager {
      * @return Una lista de eventos.
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
-    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException;
+    public List<Evento> viewEventoByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException;
 
 }
 

@@ -27,7 +27,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -91,6 +93,12 @@ public class EventoController {
     private TableColumn tbcCatering;
     @FXML
     private TableColumn tbcFechaEvento;
+    @FXML
+    private ContextMenu menuu;
+    @FXML
+    private MenuItem mtem4;
+    @FXML
+    private MenuItem mtem5;
 
     public void initStage(Parent root) {
 
@@ -133,6 +141,7 @@ public class EventoController {
         btnBuscar.setOnAction(this::handleBuscarButtonAction);
         stage.setOnCloseRequest(this::handleExitButtonAction);
         tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
+        mtem4.setOnAction(this::handleMtem4);
 
         //Con el siguiente codigo asignamos a las columnas los tipos y los nombres 
         tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -254,6 +263,23 @@ public class EventoController {
     @FXML
     private void handleInformeButtonAction(ActionEvent event) {
 
+        /*
+        try {
+            //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/grupo3/reto2/report/PlaceReport.jrxml"));
+            JRBeanCollectionDataSource dataItems;
+            dataItems = new JRBeanCollectionDataSource((Collection<Lugar>) this.tblvTabla.getItems());
+            Map<String, Object> parameters = new HashMap<>();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+
+        } catch (JRException ex) {
+
+            Logger.getLogger(PlaceController.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+         */
     }
 
     @FXML
@@ -371,7 +397,7 @@ public class EventoController {
 
                 ObservableList<Evento> listaEvento;
                 List<Evento> todosEventos;
-                todosEventos = eventofact.getFactory().viewSedeByAforoMax_XML(Evento.class, text);
+                todosEventos = eventofact.getFactory().viewEventoByAforoMax_XML(Evento.class, text);
 
                 listaEvento = FXCollections.observableArrayList(todosEventos);
                 tbvEvento.setItems(listaEvento);
@@ -382,8 +408,8 @@ public class EventoController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } else{
-            
+            } else {
+
                 ObservableList<Evento> listaEvento;
                 List<Evento> todosEventos;
                 todosEventos = eventofact.getFactory().viewEventoByDate_XML(Evento.class, dateStr);
@@ -391,7 +417,7 @@ public class EventoController {
                 listaEvento = FXCollections.observableArrayList(todosEventos);
                 tbvEvento.setItems(listaEvento);
                 tbvEvento.refresh();
-                
+
             }
 
         } catch (FormatErrorException e) {
@@ -431,6 +457,44 @@ public class EventoController {
         tbvEvento.setItems(listaEvento);
         tbvEvento.refresh();
         return listaEvento;
+    }
+
+    @FXML
+    private void handleMtem4(ActionEvent event) {
+
+        //lo primero que hacemos sera seleccionar una fila de nuestra tabla 
+        Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
+        try {
+            try {
+                Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+                ventanita.setHeaderText(null);
+                ventanita.setTitle("Advertencia");
+                ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
+                //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+                Optional<ButtonType> action = ventanita.showAndWait();
+                //Si le da a OK el borrara ese lugar 
+                if (action.get() == ButtonType.OK) {
+                    eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
+                    eventoData = FXCollections.observableArrayList(cargarTodo());
+                    tfNombre.setText("");
+                    taDescripcion.setText("");
+                    tfAforo.setText("");
+                    cbCatering.isDisable();
+                    dpFechaEvento.setValue(null);
+                    throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
+                } else {
+                    //Si le da a cancelar la ventana emergente se cerrará 
+                    ventanita.close();
+                }
+
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
+
     }
 
 }

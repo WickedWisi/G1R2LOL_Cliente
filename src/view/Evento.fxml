@@ -45,7 +45,7 @@
          <contextMenu>
             <ContextMenu fx:id="menuu">
               <items>
-                <MenuItem fx:id="mItem4" mnemonicParsing="false" text="Borrar" />
+                <MenuItem fx:id="mtem4" mnemonicParsing="false" text="Borrar" />
                   <MenuItem fx:id="mItem5" mnemonicParsing="false" text="Ver Patrocinadores" />
               </items>
             </ContextMenu>

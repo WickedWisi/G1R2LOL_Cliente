@@ -87,14 +87,14 @@ public class EventRESTClient implements EventoManager {
     }
 
     @Override
-    public List<Evento> viewSedeByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException {
+    public List<Evento> viewEventoByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>(){});
     }
 
     @Override
-    public List<Evento> viewSedeByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException {
+    public List<Evento> viewEventoByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
          return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
