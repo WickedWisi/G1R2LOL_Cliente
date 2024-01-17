@@ -38,9 +38,9 @@ public interface SedeManager {
 
     public List<Sede> viewSedeByCountry_JSON(Class<Sede> responseType, String pais) throws WebApplicationException;
 
-    public <Sede> Sede viewSedeByAforoMax_XML(Class<Sede> responseType, String aforoMax) throws WebApplicationException;
+    public List<Sede> viewSedeByAforoMax_XML(Class<Sede> responseType, String aforoMax) throws WebApplicationException;
 
-    public <Sede> Sede viewSedeByAforoMax_JSON(Class<Sede> responseType, String aforoMax) throws WebApplicationException;
+    public List<Sede> viewSedeByAforoMax_JSON(Class<Sede> responseType, String aforoMax) throws WebApplicationException;
 
     public void modifySede_XML(Object requestEntity) throws WebApplicationException;
 

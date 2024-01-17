@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -157,8 +158,66 @@ public class SedeController {
         bInsert.setOnAction(this::handleInsertAction);
         bEliminar.setOnAction(this::handleEliminarAction);
         bEditar.setOnAction(this::handleModificarAction);
-
+        stage.setOnCloseRequest(this::handleExitButtonAction);
+        bBuscar.setOnAction(this::handleBuscarAction);
         stage.show();
+    }
+
+    @FXML
+    private void handleBuscarAction(ActionEvent event) {
+        try {
+            // Obtener valores de los campos de búsqueda
+            String aforoMaxText = fAforoMax.getText();
+            String paisText = fPais.getText();
+
+            if (aforoMaxText.isEmpty() && paisText.isEmpty()) {
+                // Ambos campos están vacíos, mostrar mensaje de advertencia
+                throw new FormatErrorException("Debe ingresar al menos un criterio de búsqueda.");
+            }
+
+            ObservableList<Sede> listaSede;
+            List<Sede> todosSede;
+
+            // Verificar y buscar por el campo Aforo Maximo si no está vacío
+            if (!aforoMaxText.isEmpty()) {
+                if (!aforoMaxText.matches("\\d+") || Integer.parseInt(aforoMaxText) <= 0) {
+                    throw new FormatErrorException("El aforo máximo debe contener solo números y ser positivos.");
+                }
+
+                todosSede = sedefact.getFactory().viewSedeByAforoMax_XML(Sede.class, aforoMaxText);
+            } else {
+                // Buscar por el campo País si el campo Aforo Maximo está vacío
+                if (!paisText.isEmpty() && paisText.matches("\\d+")) {
+                    throw new FormatErrorException("El formato del país debe ser letras.");
+                }
+
+                todosSede = sedefact.getFactory().viewSedeByCountry_XML(Sede.class, paisText);
+            }
+
+            listaSede = FXCollections.observableArrayList(todosSede);
+            tabla.setItems(listaSede);
+            tabla.refresh();
+
+        } catch (FormatErrorException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleExitButtonAction(WindowEvent event) {
+        Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+        ventanita.setHeaderText(null);
+        ventanita.setTitle("Advertencia");
+        ventanita.setContentText("¿Deseas Salir?");
+        // Con este Optional<ButtonType> creamos botones de Ok y cancelar
+        Optional<ButtonType> action = ventanita.showAndWait();
+        // Si le da a OK el programa cesará de existir, se cierra por completo
+        if (action.orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            Platform.exit();
+        } else {
+            // Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
+            event.consume();  // Consume el evento para evitar que se cierre
+        }
     }
 
     private void handleInsertAction(ActionEvent event) {
@@ -299,13 +358,18 @@ public class SedeController {
 
             } else {
 
-                int aforoMax = Integer.parseInt(tAforoMax.getText());
-                if (aforoMax < 0) {
+                String aforoMax = tAforoMax.getText();
+
+                if (!aforoMax.matches("\\d+")) {
                     bien = false;
-                    throw new FormatErrorException("El Aforo Máximo debe ser un número positivo.");
+                    throw new FormatErrorException("El Aforo Máximo debe ser un número positivo, ni contener letras.");
 
                 }
-
+                int aforoMax2 = Integer.parseInt(tAforoMax.getText());
+                if (aforoMax2 <= 0) {
+                    bien = false;
+                    throw new FormatErrorException("El Aforo Máximo debe ser un número positivo, ni contener letras.");
+                }
                 int numVolMax = Integer.parseInt(tNumVolMax.getText());
                 if (numVolMax < 0) {
                     bien = false;

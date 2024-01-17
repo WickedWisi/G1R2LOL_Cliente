@@ -119,17 +119,19 @@ public class SedeRESTClient implements SedeManager {
     }
 
     @Override
-    public <Sede> Sede viewSedeByAforoMax_XML(Class<Sede> responseType, String aforoMax) throws WebApplicationException {
+    public List<Sede> viewSedeByAforoMax_XML(Class<Sede> responseType, String aforoMax) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewSedeByAforoMax/{0}", new Object[]{aforoMax}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Sede>>() {
+        });
     }
 
     @Override
-    public <Sede> Sede viewSedeByAforoMax_JSON(Class<Sede> responseType, String aforoMax) throws WebApplicationException {
+    public List<Sede> viewSedeByAforoMax_JSON(Class<Sede> responseType, String aforoMax) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewSedeByAforoMax/{0}", new Object[]{aforoMax}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Sede>>() {
+        });
     }
 
     @Override
