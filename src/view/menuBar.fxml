@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar fx:id="mbLol" prefHeight="0.0" prefWidth="1366.0" style="-fx-padding: 0px 0px; -fx-background-color: #FC6A49;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuBarController">
+  <menus>
+    <Menu fx:id="menPrin" mnemonicParsing="false" style="-fx-font-size: 15px; -fx-padding: 12px 100px;" text="Principal" />
+      <Menu fx:id="menNave" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 120px;" text="Navegar">
+         <items>
+            <MenuItem fx:id="MitEve" mnemonicParsing="false" text="Evento" />
+            <MenuItem fx:id="MitSede" mnemonicParsing="false" text="Sede" />
+            <MenuItem fx:id="MitPatro" mnemonicParsing="false" text="Patrocinador" />
+         </items>
+      </Menu>
+    <Menu fx:id="menAyud" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 122px;" text="Ayuda" />
+      <Menu fx:id="MenCerr" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion" />
+  </menus>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+</MenuBar>

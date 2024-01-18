@@ -414,7 +414,7 @@ public class EventoController {
                         );
                         tbvEvento.setItems(eventosPorFecha);
                     } catch (ParseException ex) {
-                        throw new FormatErrorException("Formato de filtro no válido. Debe ser aforo (número) o fecha (dd-MM-yyyy).");
+                        throw new FormatErrorException("Formato de filtro no válido. Debe ser aforo (número positivo) o fecha (yyyy-MM-dd).");
                     }
                 }
             }
