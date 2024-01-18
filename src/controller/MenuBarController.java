@@ -100,23 +100,7 @@ public class MenuBarController {
 
     @FXML
     private void mitEve(ActionEvent event) {
-        /*
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
-            Parent root = loader.load();
-
-            // Obtén el controlador de la nueva ventana
-            EventoController eventoController = loader.getController();
-
-            // Configura el controlador según sea necesario (por ejemplo, pasa datos o configura el escenario)
-            eventoController.setStage(stage);
-            eventoController.initStage(root);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Agrega manejo de errores según sea necesario
-        }
-        */
+      
          try {
             
            
@@ -129,7 +113,7 @@ public class MenuBarController {
                 EventoController eventoController = ((EventoController) loader.getController());
 
                 eventoController.initStage(root);
-                
+               
             
         } catch (IOException e) {
             
