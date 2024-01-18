@@ -7,6 +7,7 @@ package controller;
 
 import exception.EmptyTextFieldsException;
 import exception.FormatErrorException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -389,39 +391,36 @@ public class EventoController {
     private void handleBuscarButtonAction(ActionEvent event) {
 
         try {
+            String filtro = tfFiltro.getText();
 
-            String text = tfFiltro.getText();
-            if (!text.matches("\\d+") || Integer.parseInt(tfFiltro.getText()) <= 0) {
-                throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
+            // Verificar si el TextField está vacío
+            if (filtro.isEmpty()) {
+                eventoData = FXCollections.observableArrayList(cargarTodo());
+                tbvEvento.setItems(eventoData);
             } else {
+                // Resto del código para buscar por aforo o fecha
+                if (filtro.matches("\\d+")) {
+                    ObservableList<Evento> eventosPorAforo = FXCollections.observableArrayList(
+                            eventofact.getFactory().viewEventoByAforoMax_XML(Evento.class, filtro)
+                    );
+                    tbvEvento.setItems(eventosPorAforo);
+                } else {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date fecha = dateFormat.parse(filtro);
 
-                ObservableList<Evento> listaEvento;
-                List<Evento> todosEventos;
-                todosEventos = eventofact.getFactory().viewEventoByAforoMax_XML(Evento.class, text);
-
-                listaEvento = FXCollections.observableArrayList(todosEventos);
-                tbvEvento.setItems(listaEvento);
-                tbvEvento.refresh();
+                        ObservableList<Evento> eventosPorFecha = FXCollections.observableArrayList(
+                                eventofact.getFactory().viewEventoByDate_XML(Evento.class, dateFormat.format(fecha))
+                        );
+                        tbvEvento.setItems(eventosPorFecha);
+                    } catch (ParseException ex) {
+                        throw new FormatErrorException("Formato de filtro no válido. Debe ser aforo (número) o fecha (dd-MM-yyyy).");
+                    }
+                }
             }
 
-            String dateStr = dpFechaEvento.getEditor().getText();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } else {
-
-                ObservableList<Evento> listaEvento;
-                List<Evento> todosEventos;
-                todosEventos = eventofact.getFactory().viewEventoByDate_XML(Evento.class, dateStr);
-
-                listaEvento = FXCollections.observableArrayList(todosEventos);
-                tbvEvento.setItems(listaEvento);
-                tbvEvento.refresh();
-
-            }
-
+            tbvEvento.refresh();
         } catch (FormatErrorException e) {
-
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
             tfFiltro.setText("");
         }
