@@ -7,8 +7,8 @@ package model;
 
 /**
  *
- * @author 2dam
+ * @author Eneko.
  */
 class Voluntario {
-    
+
 }

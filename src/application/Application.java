@@ -5,16 +5,15 @@
  */
 package application;
 
-import controller.EventoController;
+import controller.SedeController;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
  *
- * @author 2dam
+ * @author Eneko.
  */
 public class Application extends javafx.application.Application {
 
@@ -23,21 +22,17 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        LOGGER.info("Carga del FXML de ventana josu provisional ");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
+        LOGGER.info("Carga del FXML de ventana eneko provisional ");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
         Parent root = (Parent) loader.load();
         LOGGER.info("Llamada al controlador del FXML");
-        EventoController controller = ((EventoController) loader.getController());
+        SedeController controller = ((SedeController) loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
-
 }

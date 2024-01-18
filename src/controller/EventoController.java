@@ -107,6 +107,7 @@ public class EventoController {
         LOGGER.info("INIT STAGE CLASE CONTROLADORA DE EVENTO");
 
         Scene scene = new Scene(root);
+        Stage stage = new Stage();
         stage.setScene(scene);
 
         //habilitamos los txt
