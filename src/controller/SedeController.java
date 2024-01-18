@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +85,10 @@ public class SedeController {
     private MenuItem menuSede;
     @FXML
     private MenuItem menuPatrocinador;
+    @FXML
+    private ContextMenu cMenu;
+    @FXML
+    private MenuItem mBorrarSede;
 
     public void initStage(javafx.scene.Parent root) {
         javafx.scene.Scene scene = new javafx.scene.Scene(root);
@@ -144,7 +149,7 @@ public class SedeController {
                     tAforoMax.setText(String.valueOf(newValue.getAforoMax()));
                     tNumVolMax.setText(String.valueOf(newValue.getNumVolMax()));
                     tUbicacion.setText(newValue.getUbicacion());
-                    tFinDeContrato.setValue(newValue.getFinDeContrato().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+                    tFinDeContrato.setValue(newValue.getFinDeContrato().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 } else {
                     tPais.clear();
                     tAforoMax.clear();
@@ -160,7 +165,47 @@ public class SedeController {
         bEditar.setOnAction(this::handleModificarAction);
         stage.setOnCloseRequest(this::handleExitButtonAction);
         bBuscar.setOnAction(this::handleBuscarAction);
+        mBorrarSede.setOnAction(this::handleBorrarMC);
+
         stage.show();
+    }
+
+    @FXML
+    private void handleBorrarMC(ActionEvent event) {
+
+        //lo primero que hacemos sera seleccionar una fila de nuestra tabla
+        Sede selectedSede = (Sede) tabla.getSelectionModel().getSelectedItem();
+        try {
+            try {
+                Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+                ventanita.setHeaderText(null);
+                ventanita.setTitle("Advertencia");
+                ventanita.setContentText("¿Estas seguro de que quieres eliminar esta sede?");
+                //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+                Optional<ButtonType> action = ventanita.showAndWait();
+                //Si le da a OK el borrara ese lugar
+                if (action.get() == ButtonType.OK) {
+                    sedefact.getFactory().deleteSede(selectedSede.getId_sede().toString());
+                    sedeData = FXCollections.observableArrayList(cargarTodo());
+                    tPais.setText("");
+                    tAforoMax.setText("");
+                    tNumVolMax.setText("");
+                    tUbicacion.isDisable();
+                    tFinDeContrato.setValue(null);
+                    throw new Exception("La sede se ha eliminado correctamente");
+                } else {
+                    //Si le da a cancelar la ventana emergente se cerrará
+                    ventanita.close();
+                }
+
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            }
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
+
     }
 
     @FXML
@@ -184,7 +229,12 @@ public class SedeController {
                     throw new FormatErrorException("El aforo máximo debe contener solo números y ser positivos.");
                 }
 
-                todosSede = sedefact.getFactory().viewSedeByAforoMax_XML(Sede.class, aforoMaxText);
+                todosSede = new ArrayList<>();
+                for (Sede sede : sedefact.getFactory().viewSedes_XML(Sede.class)) {
+                    if (sede.getAforoMax() <= Integer.parseInt(aforoMaxText)) {
+                        todosSede.add(sede);
+                    }
+                }
             } else {
                 // Buscar por el campo País si el campo Aforo Maximo está vacío
                 if (!paisText.isEmpty() && paisText.matches("\\d+")) {
@@ -243,10 +293,8 @@ public class SedeController {
                 sedefact.getFactory().createSede_XML(nuevaSede);
 
                 // Actualizar la lista ObservableList con la nueva fila
-                sedeData.add(nuevaSede);
-
+                sedeData = FXCollections.observableArrayList(cargarTodo());
                 // Actualizar la tabla para reflejar los cambios
-                tabla.setItems(sedeData);
                 // Limpiar los datos después de la creación
                 limpiarDatos();
             }

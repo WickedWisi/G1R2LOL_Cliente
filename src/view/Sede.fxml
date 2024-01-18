@@ -43,7 +43,8 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                <MenuItem fx:id="mBorrarSede" mnemonicParsing="false" text="Borrar Sede" />
+                  <MenuItem fx:id="mVerEventos" mnemonicParsing="false" text="Ver Eventos..." />
               </items>
             </ContextMenu>
          </contextMenu>
