@@ -102,6 +102,8 @@ public class EventoController {
     @FXML
     private MenuItem mtem5;
 
+    
+
     public void initStage(Parent root) {
 
         LOGGER.info("INIT STAGE CLASE CONTROLADORA DE EVENTO");
@@ -496,5 +498,10 @@ public class EventoController {
         }
 
     }
+
+    public String getIdentificadorVentana() {
+        return "ventanaEvento";
+    }
+    
 
 }

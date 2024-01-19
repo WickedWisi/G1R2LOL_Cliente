@@ -454,4 +454,8 @@ public class SedeController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+    
+     public String getIdentificadorVentana() {
+        return "ventanaSede";
+    }
 }

@@ -10,11 +10,16 @@
       <Menu fx:id="menNave" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 120px;" text="Navegar">
          <items>
             <MenuItem fx:id="MitEve" mnemonicParsing="false" onAction="#mitEve" text="Evento" />
-            <MenuItem fx:id="MitSede" mnemonicParsing="false" text="Sede" />
-            <MenuItem fx:id="MitPatro" mnemonicParsing="false" text="Patrocinador" />
+            <MenuItem fx:id="MitSede" mnemonicParsing="false" onAction="#mitSede" text="Sede" />
+            <MenuItem fx:id="MitPatro" mnemonicParsing="false" onAction="#mitPatro" text="Patrocinador" />
          </items>
       </Menu>
-      <Menu fx:id="menAyud" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 122px;" text="Ayuda" />
-      <Menu fx:id="MenCerr" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion" />
+      <Menu fx:id="menAyud" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 122px;" text="Ayuda">
+         <items>
+            <MenuItem fx:id="MitAyuda" mnemonicParsing="false" onAction="#menAyud" text="Ayuda" />
+         </items>
+      </Menu>
+      <Menu fx:id="MenCerr" mnemonicParsing="false" onAction="#menCerr" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion" />
    </menus>
 </MenuBar>
+

@@ -16,11 +16,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javax.ws.rs.WebApplicationException;
 import model.User;
 
@@ -33,10 +36,17 @@ public class MenuBarController {
     // private Stage stage = new Stage();
     private Stage stage;
 
+    private Scene scene;
+
     private User user;
+
+    private EventoController ventanaActualController;
 
     @FXML
     private Menu menPrin;
+
+    @FXML
+    private MenuBar mbLol;
 
     @FXML
     private Menu menNave;
@@ -100,27 +110,30 @@ public class MenuBarController {
 
     @FXML
     private void mitEve(ActionEvent event) {
-      
-         try {
-            
-           
-                Stage EventoStage = new Stage();
-                //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
 
-                Parent root = (Parent) loader.load();
+        try {
 
-                EventoController eventoController = ((EventoController) loader.getController());
+            /*
+            Stage EventoStage = new Stage();
+            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
 
-                eventoController.initStage(root);
-               
-            
+            Parent root = (Parent) loader.load();
+
+            EventoController eventoController = ((EventoController) loader.getController());
+
+            eventoController.initStage(root);
+             */
+            // Al abrir una nueva ventana, actualiza ventanaActualController
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
+            Parent root = (Parent) loader.load();
+            EventoController eventoController = ((EventoController) loader.getController());
+            eventoController.initStage(root);
+
         } catch (IOException e) {
-            
-        }
-         
 
-      
+        }
+
     }
 
     @FXML
@@ -128,12 +141,14 @@ public class MenuBarController {
 
         try {
 
+            Stage EventoStage = new Stage();
+            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
 
             Parent root = (Parent) loader.load();
 
-            //   PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
-            //   patrocinadorController.initiStage(root, user);
+            //  PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
+            //  patrocinadorController.initStage(root);
         } catch (IOException e) {
 
         }
@@ -163,20 +178,49 @@ public class MenuBarController {
     @FXML
     private void menCerr(ActionEvent event) {
 
-        Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
-        ventanita.setHeaderText(null);
-        ventanita.setTitle("Advertencia");
-        ventanita.setContentText("¿Deseas Salir?");
-        // Con este Optional<ButtonType> creamos botones de Ok y cancelar
-        Optional<ButtonType> action = ventanita.showAndWait();
-        // Si le da a OK el programa cesará de existir, se cierra por completo
-        if (action.orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            Platform.exit();
-        } else {
-            // Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
-            event.consume();  // Consume el evento para evitar que se cierre
+        try {
+
+            Stage EventoStage = new Stage();
+            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+
+            Parent root = (Parent) loader.load();
+
+            //  SignInController signInController = ((SignInController) loader.getController());
+            //  signInController.initStage(root);
+        } catch (IOException e) {
+
         }
 
+    }
+
+    @FXML
+    private void menAyud(ActionEvent event) {
+
+        switch (((Stage) this.mbLol.getScene().getWindow()).getTitle()) {
+            case "EVENTO":
+                System.out.println("AYUDA DE EVENTO");
+                break;
+            case "SEDE":
+                System.out.println("AYUDA DE SEDE");
+                break;
+            case "PATROCINADOR":
+                System.out.println("AYUDA DE PATROCINADOR");
+                break;
+            // Agrega más casos según sea necesario
+            default:
+                // Cargar la ayuda predeterminada o mostrar un mensaje de error
+                break;
+        }
+
+        // Resto de la lógica según la clase actual
+    }
+
+  
+
+    // Otros métodos y atributos
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
 }
