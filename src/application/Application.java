@@ -6,6 +6,8 @@
 package application;
 
 import controller.SedeController;
+import controller.SignInController;
+import controller.SignUpController;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,11 +24,11 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        LOGGER.info("Carga del FXML de ventana eneko provisional ");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
+        LOGGER.info("Carga del FXML de ventana SignIn ");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
         Parent root = (Parent) loader.load();
         LOGGER.info("Llamada al controlador del FXML");
-        SedeController controller = ((SedeController) loader.getController());
+        SignInController controller = ((SignInController) loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
 
