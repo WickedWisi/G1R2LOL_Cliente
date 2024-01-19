@@ -40,7 +40,7 @@ public class MenuBarController {
 
     private User user;
 
-    private EventoController ventanaActualController;
+   // private EventoController ventanaActualController;
 
     @FXML
     private Menu menPrin;
