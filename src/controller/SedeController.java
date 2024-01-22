@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.logging.Logger;
 import exception.FormatErrorException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -9,14 +10,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Sede;
 import logic.SedeManagerFactory;
-
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +28,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.stage.WindowEvent;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class SedeController {
+
+    private static final Logger LOGGER = Logger.getLogger("controller");
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
     private ObservableList<Sede> sedeData;
@@ -166,8 +178,38 @@ public class SedeController {
         stage.setOnCloseRequest(this::handleExitButtonAction);
         bBuscar.setOnAction(this::handleBuscarAction);
         mBorrarSede.setOnAction(this::handleBorrarMC);
+        informe.setOnAction(this::handleInformeAction);
 
         stage.show();
+    }
+
+    @FXML
+    private void handleInformeAction(ActionEvent event) {
+        try {
+            LOGGER.info("Beginning printing action...");
+            JasperReport report
+                    = JasperCompileManager.compileReport(getClass()
+                            .getResourceAsStream("/report/SedeReport.jrxml"));
+            //Data for the report: a collection of UserBean passed as a JRDataSource
+            //implementation
+            JRBeanCollectionDataSource dataItems
+                    = new JRBeanCollectionDataSource((Collection<Sede>) this.tabla.getItems());
+            //Map of parameter to be passed to the report
+            Map<String, Object> parameters = new HashMap<>();
+            //Fill report with data
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+            //Create and show the report window. The second parameter false value makes
+            //report window not to close app.
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+            // jasperViewer.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        } catch (JRException ex) {
+            //If there is an error show message and
+            //log it.
+            LOGGER.log(Level.SEVERE,
+                    "SedeController: Error printing report: {0}",
+                    ex.getMessage());
+        }
     }
 
     @FXML
