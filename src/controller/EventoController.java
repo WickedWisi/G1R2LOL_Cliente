@@ -11,8 +11,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
@@ -43,6 +46,13 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
 import model.Evento;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -268,12 +278,12 @@ public class EventoController {
     @FXML
     private void handleInformeButtonAction(ActionEvent event) {
 
-        /*
+        
         try {
             //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
-            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/grupo3/reto2/report/PlaceReport.jrxml"));
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/EventReport.jrxml"));
             JRBeanCollectionDataSource dataItems;
-            dataItems = new JRBeanCollectionDataSource((Collection<Lugar>) this.tblvTabla.getItems());
+            dataItems = new JRBeanCollectionDataSource((Collection<Evento>) this.tbvEvento.getItems());
             Map<String, Object> parameters = new HashMap<>();
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
@@ -281,10 +291,10 @@ public class EventoController {
 
         } catch (JRException ex) {
 
-            Logger.getLogger(PlaceController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-         */
+         
     }
 
     @FXML
