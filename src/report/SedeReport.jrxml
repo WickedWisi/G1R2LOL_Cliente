@@ -2,12 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sede Report" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d642bb1-7520-4555-aed8-51d6fad1f5e2">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="24"/>
+	<property name="ireport.y" value="0"/>
 	<field name="pais" class="java.lang.String"/>
 	<field name="aforoMax" class="java.lang.Integer"/>
 	<field name="numVolMax" class="java.lang.Integer"/>
 	<field name="ubicacion" class="java.lang.String"/>
-        <field name="finDeContrato" class="java.util.Date"/>
+	<field name="finDeContrato" class="java.util.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -42,7 +42,7 @@
 				<text><![CDATA[Aforo Max]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="238" y="21" width="121" height="20" uuid="5a30a766-b667-47ea-9115-cfc2c423f2e4"/>
+				<reportElement x="238" y="21" width="133" height="20" uuid="5a30a766-b667-47ea-9115-cfc2c423f2e4"/>
 				<textElement>
 					<font size="10" isBold="true" isItalic="true" isUnderline="true"/>
 				</textElement>

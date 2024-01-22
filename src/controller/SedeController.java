@@ -191,7 +191,7 @@ public class SedeController {
                     = JasperCompileManager.compileReport(getClass()
                             .getResourceAsStream("/report/SedeReport.jrxml"));
             //Data for the report: a collection of UserBean passed as a JRDataSource
-            //implementation
+            //implementationn
             JRBeanCollectionDataSource dataItems
                     = new JRBeanCollectionDataSource((Collection<Sede>) this.tabla.getItems());
             //Map of parameter to be passed to the report
