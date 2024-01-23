@@ -46,6 +46,7 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
 import model.Evento;
+import model.UserType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -112,7 +113,7 @@ public class EventoController {
     @FXML
     private MenuItem mtem5;
 
-    
+    private UserType loggedInUserType;
 
     public void initStage(Parent root) {
 
@@ -127,7 +128,7 @@ public class EventoController {
         tfFiltro.setDisable(false);
         tfNombre.setDisable(false);
 
-        //habilitamos los botonoes 
+        //habilitamos los botonoes
         btnInsertar.setDisable(false);
         btnEliminar.setDisable(false);
         btnEditar.setDisable(false);
@@ -148,7 +149,7 @@ public class EventoController {
         //La ventana no es redimensionable
         stage.setResizable(false);
 
-        //METODOS 
+        //METODOS
         btnInsertar.setOnAction(this::handleCrearButtonAction);
         btnInforme.setOnAction(this::handleInformeButtonAction);
         btnEliminar.setOnAction(this::handleEliminarButtonAction);
@@ -158,13 +159,13 @@ public class EventoController {
         tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
         mtem4.setOnAction(this::handleMtem4);
 
-        //Con el siguiente codigo asignamos a las columnas los tipos y los nombres 
+        //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
         tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         tbcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         tbcAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
         tbcCatering.setCellValueFactory(new PropertyValueFactory<>("catering"));
         tbcFechaEvento.setCellValueFactory(new PropertyValueFactory<>("fechaEvento"));
-        //Aqui le ponemos un formato de fecha concreto 
+        //Aqui le ponemos un formato de fecha concreto
         tbcFechaEvento.setCellFactory(column -> {
             TableCell<Evento, Date> cell = new TableCell<Evento, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -186,7 +187,7 @@ public class EventoController {
             return cell;
         });
 
-        //con las dos siguientes lineas agregamos a la tabla los datos 
+        //con las dos siguientes lineas agregamos a la tabla los datos
         eventoData = FXCollections.observableArrayList(eventofact.getFactory().viewEvents_XML(Evento.class));
 
         tbvEvento.setItems(eventoData);
@@ -216,7 +217,7 @@ public class EventoController {
     private void handleCrearButtonAction(ActionEvent event) {
 
         try {
-            //aqui estamos validando que los campos no esten vacios 
+            //aqui estamos validando que los campos no esten vacios
             if (this.tfNombre.getText().isEmpty() || this.taDescripcion.getText().isEmpty() || this.tfAforo.getText().isEmpty() || dpFechaEvento.getValue() == null) {
 
                 throw new EmptyTextFieldsException("CAMPOS NO INFORMADOS");
@@ -228,23 +229,23 @@ public class EventoController {
             if (!text.matches("\\d+") || Integer.parseInt(tfAforo.getText()) <= 0) {
                 throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
             } /*
-            //validar que la fecha este en el formato correcto 
+            //validar que la fecha este en el formato correcto
             String dateStr = dpFechaEvento.getEditor().getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } 
+            }
              */ else {
                 try {
 
-                    //escribimos en el objeto lugar los fields de los campos ha introducir 
+                    //escribimos en el objeto lugar los fields de los campos ha introducir
                     eventito.setNombre(tfNombre.getText());
                     eventito.setDescripcion(taDescripcion.getText());
                     eventito.setAforo(Integer.parseInt(tfAforo.getText()));
                     eventito.setCatering(cbCatering.isSelected());
                     eventito.setFechaEvento(Date.from(dpFechaEvento.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 
-                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos 
+                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos
                     eventofact.getFactory().createEvent_XML(eventito);
                     //llamamos a nuestro metodo de cargarTodo para refrescar nuestra tabla y salga el nuevo lugar creado
                     eventoData = FXCollections.observableArrayList(cargarTodo());
@@ -263,7 +264,7 @@ public class EventoController {
             }
 
         } catch (EmptyTextFieldsException | FormatErrorException e) {
-            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
+            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
             tfNombre.setText("");
             taDescripcion.setText("");
@@ -278,9 +279,8 @@ public class EventoController {
     @FXML
     private void handleInformeButtonAction(ActionEvent event) {
 
-        
         try {
-            //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
+            //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana
             JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/EventReport.jrxml"));
             JRBeanCollectionDataSource dataItems;
             dataItems = new JRBeanCollectionDataSource((Collection<Evento>) this.tbvEvento.getItems());
@@ -294,13 +294,13 @@ public class EventoController {
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-         
+
     }
 
     @FXML
     private void handleEliminarButtonAction(ActionEvent event) {
 
-        //lo primero que hacemos sera seleccionar una fila de nuestra tabla 
+        //lo primero que hacemos sera seleccionar una fila de nuestra tabla
         Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
         try {
             try {
@@ -310,7 +310,7 @@ public class EventoController {
                 ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
                 //Con este Optional<ButtonType> creamos botones de Ok y cancelar
                 Optional<ButtonType> action = ventanita.showAndWait();
-                //Si le da a OK el borrara ese lugar 
+                //Si le da a OK el borrara ese lugar
                 if (action.get() == ButtonType.OK) {
                     eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
                     eventoData = FXCollections.observableArrayList(cargarTodo());
@@ -321,7 +321,7 @@ public class EventoController {
                     dpFechaEvento.setValue(null);
                     throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
                 } else {
-                    //Si le da a cancelar la ventana emergente se cerrará 
+                    //Si le da a cancelar la ventana emergente se cerrará
                     ventanita.close();
                 }
 
@@ -339,7 +339,7 @@ public class EventoController {
     private void handleModificarButtonAction(ActionEvent event) {
 
         try {
-            //aqui estamos validando que los campos no esten vacios 
+            //aqui estamos validando que los campos no esten vacios
             if (this.tfNombre.getText().isEmpty() || this.taDescripcion.getText().isEmpty() || this.tfAforo.getText().isEmpty() || dpFechaEvento.getValue() == null) {
 
                 throw new EmptyTextFieldsException("CAMPOS NO INFORMADOS");
@@ -352,16 +352,16 @@ public class EventoController {
             if (!text.matches("\\d+") || Integer.parseInt(tfAforo.getText()) <= 0) {
                 throw new FormatErrorException("El aforo maximo debe contener solo numeros y ser positivos");
             } /* /*
-            //validar que la fecha este en el formato correcto 
+            //validar que la fecha este en el formato correcto
             String dateStr = dpFechaEvento.getEditor().getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             if (dateStr.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 throw new FormatErrorException("Error, Por favor, ingrese el formato de fecha correcto.");
-            } 
+            }
              */ else {
                 try {
 
-                    //escribimos en el objeto lugar los fields de los campos ha introducir 
+                    //escribimos en el objeto lugar los fields de los campos ha introducir
                     eventito.setId_evento(tbvEvento.getSelectionModel().getSelectedItem().getId_evento());
                     eventito.setNombre(tfNombre.getText());
                     eventito.setDescripcion(taDescripcion.getText());
@@ -369,7 +369,7 @@ public class EventoController {
                     eventito.setCatering(cbCatering.isSelected());
                     eventito.setFechaEvento(Date.from(dpFechaEvento.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 
-                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos 
+                    //llamamos a la factoria para crear ese lugar y lo introduzca en la base de datos
                     eventofact.getFactory().modifyEvent_XML(eventito);
                     //llamamos a nuestro metodo de cargarTodo para refrescar nuestra tabla y salga el nuevo lugar creado
                     eventoData = FXCollections.observableArrayList(cargarTodo());
@@ -388,7 +388,7 @@ public class EventoController {
             }
 
         } catch (EmptyTextFieldsException | FormatErrorException e) {
-            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente 
+            //si alguna de las validacioens no ha salido bn saldra un mensaje de error y nos vaciara los campos nuevamente
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
             tfNombre.setText("");
             taDescripcion.setText("");
@@ -474,7 +474,7 @@ public class EventoController {
     @FXML
     private void handleMtem4(ActionEvent event) {
 
-        //lo primero que hacemos sera seleccionar una fila de nuestra tabla 
+        //lo primero que hacemos sera seleccionar una fila de nuestra tabla
         Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
         try {
             try {
@@ -484,7 +484,7 @@ public class EventoController {
                 ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
                 //Con este Optional<ButtonType> creamos botones de Ok y cancelar
                 Optional<ButtonType> action = ventanita.showAndWait();
-                //Si le da a OK el borrara ese lugar 
+                //Si le da a OK el borrara ese lugar
                 if (action.get() == ButtonType.OK) {
                     eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
                     eventoData = FXCollections.observableArrayList(cargarTodo());
@@ -495,7 +495,7 @@ public class EventoController {
                     dpFechaEvento.setValue(null);
                     throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
                 } else {
-                    //Si le da a cancelar la ventana emergente se cerrará 
+                    //Si le da a cancelar la ventana emergente se cerrará
                     ventanita.close();
                 }
 
@@ -512,6 +512,5 @@ public class EventoController {
     public String getIdentificadorVentana() {
         return "ventanaEvento";
     }
-    
 
 }

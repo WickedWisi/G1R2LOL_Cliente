@@ -26,6 +26,7 @@ import javafx.stage.WindowEvent;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
 import model.User;
+import model.UserType;
 import model.Voluntario;
 
 /**
@@ -45,6 +46,8 @@ public class SignInController {
     private Button btnLogin;
     @FXML
     private Button btnSignUp;
+
+    private UserType loggedInUserType;
 
     public void initStage(javafx.scene.Parent root) {
         javafx.scene.Scene scene = new javafx.scene.Scene(root);
@@ -83,13 +86,17 @@ public class SignInController {
             List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, password);
 
             if (userList != null) {
+                loggedInUserType = userList.get(0).getUserType();
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
                 Parent root = (Parent) loader.load();
                 SedeController controller = ((SedeController) loader.getController());
+
+                // Pasa el tipo de usuario al controlador de Sede
+                controller.setLoggedInUserType(loggedInUserType);
+
                 controller.setStage(stage);
                 controller.initStage(root);
-
-                // Cierra la ventana de inicio de sesión
             } else {
                 mostrarError("Error de inicio de sesión", "Credenciales incorrectas. Por favor, inténtalo de nuevo.");
             }

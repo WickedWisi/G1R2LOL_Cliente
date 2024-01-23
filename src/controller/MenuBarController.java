@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javax.ws.rs.WebApplicationException;
 import model.User;
+import model.UserType;
 
 /**
  *
@@ -40,8 +41,7 @@ public class MenuBarController {
 
     private User user;
 
-   // private EventoController ventanaActualController;
-
+    // private EventoController ventanaActualController;
     @FXML
     private Menu menPrin;
 
@@ -66,6 +66,8 @@ public class MenuBarController {
     @FXML
     private MenuItem mitSede;
 
+    private UserType loggedInUserType;
+
     public void initialize(URL url, ResourceBundle rb) {
         //Habilitación del menu
         menPrin.setDisable(false);
@@ -76,6 +78,7 @@ public class MenuBarController {
         MitEve.setDisable(false);
         mitSede.setDisable(false);
 
+        this.setLoggedInUserType(loggedInUserType);
         /*
         //Meotdos de los menús y menúbars
         menPrin.setOnAction(this::menPrin);
@@ -216,7 +219,9 @@ public class MenuBarController {
         // Resto de la lógica según la clase actual
     }
 
-  
+    public void setLoggedInUserType(UserType loggedInUserType) {
+        this.loggedInUserType = loggedInUserType;
+    }
 
     // Otros métodos y atributos
     public void setScene(Scene scene) {
