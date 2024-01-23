@@ -12,15 +12,12 @@ package model;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 @XmlRootElement
 public class Socio extends User {
 
-    
     private int Nivel_de_Socio;
 
     private List<Evento> evento;
-   
 
     public void setEvento(List<Evento> evento) {
         this.evento = evento;
@@ -67,9 +64,5 @@ public class Socio extends User {
     public String toString() {
         return "Socio{" + "Nivel_de_Socio=" + Nivel_de_Socio + '}';
     }
-
-  
-
-  
 
 }

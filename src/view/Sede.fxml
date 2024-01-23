@@ -103,8 +103,5 @@
         </TextField>
         <DatePicker fx:id="tFinDeContrato" layoutX="673.0" layoutY="125.0" prefHeight="39.0" prefWidth="227.0" promptText="Fin De Contrato" style="-fx-background-radius: 40;" />
       <fx:include source="menuBar.fxml" />
-      <fx:include source="menuBar.fxml" />
-      <fx:include source="menuBar.fxml" />
-      <fx:include source="menuBar.fxml" />
     </children>
 </Pane>

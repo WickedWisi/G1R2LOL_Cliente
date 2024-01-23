@@ -27,7 +27,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.WindowEvent;
+import model.UserSesionType;
+import model.UserType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -42,6 +46,9 @@ public class SedeController {
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
     private ObservableList<Sede> sedeData;
+    UserSesionType miTipoSesion = UserSesionType.getInstance();
+
+    UserType tipo = miTipoSesion.getTipoSesion();
 
     @FXML
     private Stage stage;
@@ -102,85 +109,168 @@ public class SedeController {
     @FXML
     private MenuItem mBorrarSede;
 
-    public void initStage(javafx.scene.Parent root) {
-        javafx.scene.Scene scene = new javafx.scene.Scene(root);
+    private UserType loggedInUserType;
+
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
         stage.setScene(scene);
+        if (loggedInUserType == UserType.VOLUNTARIO) {
 
-        tPais.setDisable(false);
-        tAforoMax.setDisable(false);
-        tNumVolMax.setDisable(false);
-        tUbicacion.setDisable(false);
-        tFinDeContrato.setDisable(false);
+            tPais.setDisable(true);
+            tAforoMax.setDisable(true);
+            tNumVolMax.setDisable(true);
+            tUbicacion.setDisable(true);
+            tFinDeContrato.setDisable(true);
 
-        bBuscar.setDisable(false);
-        bEditar.setDisable(false);
-        bEliminar.setDisable(false);
-        bInsert.setDisable(false);
+            bBuscar.setDisable(false);
+            bEditar.setDisable(true);
+            bEliminar.setDisable(true);
+            bInsert.setDisable(true);
 
-        tabla.setDisable(false);
-        tFinDeContrato.setDisable(false);
+            tabla.setDisable(false);
+            tFinDeContrato.setDisable(true);
 
-        tPais.requestFocus();
+            tPais.requestFocus();
 
-        stage.setTitle("SEDE");
+            stage.setTitle("SEDE");
 
-        stage.setResizable(false);
+            stage.setResizable(false);
 
-        tblPais.setCellValueFactory(new PropertyValueFactory<>("pais"));
-        tblAforoMax.setCellValueFactory(new PropertyValueFactory<>("aforoMax"));
-        tblNumVolMax.setCellValueFactory(new PropertyValueFactory<>("numVolMax"));
-        tblUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        tblFinDeContrato.setCellValueFactory(new PropertyValueFactory<>("finDeContrato"));
-        tblFinDeContrato.setCellFactory(column -> {
-            TableCell<Sede, Date> cell = new TableCell<Sede, Date>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            tblPais.setCellValueFactory(new PropertyValueFactory<>("pais"));
+            tblAforoMax.setCellValueFactory(new PropertyValueFactory<>("aforoMax"));
+            tblNumVolMax.setCellValueFactory(new PropertyValueFactory<>("numVolMax"));
+            tblUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+            tblFinDeContrato.setCellValueFactory(new PropertyValueFactory<>("finDeContrato"));
+            tblFinDeContrato.setCellFactory(column -> {
+                TableCell<Sede, Date> cell = new TableCell<Sede, Date>() {
+                    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
+                    @Override
+                    protected void updateItem(Date item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(format.format(item));
+                        }
+                    }
+                };
+
+                return cell;
+            });
+
+            sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
+
+            tabla.setItems(sedeData);
+
+            tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sede>() {
                 @Override
-                protected void updateItem(Date item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
+                public void changed(ObservableValue<? extends Sede> observable, Sede oldValue, Sede newValue) {
+                    if (newValue != null) {
+                        tPais.setText(newValue.getPais());
+                        tAforoMax.setText(String.valueOf(newValue.getAforoMax()));
+                        tNumVolMax.setText(String.valueOf(newValue.getNumVolMax()));
+                        tUbicacion.setText(newValue.getUbicacion());
+                        tFinDeContrato.setValue(newValue.getFinDeContrato().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                     } else {
-                        setText(format.format(item));
+                        tPais.clear();
+                        tAforoMax.clear();
+                        tNumVolMax.clear();
+                        tUbicacion.clear();
+                        tFinDeContrato.setValue(null);
                     }
                 }
-            };
+            });
 
-            return cell;
-        });
+            bInsert.setOnAction(this::handleInsertAction);
+            bEliminar.setOnAction(this::handleEliminarAction);
+            bEditar.setOnAction(this::handleModificarAction);
+            stage.setOnCloseRequest(this::handleExitButtonAction);
+            bBuscar.setOnAction(this::handleBuscarAction);
+            mBorrarSede.setOnAction(this::handleBorrarMC);
+            informe.setOnAction(this::handleInformeAction);
 
-        sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
+            stage.show();
 
-        tabla.setItems(sedeData);
+        } else {
 
-        tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sede>() {
-            @Override
-            public void changed(ObservableValue<? extends Sede> observable, Sede oldValue, Sede newValue) {
-                if (newValue != null) {
-                    tPais.setText(newValue.getPais());
-                    tAforoMax.setText(String.valueOf(newValue.getAforoMax()));
-                    tNumVolMax.setText(String.valueOf(newValue.getNumVolMax()));
-                    tUbicacion.setText(newValue.getUbicacion());
-                    tFinDeContrato.setValue(newValue.getFinDeContrato().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                } else {
-                    tPais.clear();
-                    tAforoMax.clear();
-                    tNumVolMax.clear();
-                    tUbicacion.clear();
-                    tFinDeContrato.setValue(null);
+            tPais.setDisable(false);
+            tAforoMax.setDisable(false);
+            tNumVolMax.setDisable(false);
+            tUbicacion.setDisable(false);
+            tFinDeContrato.setDisable(false);
+
+            bBuscar.setDisable(false);
+            bEditar.setDisable(false);
+            bEliminar.setDisable(false);
+            bInsert.setDisable(false);
+
+            tabla.setDisable(false);
+            tFinDeContrato.setDisable(false);
+
+            tPais.requestFocus();
+
+            stage.setTitle("SEDE");
+
+            stage.setResizable(false);
+
+            tblPais.setCellValueFactory(new PropertyValueFactory<>("pais"));
+            tblAforoMax.setCellValueFactory(new PropertyValueFactory<>("aforoMax"));
+            tblNumVolMax.setCellValueFactory(new PropertyValueFactory<>("numVolMax"));
+            tblUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
+            tblFinDeContrato.setCellValueFactory(new PropertyValueFactory<>("finDeContrato"));
+            tblFinDeContrato.setCellFactory(column -> {
+                TableCell<Sede, Date> cell = new TableCell<Sede, Date>() {
+                    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                    @Override
+                    protected void updateItem(Date item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(format.format(item));
+                        }
+                    }
+                };
+
+                return cell;
+            });
+
+            sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
+
+            tabla.setItems(sedeData);
+
+            tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sede>() {
+                @Override
+                public void changed(ObservableValue<? extends Sede> observable, Sede oldValue, Sede newValue) {
+                    if (newValue != null) {
+                        tPais.setText(newValue.getPais());
+                        tAforoMax.setText(String.valueOf(newValue.getAforoMax()));
+                        tNumVolMax.setText(String.valueOf(newValue.getNumVolMax()));
+                        tUbicacion.setText(newValue.getUbicacion());
+                        tFinDeContrato.setValue(newValue.getFinDeContrato().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                    } else {
+                        tPais.clear();
+                        tAforoMax.clear();
+                        tNumVolMax.clear();
+                        tUbicacion.clear();
+                        tFinDeContrato.setValue(null);
+                    }
                 }
-            }
-        });
+            });
 
-        bInsert.setOnAction(this::handleInsertAction);
-        bEliminar.setOnAction(this::handleEliminarAction);
-        bEditar.setOnAction(this::handleModificarAction);
-        stage.setOnCloseRequest(this::handleExitButtonAction);
-        bBuscar.setOnAction(this::handleBuscarAction);
-        mBorrarSede.setOnAction(this::handleBorrarMC);
-        informe.setOnAction(this::handleInformeAction);
+            bInsert.setOnAction(this::handleInsertAction);
+            bEliminar.setOnAction(this::handleEliminarAction);
+            bEditar.setOnAction(this::handleModificarAction);
+            stage.setOnCloseRequest(this::handleExitButtonAction);
+            bBuscar.setOnAction(this::handleBuscarAction);
+            mBorrarSede.setOnAction(this::handleBorrarMC);
+            informe.setOnAction(this::handleInformeAction);
 
-        stage.show();
+            stage.show();
+        }
+
     }
 
     @FXML
@@ -392,6 +482,10 @@ public class SedeController {
         }
     }
 
+    public void setLoggedInUserType(UserType loggedInUserType) {
+        this.loggedInUserType = loggedInUserType;
+    }
+
     @FXML
     private void handleEliminarAction(ActionEvent event) {
 
@@ -496,8 +590,5 @@ public class SedeController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-     public String getIdentificadorVentana() {
-        return "ventanaSede";
-    }
+
 }
