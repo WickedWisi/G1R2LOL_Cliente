@@ -46,6 +46,8 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
 import model.Evento;
+import model.User;
+import model.UserType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -67,6 +69,8 @@ public class EventoController {
     private EventoManagerFactory eventofact = new EventoManagerFactory();
 
     private ObservableList<Evento> eventoData;
+    
+    private User user ;
 
     private Set<Evento> listaEvento;
     @FXML
@@ -114,13 +118,14 @@ public class EventoController {
 
     
 
-    public void initStage(Parent root) {
+    public void initStage(Parent root  ) {
 
         LOGGER.info("INIT STAGE CLASE CONTROLADORA DE EVENTO");
 
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
+
 
         //habilitamos los txt
         tfAforo.setDisable(false);

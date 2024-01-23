@@ -40,8 +40,7 @@ public class MenuBarController {
 
     private User user;
 
-   // private EventoController ventanaActualController;
-
+    // private EventoController ventanaActualController;
     @FXML
     private Menu menPrin;
 
@@ -199,10 +198,44 @@ public class MenuBarController {
 
         switch (((Stage) this.mbLol.getScene().getWindow()).getTitle()) {
             case "EVENTO":
-                System.out.println("AYUDA DE EVENTO");
+                try {
+                    Stage mainStage = new Stage();
+                    URL viewLink = getClass().getResource("/view/HelpEvento.fxml");
+                    // initialition loader
+                    FXMLLoader loader = new FXMLLoader(viewLink);
+                    //make the root with the loader
+                    Parent root = (Parent) loader.load();
+                    //Get the controller
+                    HelpEventController mainStageController = ((HelpEventController) loader.getController());
+                    //set the stage
+                    mainStageController.setStage(mainStage);
+                    //start the stage
+                    mainStageController.initStage(root);
+                    //this.stage.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoController.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
                 break;
             case "SEDE":
-                System.out.println("AYUDA DE SEDE");
+                try {
+                    Stage mainStage = new Stage();
+                    URL viewLink = getClass().getResource("/view/HelpSede.fxml");
+                    // initialition loader
+                    FXMLLoader loader = new FXMLLoader(viewLink);
+                    //make the root with the loader
+                    Parent root = (Parent) loader.load();
+                    //Get the controller
+                    HelpSedeController mainStageController = ((HelpSedeController) loader.getController());
+                    //set the stage
+                    mainStageController.setStage(mainStage);
+                    //start the stage
+                    mainStageController.initStage(root);
+                    //this.stage.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoController.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
                 break;
             case "PATROCINADOR":
                 System.out.println("AYUDA DE PATROCINADOR");
@@ -215,8 +248,6 @@ public class MenuBarController {
 
         // Resto de la lógica según la clase actual
     }
-
-  
 
     // Otros métodos y atributos
     public void setScene(Scene scene) {
