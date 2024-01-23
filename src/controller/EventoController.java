@@ -46,6 +46,7 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
 import model.Evento;
+import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -115,6 +116,10 @@ public class EventoController {
 
     private UserType loggedInUserType;
 
+    UserSesionType miTipoSesion = UserSesionType.getInstance();
+
+    UserType tipo = miTipoSesion.getTipoSesion();
+
     public void initStage(Parent root) {
 
         LOGGER.info("INIT STAGE CLASE CONTROLADORA DE EVENTO");
@@ -123,69 +128,142 @@ public class EventoController {
         Stage stage = new Stage();
         stage.setScene(scene);
 
-        //habilitamos los txt
-        tfAforo.setDisable(false);
-        tfFiltro.setDisable(false);
-        tfNombre.setDisable(false);
+        if (tipo == UserType.VOLUNTARIO) {
+            //habilitamos los txt
+            tfAforo.setDisable(true);
+            tfFiltro.setDisable(false);
+            tfNombre.setDisable(true);
+            taDescripcion.setDisable(true);
 
-        //habilitamos los botonoes
-        btnInsertar.setDisable(false);
-        btnEliminar.setDisable(false);
-        btnEditar.setDisable(false);
-        btnInforme.setDisable(false);
+            //habilitamos los botonoes
+            btnInsertar.setDisable(true);
+            btnEliminar.setDisable(true);
+            btnEditar.setDisable(true);
+            btnInforme.setDisable(false);
+            cbCatering.setDisable(true);
 
-        //habilitamos la tabla
-        tbvEvento.setDisable(false);
+            //habilitamos la tabla
+            tbvEvento.setDisable(false);
 
-        //habilitamos el DatePicker
-        dpFechaEvento.setDisable(false);
+            //habilitamos el DatePicker
+            dpFechaEvento.setDisable(true);
 
-        //El foco estará puesto en el campo de nombre de evento.
-        tfNombre.requestFocus();
+            //El foco estará puesto en el campo de nombre de evento.
+            tfNombre.requestFocus();
 
-        //El título de la ventana es “Sign In”.
-        stage.setTitle("EVENTO");
+            //El título de la ventana es “Sign In”.
+            stage.setTitle("EVENTO");
 
-        //La ventana no es redimensionable
-        stage.setResizable(false);
+            //La ventana no es redimensionable
+            stage.setResizable(false);
 
-        //METODOS
-        btnInsertar.setOnAction(this::handleCrearButtonAction);
-        btnInforme.setOnAction(this::handleInformeButtonAction);
-        btnEliminar.setOnAction(this::handleEliminarButtonAction);
-        btnEditar.setOnAction(this::handleModificarButtonAction);
-        btnBuscar.setOnAction(this::handleBuscarButtonAction);
-        stage.setOnCloseRequest(this::handleExitButtonAction);
-        tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
-        mtem4.setOnAction(this::handleMtem4);
+            //METODOS
+            btnInsertar.setOnAction(this::handleCrearButtonAction);
+            btnInforme.setOnAction(this::handleInformeButtonAction);
+            btnEliminar.setOnAction(this::handleEliminarButtonAction);
+            btnEditar.setOnAction(this::handleModificarButtonAction);
+            btnBuscar.setOnAction(this::handleBuscarButtonAction);
+            stage.setOnCloseRequest(this::handleExitButtonAction);
+            tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
+            mtem4.setOnAction(this::handleMtem4);
 
-        //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
-        tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tbcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        tbcAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
-        tbcCatering.setCellValueFactory(new PropertyValueFactory<>("catering"));
-        tbcFechaEvento.setCellValueFactory(new PropertyValueFactory<>("fechaEvento"));
-        //Aqui le ponemos un formato de fecha concreto
-        tbcFechaEvento.setCellFactory(column -> {
-            TableCell<Evento, Date> cell = new TableCell<Evento, Date>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
+            tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            tbcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            tbcAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
+            tbcCatering.setCellValueFactory(new PropertyValueFactory<>("catering"));
+            tbcFechaEvento.setCellValueFactory(new PropertyValueFactory<>("fechaEvento"));
+            //Aqui le ponemos un formato de fecha concreto
+            tbcFechaEvento.setCellFactory(column -> {
+                TableCell<Evento, Date> cell = new TableCell<Evento, Date>() {
+                    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
-                @Override
-                protected void updateItem(Date item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    } else {
-                        if (item != null) {
-                            setText(format.format(item));
+                    @Override
+                    protected void updateItem(Date item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            if (item != null) {
+                                setText(format.format(item));
+                            }
+
                         }
-
                     }
-                }
-            };
+                };
 
-            return cell;
-        });
+                return cell;
+            });
+
+            //con las dos siguientes lineas agregamos a la tabla los datos
+            eventoData = FXCollections.observableArrayList(eventofact.getFactory().viewEvents_XML(Evento.class));
+
+            tbvEvento.setItems(eventoData);
+        } else {
+            //habilitamos los txt
+            tfAforo.setDisable(false);
+            tfFiltro.setDisable(false);
+            tfNombre.setDisable(false);
+
+            //habilitamos los botonoes
+            btnInsertar.setDisable(false);
+            btnEliminar.setDisable(false);
+            btnEditar.setDisable(false);
+            btnInforme.setDisable(false);
+
+            //habilitamos la tabla
+            tbvEvento.setDisable(false);
+
+            //habilitamos el DatePicker
+            dpFechaEvento.setDisable(false);
+
+            //El foco estará puesto en el campo de nombre de evento.
+            tfNombre.requestFocus();
+
+            //El título de la ventana es “Sign In”.
+            stage.setTitle("EVENTO");
+
+            //La ventana no es redimensionable
+            stage.setResizable(false);
+
+            //METODOS
+            btnInsertar.setOnAction(this::handleCrearButtonAction);
+            btnInforme.setOnAction(this::handleInformeButtonAction);
+            btnEliminar.setOnAction(this::handleEliminarButtonAction);
+            btnEditar.setOnAction(this::handleModificarButtonAction);
+            btnBuscar.setOnAction(this::handleBuscarButtonAction);
+            stage.setOnCloseRequest(this::handleExitButtonAction);
+            tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
+            mtem4.setOnAction(this::handleMtem4);
+
+            //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
+            tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+            tbcDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            tbcAforo.setCellValueFactory(new PropertyValueFactory<>("aforo"));
+            tbcCatering.setCellValueFactory(new PropertyValueFactory<>("catering"));
+            tbcFechaEvento.setCellValueFactory(new PropertyValueFactory<>("fechaEvento"));
+            //Aqui le ponemos un formato de fecha concreto
+            tbcFechaEvento.setCellFactory(column -> {
+                TableCell<Evento, Date> cell = new TableCell<Evento, Date>() {
+                    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                    @Override
+                    protected void updateItem(Date item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            if (item != null) {
+                                setText(format.format(item));
+                            }
+
+                        }
+                    }
+                };
+
+                return cell;
+            });
+        }
 
         //con las dos siguientes lineas agregamos a la tabla los datos
         eventoData = FXCollections.observableArrayList(eventofact.getFactory().viewEvents_XML(Evento.class));
@@ -507,10 +585,6 @@ public class EventoController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
 
-    }
-
-    public String getIdentificadorVentana() {
-        return "ventanaEvento";
     }
 
 }

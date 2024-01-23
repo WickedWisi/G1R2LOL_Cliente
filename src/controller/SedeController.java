@@ -30,6 +30,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.WindowEvent;
+import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -45,6 +46,9 @@ public class SedeController {
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
     private ObservableList<Sede> sedeData;
+    UserSesionType miTipoSesion = UserSesionType.getInstance();
+
+    UserType tipo = miTipoSesion.getTipoSesion();
 
     @FXML
     private Stage stage;
@@ -587,7 +591,4 @@ public class SedeController {
         this.stage = stage;
     }
 
-    public String getIdentificadorVentana() {
-        return "ventanaSede";
-    }
 }

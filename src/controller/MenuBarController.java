@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javax.ws.rs.WebApplicationException;
 import model.User;
+import model.UserSesionType;
 import model.UserType;
 
 /**
@@ -67,6 +68,10 @@ public class MenuBarController {
     private MenuItem mitSede;
 
     private UserType loggedInUserType;
+
+    UserSesionType miTipoSesion = UserSesionType.getInstance();
+
+    UserType tipo = miTipoSesion.getTipoSesion();
 
     public void initialize(URL url, ResourceBundle rb) {
         //Habilitación del menu

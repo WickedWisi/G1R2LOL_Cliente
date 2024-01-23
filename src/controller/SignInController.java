@@ -26,6 +26,7 @@ import javafx.stage.WindowEvent;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
 import model.User;
+import model.UserSesionType;
 import model.UserType;
 import model.Voluntario;
 
@@ -87,7 +88,8 @@ public class SignInController {
 
             if (userList != null) {
                 loggedInUserType = userList.get(0).getUserType();
-
+                UserSesionType miTipoSesion = UserSesionType.getInstance();
+                miTipoSesion.setTipoSesion(loggedInUserType);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
                 Parent root = (Parent) loader.load();
                 SedeController controller = ((SedeController) loader.getController());
