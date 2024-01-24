@@ -13,9 +13,13 @@ import javafx.stage.WindowEvent;
 import model.Socio;
 import model.User;
 import exception.FormatErrorException;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
 import model.UserType;
@@ -75,6 +79,7 @@ public class SignUpController {
 
     @FXML
     private void handleSignUpAction(ActionEvent event) {
+        try{
         if (validar()) {
             // Resto del código...
             Voluntario voluntario = new Voluntario();
@@ -88,7 +93,17 @@ public class SignUpController {
             voluntario.setConfirmPasswd(txtConfirmPasswd.getText());
             voluntario.setUserType(UserType.VOLUNTARIO);
             volfact.getFactory().create_JSON(voluntario);
-            limpiarDatos();
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+            
+                Parent root = (Parent) loader.load();
+            
+                SignInController controller = ((SignInController) loader.getController());
+
+                controller.setStage(stage);
+                controller.initStage(root);
+        }
+        }catch(IOException e){
+        
         }
     }
 

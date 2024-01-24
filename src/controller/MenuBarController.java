@@ -61,6 +61,9 @@ public class MenuBarController {
 
     @FXML
     private MenuItem MitEve;
+    
+    @FXML
+    private MenuItem mitPrincipal;
 
     @FXML
     private MenuItem mitSede;
@@ -94,18 +97,14 @@ public class MenuBarController {
     @FXML
     private void menPrin(ActionEvent event) {
 
-        try {
+        
+           try {
+            cerrarVentanaActual();
+            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
-
             Parent root = (Parent) loader.load();
-
-            //SedeController sedecontroller = ((SedeController) loader.getController());
-            // sedecontroller.setStage(stage);
-            try {
-                //  sedecontroller.initStage(root);
-            } catch (WebApplicationException ex) {
-                Logger.getLogger(MenuBarController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SedeController sedeController = ((SedeController) loader.getController());
+            sedeController.initStage(root);
 
         } catch (IOException e) {
 
