@@ -19,7 +19,9 @@
             <MenuItem fx:id="MitAyuda" mnemonicParsing="false" onAction="#menAyud" text="Ayuda" />
          </items>
       </Menu>
-      <Menu fx:id="MenCerr" mnemonicParsing="false" onAction="#menCerr" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion" />
+      <Menu fx:id="MenCerr" mnemonicParsing="false" onAction="#menCerr" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion">
+         <items>
+            <MenuItem fx:id="mitCerrarSesion" mnemonicParsing="false" onAction="#menCerr" text="Cerrar Sesion" />
+         </items></Menu>
    </menus>
 </MenuBar>
-

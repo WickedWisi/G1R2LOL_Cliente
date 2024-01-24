@@ -113,6 +113,7 @@ public class SedeController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
+        Stage stage = new Stage();
         stage.setScene(scene);
         if (loggedInUserType == UserType.VOLUNTARIO) {
 

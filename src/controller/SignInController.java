@@ -50,10 +50,11 @@ public class SignInController {
 
     private UserType loggedInUserType;
 
-    public void initStage(javafx.scene.Parent root) {
-        javafx.scene.Scene scene = new javafx.scene.Scene(root);
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
+        
         stage.setScene(scene);
-
+        stage.setTitle("SIGN IN");
         stage.setOnCloseRequest(this::handleExitButtonAction);
         btnSignUp.setOnAction(this::handleSignUpAction);
         btnLogin.setOnAction(this::handleSignInAction);
@@ -99,6 +100,7 @@ public class SignInController {
 
                 controller.setStage(stage);
                 controller.initStage(root);
+                stage.close();
             } else {
                 mostrarError("Error de inicio de sesión", "Credenciales incorrectas. Por favor, inténtalo de nuevo.");
             }
@@ -126,16 +128,7 @@ public class SignInController {
             controller.setStage(stage);
             controller.initStage(root);
 
-            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
-            javafx.scene.Parent root = loader.load();
-
-            SignUpController signUpController = loader.getController();
-            signUpController.setStage(new Stage());
-
-            Scene signUpScene = new Scene(root);
-            signUpController.getStage().setScene(signUpScene);
-            signUpController.getStage().show();
-             */
+        
         } catch (Exception e) {
 
         }

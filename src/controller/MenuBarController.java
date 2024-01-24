@@ -65,6 +65,11 @@ public class MenuBarController {
     @FXML
     private MenuItem mitSede;
 
+    @FXML
+    private MenuItem mitCerrarSesion;
+    
+    private boolean cerrarSesionEjecutado = false;
+
     public void initialize(URL url, ResourceBundle rb) {
         //Habilitación del menu
         menPrin.setDisable(false);
@@ -112,17 +117,7 @@ public class MenuBarController {
 
         try {
 
-            /*
-            Stage EventoStage = new Stage();
-            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
-
-            Parent root = (Parent) loader.load();
-
-            EventoController eventoController = ((EventoController) loader.getController());
-
-            eventoController.initStage(root);
-             */
+            cerrarVentanaActual();
             // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
             Parent root = (Parent) loader.load();
@@ -138,60 +133,64 @@ public class MenuBarController {
     @FXML
     private void mitPatro(ActionEvent event) {
 
+        /*
         try {
-
-            Stage EventoStage = new Stage();
-            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
+            cerrarVentanaActual();
+            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
-
             Parent root = (Parent) loader.load();
+            PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
+            patrocinadorController.initStage(root);
 
-            //  PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
-            //  patrocinadorController.initStage(root);
         } catch (IOException e) {
 
         }
+         */
     }
 
     @FXML
     private void mitSede(ActionEvent event) {
 
         try {
+            cerrarVentanaActual();
+            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
-
             Parent root = (Parent) loader.load();
-
-            //SedeController sedecontroller = ((SedeController) loader.getController());
-            // sedecontroller.setStage(stage);
-            try {
-                //  sedecontroller.initStage(root);
-            } catch (WebApplicationException ex) {
-                Logger.getLogger(MenuBarController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SedeController sedeController = ((SedeController) loader.getController());
+            sedeController.initStage(root);
 
         } catch (IOException e) {
 
         }
     }
 
-    @FXML
-    private void menCerr(ActionEvent event) {
+   @FXML
+private void menCerr(ActionEvent event) {
+    try {
+        // Verificar si el método ya se ejecutó
+        if (!cerrarSesionEjecutado) {
+            cerrarSesionEjecutado = true;
 
-        try {
+            // Cerrar la ventana actual
+            Stage currentStage = (Stage) mbLol.getScene().getWindow();
+            currentStage.close();
 
-            Stage EventoStage = new Stage();
-            //cargar el fxml de la ventana de sign up utilizando un cargador no estatico
+            // Abrir la ventana de inicio de sesión
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
-
             Parent root = (Parent) loader.load();
-
-            //  SignInController signInController = ((SignInController) loader.getController());
-            //  signInController.initStage(root);
-        } catch (IOException e) {
-
+            SignInController signInController = ((SignInController) loader.getController());
+            Stage signInStage = new Stage();
+            signInController.setStage(signInStage);
+            signInController.initStage(root);
+            signInStage.show();
         }
-
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (NullPointerException e) {
+        e.printStackTrace();
+        // Maneja la excepción si es necesario
     }
+}
 
     @FXML
     private void menAyud(ActionEvent event) {
@@ -252,6 +251,14 @@ public class MenuBarController {
     // Otros métodos y atributos
     public void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    private void cerrarVentanaActual() {
+        // Obtener el Stage actual desde cualquier nodo en la escena
+        Stage stage = (Stage) mbLol.getScene().getWindow();
+
+        // Cerrar la ventana actual
+        stage.close();
     }
 
 }
