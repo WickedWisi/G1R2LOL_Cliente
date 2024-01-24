@@ -5,10 +5,12 @@
  */
 package logic;
 
+import java.util.List;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import model.Patrocinador;
 
 /**
@@ -24,7 +26,7 @@ import model.Patrocinador;
  *
  * @author 2dam
  */
-public class PatrocinadorRESTfulClient {
+public class PatrocinadorRESTfulClient implements PatrocinadorInterface {
 
     private WebTarget webTarget;
     private Client client;
@@ -51,54 +53,80 @@ public class PatrocinadorRESTfulClient {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Patrocinador.class);
     }
 
-    public <T> T viewPatrocinadorByName_XML(Class<T> responseType, String nombre) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("ViewBy/String/{0}", new Object[]{nombre}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    @Override
+    public List<Patrocinador> viewPatrocinadorByName_XML(Class<Patrocinador> responseType, String nombre) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("ViewBy/String/{0}", new Object[]{nombre}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T viewPatrocinadorByName_JSON(Class<T> responseType, String nombre) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("ViewBy/String/{0}", new Object[]{nombre}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    @Override
+    public List<Patrocinador> viewPatrocinadorByName_JSON(Class<Patrocinador> responseType, String nombre) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("ViewBy/String/{0}", new Object[]{nombre}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T viewPatrocinadorByDuration_XML(Class<T> responseType, String DuracionPatrocinio) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("findByDuracion/{0}", new Object[]{DuracionPatrocinio}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    @Override
+    public List<Patrocinador> viewPatrocinadorByDuration_XML(Class<Patrocinador> responseType, String DuracionPatrocinio) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("findByDuracion/{0}", new Object[]{DuracionPatrocinio}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T viewPatrocinadorByDuration_JSON(Class<T> responseType, String DuracionPatrocinio) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("findByDuracion/{0}", new Object[]{DuracionPatrocinio}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    @Override
+    public List<Patrocinador> viewPatrocinadorByDuration_JSON(Class<Patrocinador> responseType, String DuracionPatrocinio) throws WebApplicationException {
+       WebTarget resource = webTarget.path(java.text.MessageFormat.format("findByDuracion/{0}", new Object[]{DuracionPatrocinio}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T findPatrocinadoresByEvento_XML(Class<T> responseType, String id_patrocinador) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("getEventoByPatrocinador/{0}", new Object[]{id_patrocinador}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    @Override
+    public List<Patrocinador> findPatrocinadoresByEvento_XML(Class<Patrocinador> responseType, String id_patrocinador) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("getEventoByPatrocinador/{0}", new Object[]{id_patrocinador}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T findPatrocinadoresByEvento_JSON(Class<T> responseType, String id_patrocinador) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("getEventoByPatrocinador/{0}", new Object[]{id_patrocinador}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    @Override
+    public List<Patrocinador> findPatrocinadoresByEvento_JSON(Class<Patrocinador> responseType, String id_patrocinador) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("getEventoByPatrocinador/{0}", new Object[]{id_patrocinador}));
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T findAll_XML(Class<T> responseType) throws ClientErrorException {
+    @Override
+    public List<Patrocinador> findAll_XML(Class<Patrocinador> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public <T> T findAll_JSON(Class<T> responseType) throws ClientErrorException {
+    @Override
+    public List<Patrocinador> findAll_JSON(Class<Patrocinador> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+        return resource
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<Patrocinador>>() {
+                });
     }
 
-    public void remove(String id_patrocinador) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("deletePatrocinador/{0}", new Object[]{id_patrocinador})).request().delete();
+    public void remove(String id_patrocinador) throws WebApplicationException {
+        webTarget.path(java.text.MessageFormat.format("deletePatrocinador/{0}", new Object[]{id_patrocinador})).request().delete(Patrocinador.class);
     }
 
     public void close() {
