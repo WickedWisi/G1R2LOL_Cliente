@@ -7,7 +7,7 @@
 	<field name="aforoMax" class="java.lang.Integer"/>
 	<field name="numVolMax" class="java.lang.Integer"/>
 	<field name="ubicacion" class="java.lang.String"/>
-	<field name="finDeContrato" class="java.util.Date"/>
+	<field name="finDeContrato" class="java.util.Date"/>   
 	<background>
 		<band splitType="Stretch"/>
 	</background>
