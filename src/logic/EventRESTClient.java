@@ -12,6 +12,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import model.Evento;
+import model.Patrocinador;
 
 /**
  * Jersey REST client generated for REST resource:EventoFacadeREST
@@ -90,14 +91,15 @@ public class EventRESTClient implements EventoManager {
     public List<Evento> viewEventoByAforoMax_XML(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>(){});
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>() {
+        });
     }
 
     @Override
     public List<Evento> viewEventoByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ViewEventByAforo/{0}", new Object[]{aforo}));
-         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
         });
     }
 
@@ -140,5 +142,23 @@ public class EventRESTClient implements EventoManager {
     public void close() {
         client.close();
     }
+
+    @Override
+    public List<Patrocinador> viewEventoByPatrocinador_XML(Class<Patrocinador> responseType, String id_evento) throws WebApplicationException {
+  WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("getPatrocinadorByEvento/{0}", new Object[]{id_evento}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Patrocinador>>() {
+        });   
+    }
+
+    @Override
+    public List<Patrocinador> viewEventoByPatrocinador_JSON(Class<Patrocinador> responseType, String id_evento) throws WebApplicationException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("getPatrocinadorByEvento/{0}", new Object[]{id_evento}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Patrocinador>>() {
+        });   
+    }
+
+  
 
 }

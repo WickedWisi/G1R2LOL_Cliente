@@ -7,6 +7,7 @@ package controller;
 
 import exception.EmptyTextFieldsException;
 import exception.FormatErrorException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -26,6 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -166,6 +168,7 @@ public class EventoController {
             stage.setOnCloseRequest(this::handleExitButtonAction);
             tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
             mtem4.setOnAction(this::handleMtem4);
+            mtem5.setOnAction(this::handleViewPatrocinador);
 
             //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
             tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -235,6 +238,7 @@ public class EventoController {
             stage.setOnCloseRequest(this::handleExitButtonAction);
             tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
             mtem4.setOnAction(this::handleMtem4);
+            mtem5.setOnAction(this::handleViewPatrocinador);
 
             //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
             tbcNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -583,6 +587,46 @@ public class EventoController {
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+        }
+
+    }
+
+    @FXML
+    public void handleViewPatrocinador(ActionEvent event) {
+
+        Evento selectedEvento = tbvEvento.getSelectionModel().getSelectedItem();
+
+        try {
+            if (selectedEvento == null) {
+                // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
+                LOGGER.info("esto esta mal");
+                return;
+            }
+            // Verificar si hay patrocinadores en el evento
+
+            // Cerrar la ventana actual
+            Stage ventanaActual = (Stage) tbvEvento.getScene().getWindow();
+            ventanaActual.close();
+
+                                                                                                                                                                                                                                                                                                                                                
+            // Abrir la nueva ventana
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
+            Parent root = loader.load();
+
+            PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
+            patrocinadorController.setEvento(selectedEvento);
+            patrocinadorController.setStage(stage);
+            patrocinadorController.initStage(root);
+            patrocinadorController.cargarFiltroPatrocinadores();
+
+        } catch (IOException ex) {
+            // Manejo de excepciones de E/S
+            //mostrarAlerta("Error de E/S", "Error al cargar la vista de animales.");
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            // Manejo de excepciones generales
+            //mostrarAlerta("Error", "Ocurrió un error inesperado.");
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

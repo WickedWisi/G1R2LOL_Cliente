@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import model.Evento;
+import model.Patrocinador;
 
 
 /**
@@ -133,6 +134,13 @@ public interface EventoManager {
      * @throws ClientErrorException Si hay un error en la solicitud del cliente.
      */
     public List<Evento> viewEventoByAforoMax_JSON(Class<Evento> responseType, String aforo) throws WebApplicationException;
+    
+    
+    public List<Patrocinador> viewEventoByPatrocinador_XML(Class<Patrocinador> responseType, String id_evento) throws WebApplicationException;
+    
+    
+
+    public List<Patrocinador> viewEventoByPatrocinador_JSON(Class<Patrocinador> responseType, String id_evento) throws WebApplicationException;
 
 }
 

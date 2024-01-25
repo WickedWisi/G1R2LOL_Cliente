@@ -45,6 +45,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
+import logic.EventoManagerFactory;
 import logic.PatrocinadorFactory;
 
 import model.Evento;
@@ -68,10 +69,13 @@ public class PatrocinadorController {
     private Patrocinador patrocin = new Patrocinador();
 
     private PatrocinadorFactory patFact = new PatrocinadorFactory();
+    private EventoManagerFactory eveFact = new EventoManagerFactory();
 
     private ObservableList<Patrocinador> patData;
 
     private Set<Patrocinador> listPat;
+
+    private Evento evento;
 
     /**
      * Expresión regular para validar el formato del correo electrónico.
@@ -285,7 +289,6 @@ public class PatrocinadorController {
     @FXML
     private void handleInformeButtonAction(ActionEvent event) {
 
-        
         try {
             //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
             JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/PatrocinadorReports.jrxml"));
@@ -301,8 +304,7 @@ public class PatrocinadorController {
             Logger.getLogger(PatrocinadorController.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-        
-         
+
     }
 
     @FXML
@@ -399,43 +401,43 @@ public class PatrocinadorController {
         }
     }
 
-   private void handleBuscarButtonAction(ActionEvent event) {
-    try {
-        String filtro = tfBusqueda.getText();
+    private void handleBuscarButtonAction(ActionEvent event) {
+        try {
+            String filtro = tfBusqueda.getText();
 
-        // Verificar si el TextField está vacío
-        if (filtro.isEmpty()) {
-            patData = FXCollections.observableArrayList(cargarTodo());
-            tbPatrocinador.setItems(patData);
-        } else {
-            // Resto del código para buscar por aforo o fecha
-            if (filtro.matches("\\D+")) {
-                // Utilizar \\D+ para verificar si la cadena contiene solo caracteres no numéricos
-                ObservableList<Patrocinador> patPorNombre = FXCollections.observableArrayList(
-                        patFact.getFactory().viewPatrocinadorByName_XML(Patrocinador.class, filtro)
-                );
-                tbPatrocinador.setItems(patPorNombre);
+            // Verificar si el TextField está vacío
+            if (filtro.isEmpty()) {
+                patData = FXCollections.observableArrayList(cargarTodo());
+                tbPatrocinador.setItems(patData);
             } else {
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date fecha = dateFormat.parse(filtro);
-
-                    ObservableList<Patrocinador> patPorDuracion = FXCollections.observableArrayList(
-                            patFact.getFactory().viewPatrocinadorByDuration_XML(Patrocinador.class, dateFormat.format(fecha))
+                // Resto del código para buscar por aforo o fecha
+                if (filtro.matches("\\D+")) {
+                    // Utilizar \\D+ para verificar si la cadena contiene solo caracteres no numéricos
+                    ObservableList<Patrocinador> patPorNombre = FXCollections.observableArrayList(
+                            patFact.getFactory().viewPatrocinadorByName_XML(Patrocinador.class, filtro)
                     );
-                    tbPatrocinador.setItems(patPorDuracion);
-                } catch (ParseException ex) {
-                    throw new FormatErrorException("Formato de filtro no válido. Debe ser un nombre o fecha (yyyy-MM-dd).");
+                    tbPatrocinador.setItems(patPorNombre);
+                } else {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date fecha = dateFormat.parse(filtro);
+
+                        ObservableList<Patrocinador> patPorDuracion = FXCollections.observableArrayList(
+                                patFact.getFactory().viewPatrocinadorByDuration_XML(Patrocinador.class, dateFormat.format(fecha))
+                        );
+                        tbPatrocinador.setItems(patPorDuracion);
+                    } catch (ParseException ex) {
+                        throw new FormatErrorException("Formato de filtro no válido. Debe ser un nombre o fecha (yyyy-MM-dd).");
+                    }
                 }
             }
-        }
 
-        tbPatrocinador.refresh();
-    } catch (FormatErrorException e) {
-        new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
-        tfBusqueda.setText("");
+            tbPatrocinador.refresh();
+        } catch (FormatErrorException e) {
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            tfBusqueda.setText("");
+        }
     }
-}
 
     @FXML
     private void handleUsersTableSelectionChanged(ObservableValue observable, Object oldValue, Object newValue) {
@@ -504,6 +506,43 @@ public class PatrocinadorController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
         }
 
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public ObservableList<Patrocinador> cargarFiltroPatrocinadores() {
+
+        ObservableList<Patrocinador> listaPatrocinadores = null;
+        List<Patrocinador> filtradoParam;
+
+        try {
+            // Intenta obtener la lista de patrocinadores asociados al evento
+            filtradoParam = FXCollections.observableArrayList(eveFact.getFactory().viewEventoByPatrocinador_XML(Patrocinador.class, evento.getId_evento().toString()));
+            listaPatrocinadores = FXCollections.observableArrayList(filtradoParam);
+            tbPatrocinador.setItems(listaPatrocinadores);
+            tbPatrocinador.refresh();
+
+            if (tbPatrocinador.getItems().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("TABLA VACIA");
+                alert.setHeaderText(null);
+                alert.setContentText("No hay ningún patrocinador en ese evento.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            // Maneja la excepción, por ejemplo, imprime el error
+            e.printStackTrace();
+            // O muestra un mensaje de error al usuario si es apropiado
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error al cargar patrocinadores. Detalles: " + e.getMessage());
+            alert.showAndWait();
+            // Puedes ajustar la lógica de manejo de errores según tus necesidades
+        }
+        return listaPatrocinadores;
     }
 
 }
