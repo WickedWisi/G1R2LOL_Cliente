@@ -61,7 +61,7 @@ public class MenuBarController {
 
     @FXML
     private MenuItem MitEve;
-    
+
     @FXML
     private MenuItem mitPrincipal;
 
@@ -70,7 +70,7 @@ public class MenuBarController {
 
     @FXML
     private MenuItem mitCerrarSesion;
-    
+
     private boolean cerrarSesionEjecutado = false;
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,8 +97,7 @@ public class MenuBarController {
     @FXML
     private void menPrin(ActionEvent event) {
 
-        
-           try {
+        try {
             cerrarVentanaActual();
             // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
@@ -132,7 +131,6 @@ public class MenuBarController {
     @FXML
     private void mitPatro(ActionEvent event) {
 
-        /*
         try {
             cerrarVentanaActual();
             // Al abrir una nueva ventana, actualiza ventanaActualController
@@ -144,7 +142,7 @@ public class MenuBarController {
         } catch (IOException e) {
 
         }
-         */
+
     }
 
     @FXML
@@ -163,33 +161,33 @@ public class MenuBarController {
         }
     }
 
-   @FXML
-private void menCerr(ActionEvent event) {
-    try {
-        // Verificar si el método ya se ejecutó
-        if (!cerrarSesionEjecutado) {
-            cerrarSesionEjecutado = true;
+    @FXML
+    private void menCerr(ActionEvent event) {
+        try {
+            // Verificar si el método ya se ejecutó
+            if (!cerrarSesionEjecutado) {
+                cerrarSesionEjecutado = true;
 
-            // Cerrar la ventana actual
-            Stage currentStage = (Stage) mbLol.getScene().getWindow();
-            currentStage.close();
+                // Cerrar la ventana actual
+                Stage currentStage = (Stage) mbLol.getScene().getWindow();
+                currentStage.close();
 
-            // Abrir la ventana de inicio de sesión
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
-            Parent root = (Parent) loader.load();
-            SignInController signInController = ((SignInController) loader.getController());
-            Stage signInStage = new Stage();
-            signInController.setStage(signInStage);
-            signInController.initStage(root);
-            signInStage.show();
+                // Abrir la ventana de inicio de sesión
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+                Parent root = (Parent) loader.load();
+                SignInController signInController = ((SignInController) loader.getController());
+                Stage signInStage = new Stage();
+                signInController.setStage(signInStage);
+                signInController.initStage(root);
+                signInStage.show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // Maneja la excepción si es necesario
         }
-    } catch (IOException e) {
-        e.printStackTrace();
-    } catch (NullPointerException e) {
-        e.printStackTrace();
-        // Maneja la excepción si es necesario
     }
-}
 
     @FXML
     private void menAyud(ActionEvent event) {
@@ -236,9 +234,26 @@ private void menCerr(ActionEvent event) {
                 }
                 break;
             case "PATROCINADOR":
-                System.out.println("AYUDA DE PATROCINADOR");
+                try {
+                    Stage mainStage = new Stage();
+                    URL viewLink = getClass().getResource("/view/HelpPatrocinador.fxml");
+                    // initialition loader
+                    FXMLLoader loader = new FXMLLoader(viewLink);
+                    //make the root with the loader
+                    Parent root = (Parent) loader.load();
+                    //Get the controller
+                    HelpPatrocinadorController mainStageController = ((HelpPatrocinadorController) loader.getController());
+                    //set the stage
+                    mainStageController.setStage(mainStage);
+                    //start the stage
+                    mainStageController.initStage(root);
+                    //this.stage.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(EventoController.class.getName())
+                            .log(Level.SEVERE, null, ex);
+                }
                 break;
-            // Agrega más casos según sea necesario
+
             default:
                 // Cargar la ayuda predeterminada o mostrar un mensaje de error
                 break;

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PatrocinadorController">
+    <children>
+        <ImageView fitHeight="895.0" fitWidth="1422.0" layoutX="-49.0" layoutY="-72.0" pickOnBounds="true">
+            <image>
+                <Image url="@../images/rojoazul.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="1372.0" fitWidth="1400.0" layoutX="-3.0" layoutY="-485.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/rojo.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="470.0" fitWidth="1447.0" layoutX="-41.0" layoutY="-235.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/WaveAzul.png" />
+            </image>
+        </ImageView>
+        <TableView fx:id="tbPatrocinador" layoutX="37.0" layoutY="248.0" prefHeight="504.0" prefWidth="1042.0">
+            <columns>
+                <TableColumn fx:id="tbColNombre" prefWidth="126.39998626708984" style="-fx-font-size: 18;" text="Nombre" />
+                <TableColumn fx:id="tbColDescripcion" prefWidth="275.9999694824219" style="-fx-font-size: 18;" text="descripcion" />
+                <TableColumn fx:id="tbColEmail" prefWidth="242.40005493164062" style="-fx-font-size: 18;" text="Email" />
+                <TableColumn fx:id="tbColTelefono" prefWidth="193.60000610351562" style="-fx-font-size: 18;" text="Telefono" />
+                <TableColumn fx:id="tbColDuracion" prefWidth="204.79986572265625" style="-fx-font-size: 18;" text="duracion " />
+            </columns>
+            <contextMenu>
+                <ContextMenu fx:id="cmMenu">
+                    <items>
+                        <MenuItem fx:id="miEliminar" mnemonicParsing="false" text="Eliminar" />
+                        <MenuItem fx:id="miEvento" mnemonicParsing="false" text="Visualizar evento por patrocinador" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+        <TextField fx:id="tfNombre" layoutX="60.0" layoutY="125.0" prefHeight="39.0" prefWidth="266.0" promptText="Nombre" style="-fx-background-radius: 40;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextArea fx:id="taDescripcion" layoutX="387.0" layoutY="65.0" prefHeight="160.0" prefWidth="366.0" promptText="Descripcion" style="-fx-background-radius: 40;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextArea>
+        <TextField fx:id="tfEmail" layoutX="797.0" layoutY="65.0" prefHeight="39.0" prefWidth="266.0" promptText="Email" style="-fx-background-radius: 40;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="tfTelefono" layoutX="797.0" layoutY="125.0" prefHeight="39.0" prefWidth="266.0" promptText="Telefono" style="-fx-background-radius: 40;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <DatePicker fx:id="dpDuracion" layoutX="797.0" layoutY="181.0" prefHeight="39.0" prefWidth="266.0" promptText="Duracion" style="-fx-font-size: 18; -fx-background-radius: 40;" />
+        <Button fx:id="btnInsertar" layoutX="1093.0" layoutY="65.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="266.0" style="-fx-background-radius: 40; -fx-background-color: #77F55E;" text="Insertar">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnEditar" layoutX="1093.0" layoutY="125.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="266.0" style="-fx-background-radius: 40; -fx-background-color: #F3F55E;" text="Editar">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnEliminar" layoutX="1093.0" layoutY="181.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="266.0" style="-fx-background-radius: 40; -fx-background-color: #FB7C59;" text="Eliminar">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnBuscar" layoutX="1093.0" layoutY="480.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="266.0" style="-fx-background-radius: 40; -fx-background-color: #FBA859;" text="Buscar">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnInforme" layoutX="1093.0" layoutY="565.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="266.0" style="-fx-background-radius: 40; -fx-background-color: #5999FB;" text="Informe">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <TextField fx:id="tfBusqueda" layoutX="1093.0" layoutY="384.0" prefHeight="39.0" prefWidth="266.0" promptText="Busqueda" style="-fx-background-radius: 40;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <fx:include source="menuBar.fxml" />
+    </children>
+</Pane>

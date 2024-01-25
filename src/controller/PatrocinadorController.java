@@ -157,7 +157,7 @@ public class PatrocinadorController {
         tfNombre.requestFocus();
 
         //El título de la ventana es “Patrocinador”.
-        stage.setTitle("Patrocinador");
+        stage.setTitle("PATROCINADOR");
 
         //La ventana no es redimensionable
         stage.setResizable(false);
