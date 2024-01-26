@@ -644,7 +644,13 @@ public class EventoController {
         try {
             if (selectedEvento == null) {
                 // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
-                LOGGER.info("esto esta mal");
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error evento");
+                alert.setHeaderText(null);
+                alert.setContentText("El evento que has seleccionado no tiene patrocinadores asignados");
+                alert.showAndWait();
+
                 return;
             }
             // Verificar si hay patrocinadores en el evento
@@ -665,11 +671,19 @@ public class EventoController {
 
         } catch (IOException ex) {
             // Manejo de excepciones de E/S
-            //mostrarAlerta("Error de E/S", "Error al cargar la vista de animales.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             // Manejo de excepciones generales
-            //mostrarAlerta("Error", "Ocurrió un error inesperado.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -49,9 +49,6 @@ public class SedeController {
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
     private ObservableList<Sede> sedeData;
-    UserSesionType miTipoSesion = UserSesionType.getInstance();
-
-    UserType tipo = miTipoSesion.getTipoSesion();
 
     @FXML
     private Stage stage;
@@ -114,11 +111,15 @@ public class SedeController {
 
     private UserType loggedInUserType;
 
+    UserSesionType miTipoSesion = UserSesionType.getInstance();
+
+    UserType tipo = miTipoSesion.getTipoSesion();
+
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        if (loggedInUserType == UserType.VOLUNTARIO) {
+        if (loggedInUserType == UserType.VOLUNTARIO || loggedInUserType == null) {
 
             tPais.setDisable(true);
             tAforoMax.setDisable(true);
@@ -163,10 +164,6 @@ public class SedeController {
                 return cell;
             });
 
-            sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
-
-            tabla.setItems(sedeData);
-
             tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sede>() {
                 @Override
                 public void changed(ObservableValue<? extends Sede> observable, Sede oldValue, Sede newValue) {
@@ -195,7 +192,9 @@ public class SedeController {
             informe.setOnAction(this::handleInformeAction);
             mVerEventos.setOnAction(this::handleViewEvento);
 
-            stage.show();
+            sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
+
+            tabla.setItems(sedeData);
 
         } else {
 
@@ -242,10 +241,6 @@ public class SedeController {
                 return cell;
             });
 
-            sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
-
-            tabla.setItems(sedeData);
-
             tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Sede>() {
                 @Override
                 public void changed(ObservableValue<? extends Sede> observable, Sede oldValue, Sede newValue) {
@@ -274,9 +269,11 @@ public class SedeController {
             informe.setOnAction(this::handleInformeAction);
             mVerEventos.setOnAction(this::handleViewEvento);
 
-            stage.show();
         }
+        sedeData = FXCollections.observableArrayList(sedefact.getFactory().viewSedes_XML(Sede.class));
 
+        tabla.setItems(sedeData);
+        stage.show();
     }
 
     @FXML
