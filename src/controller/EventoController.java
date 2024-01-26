@@ -47,7 +47,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
+import logic.SedeManagerFactory;
 import model.Evento;
+import model.Sede;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -117,6 +119,11 @@ public class EventoController {
     private MenuItem mtem5;
 
     private UserType loggedInUserType;
+    
+    private Sede sede;
+    
+     private SedeManagerFactory sedefact = new SedeManagerFactory();
+     
 
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
@@ -599,7 +606,13 @@ public class EventoController {
         try {
             if (selectedEvento == null) {
                 // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
-                LOGGER.info("esto esta mal");
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error evento");
+                alert.setHeaderText(null);
+                alert.setContentText("El evento que has seleccionado no tiene patrocinadores asignados");
+                alert.showAndWait();
+
                 return;
             }
             // Verificar si hay patrocinadores en el evento
@@ -608,7 +621,6 @@ public class EventoController {
             Stage ventanaActual = (Stage) tbvEvento.getScene().getWindow();
             ventanaActual.close();
 
-                                                                                                                                                                                                                                                                                                                                                
             // Abrir la nueva ventana
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
             Parent root = loader.load();
@@ -621,14 +633,61 @@ public class EventoController {
 
         } catch (IOException ex) {
             // Manejo de excepciones de E/S
-            //mostrarAlerta("Error de E/S", "Error al cargar la vista de animales.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             // Manejo de excepciones generales
-            //mostrarAlerta("Error", "Ocurrió un error inesperado.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+    
+     public ObservableList<Evento> cargarFiltroEvento() {
+
+        ObservableList<Evento> listaEvento = null;
+        List<Evento> filtradoParam;
+
+        try {
+            // Intenta obtener la lista de patrocinadores asociados al evento
+            filtradoParam = FXCollections.observableArrayList(sedefact.getFactory().findEventoBySede_XML(Evento.class, sede.getId_sede().toString())
+            );
+            listaEvento = FXCollections.observableArrayList(filtradoParam);
+            tbvEvento.setItems(listaEvento);
+            tbvEvento.refresh();
+
+            if (tbvEvento.getItems().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("TABLA VACIA");
+                alert.setHeaderText(null);
+                alert.setContentText("No hay ningún evento en esta sede.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            // Maneja la excepción, por ejemplo, imprime el error
+            e.printStackTrace();
+            // O muestra un mensaje de error al usuario si es apropiado
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error al cargar eventos. Detalles: " + e.getMessage());
+            alert.showAndWait();
+            // Puedes ajustar la lógica de manejo de errores según tus necesidades
+        }
+        return listaEvento;
+    }
+
+      public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+    
 
 }
