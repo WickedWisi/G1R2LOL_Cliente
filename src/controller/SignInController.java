@@ -52,7 +52,7 @@ public class SignInController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.setTitle("SIGN IN");
         stage.setOnCloseRequest(this::handleExitButtonAction);
@@ -95,9 +95,6 @@ public class SignInController {
                 Parent root = (Parent) loader.load();
                 SedeController controller = ((SedeController) loader.getController());
 
-                // Pasa el tipo de usuario al controlador de Sede
-                controller.setLoggedInUserType(loggedInUserType);
-
                 controller.setStage(stage);
                 controller.initStage(root);
                 stage.close();
@@ -128,7 +125,6 @@ public class SignInController {
             controller.setStage(stage);
             controller.initStage(root);
 
-        
         } catch (Exception e) {
 
         }

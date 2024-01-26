@@ -109,8 +109,6 @@ public class SedeController {
     @FXML
     private MenuItem mBorrarSede;
 
-    private UserType loggedInUserType;
-
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
     UserType tipo = miTipoSesion.getTipoSesion();
@@ -119,7 +117,7 @@ public class SedeController {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        if (loggedInUserType == UserType.VOLUNTARIO || loggedInUserType == null) {
+        if (tipo == UserType.VOLUNTARIO) {
 
             tPais.setDisable(true);
             tAforoMax.setDisable(true);
@@ -483,10 +481,6 @@ public class SedeController {
             tFinDeContrato.setValue(null);
 
         }
-    }
-
-    public void setLoggedInUserType(UserType loggedInUserType) {
-        this.loggedInUserType = loggedInUserType;
     }
 
     @FXML

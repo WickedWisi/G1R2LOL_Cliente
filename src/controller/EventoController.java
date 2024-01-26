@@ -119,8 +119,6 @@ public class EventoController {
     @FXML
     private MenuItem mtem5;
 
-    private UserType loggedInUserType;
-
     private Sede sede;
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
