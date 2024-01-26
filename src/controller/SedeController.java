@@ -2,6 +2,7 @@ package controller;
 
 import java.util.logging.Logger;
 import exception.FormatErrorException;
+import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -27,9 +28,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.WindowEvent;
+import model.Evento;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -99,7 +102,7 @@ public class SedeController {
     @FXML
     private Menu menuC;
     @FXML
-    private MenuItem menuEvento;
+    private MenuItem mVerEventos;
     @FXML
     private MenuItem menuSede;
     @FXML
@@ -268,6 +271,7 @@ public class SedeController {
             bBuscar.setOnAction(this::handleBuscarAction);
             mBorrarSede.setOnAction(this::handleBorrarMC);
             informe.setOnAction(this::handleInformeAction);
+            mVerEventos.setOnAction(this::handleViewEvento);
 
             stage.show();
         }
@@ -574,6 +578,45 @@ public class SedeController {
             new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
         }
         return bien;
+    }
+
+    @FXML
+    public void handleViewEvento(ActionEvent event) {
+
+        Sede selectedSede = tabla.getSelectionModel().getSelectedItem();
+
+        try {
+            if (selectedSede == null) {
+                // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
+                LOGGER.info("esto esta mal");
+                return;
+            }
+            // Verificar si hay patrocinadores en el evento
+
+            // Cerrar la ventana actual
+            Stage ventanaActual = (Stage) tabla.getScene().getWindow();
+            ventanaActual.close();
+
+            // Abrir la nueva ventana
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
+            Parent root = loader.load();
+
+            EventoController EventoController = ((EventoController) loader.getController());
+            EventoController.setSede(selectedSede);
+            EventoController.setStage(stage);
+            EventoController.initStage(root);
+            EventoController.cargarFiltroEvento();
+
+        } catch (IOException ex) {
+            // Manejo de excepciones de E/S
+            //mostrarAlerta("Error de E/S", "Error al cargar la vista de animales.");
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            // Manejo de excepciones generales
+            //mostrarAlerta("Error", "Ocurrió un error inesperado.");
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @FXML

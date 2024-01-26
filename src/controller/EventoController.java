@@ -47,7 +47,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logic.EventoManagerFactory;
+import logic.SedeManagerFactory;
 import model.Evento;
+import model.Patrocinador;
+import model.Sede;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -117,6 +120,10 @@ public class EventoController {
     private MenuItem mtem5;
 
     private UserType loggedInUserType;
+
+    private Sede sede;
+
+    private SedeManagerFactory sedefact = new SedeManagerFactory();
 
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
@@ -591,6 +598,44 @@ public class EventoController {
 
     }
 
+    public void setSede(Sede sede) {
+        this.sede = sede;
+    }
+
+    public ObservableList<Evento> cargarFiltroEvento() {
+
+        ObservableList<Evento> listaEvento = null;
+        List<Evento> filtradoParam;
+
+        try {
+            // Intenta obtener la lista de patrocinadores asociados al evento
+            filtradoParam = FXCollections.observableArrayList(sedefact.getFactory().findEventoBySede_XML(Evento.class, sede.getId_sede().toString())
+            );
+            listaEvento = FXCollections.observableArrayList(filtradoParam);
+            tbvEvento.setItems(listaEvento);
+            tbvEvento.refresh();
+
+            if (tbvEvento.getItems().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("TABLA VACIA");
+                alert.setHeaderText(null);
+                alert.setContentText("No hay ningún patrocinador en ese evento.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            // Maneja la excepción, por ejemplo, imprime el error
+            e.printStackTrace();
+            // O muestra un mensaje de error al usuario si es apropiado
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error al cargar patrocinadores. Detalles: " + e.getMessage());
+            alert.showAndWait();
+            // Puedes ajustar la lógica de manejo de errores según tus necesidades
+        }
+        return listaEvento;
+    }
+
     @FXML
     public void handleViewPatrocinador(ActionEvent event) {
 
@@ -608,7 +653,6 @@ public class EventoController {
             Stage ventanaActual = (Stage) tbvEvento.getScene().getWindow();
             ventanaActual.close();
 
-                                                                                                                                                                                                                                                                                                                                                
             // Abrir la nueva ventana
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
             Parent root = loader.load();

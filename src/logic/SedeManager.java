@@ -8,6 +8,7 @@ package logic;
 import java.util.List;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
+import model.Evento;
 import model.Sede;
 
 /**
@@ -30,9 +31,9 @@ public interface SedeManager {
 
     public <Sede> Sede viewSedeById_JSON(Class<Sede> responseType, String id_sede) throws WebApplicationException;
 
-    public <Evento> Evento findEventoBySede_XML(Class<Evento> responseType, String id_sede) throws WebApplicationException;
+    public List<Evento> findEventoBySede_XML(Class<Evento> responseType, String id_sede) throws WebApplicationException;
 
-    public <Evento> Evento findEventoBySede_JSON(Class<Evento> responseType, String id_sede) throws WebApplicationException;
+    public List<Evento> findEventoBySede_JSON(Class<Evento> responseType, String id_sede) throws WebApplicationException;
 
     public List<Sede> viewSedeByCountry_XML(Class<Sede> responseType, String pais) throws WebApplicationException;
 

@@ -11,6 +11,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import model.Evento;
 import model.Sede;
 
 /**
@@ -87,17 +88,21 @@ public class SedeRESTClient implements SedeManager {
     }
 
     @Override
-    public <Evento> Evento findEventoBySede_XML(Class<Evento> responseType, String id_sede) throws WebApplicationException {
+    public List<Evento> findEventoBySede_XML(Class<Evento> responseType, String id_sede) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("viewEventoBySede/{0}", new Object[]{id_sede}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Evento>>() {
+        }
+        );
     }
 
     @Override
-    public <Evento> Evento findEventoBySede_JSON(Class<Evento> responseType, String id_sede) throws WebApplicationException {
+    public List<Evento> findEventoBySede_JSON(Class<Evento> responseType, String id_sede) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("viewEventoBySede/{0}", new Object[]{id_sede}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<Evento>>() {
+        }
+        );
     }
 
     @Override
