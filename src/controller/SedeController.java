@@ -193,6 +193,7 @@ public class SedeController {
             bBuscar.setOnAction(this::handleBuscarAction);
             mBorrarSede.setOnAction(this::handleBorrarMC);
             informe.setOnAction(this::handleInformeAction);
+            mVerEventos.setOnAction(this::handleViewEvento);
 
             stage.show();
 
