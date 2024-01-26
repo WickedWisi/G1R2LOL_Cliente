@@ -49,23 +49,30 @@ and open the template in the editor.
             <center><p class="destaca">Fig 1: Ventana Evento</p><img src ="../images/ventanaEvento.png" alt= "ventana"></center>
             <p>Al abrir la ventana, se mostrará una ventana como la de arriba, al ser un Usuario corriente (Voluntario), sus acciones están limitadas, por lo que solo puede filtrar o ver eventos, generar un informe, y como no, cerrar la ventana.</p>
             <br>
-            <center><p class="destaca">Fig 2: Al abrirse la ventana, esrán habilitados todos los botones de abajo a la derecha exceptuando el botón de "Subscribirse"</p><img src ="images/tablaSeleccionada.png" alt= "ventana2"> Al hacer click en cualquier fila de la tabla, se habilitará el botón</center>
+            <center><p class="destaca">Fig 2: Al seleccionar cualquier fila de la tabla ,se situaran los datos de esa fila en sus correspondientes campos "</p><img src ="../images/seleccionDeTabla.png" alt= "ventana2"> </center>
+            <p>Al hacer click en cualquier fila de la tabla, se mostraran en sus fields</p>
             <br>
-            <center><p class="destaca">Fig 3: Esto es el filtrado: </p><img src ="images/filtro.png" alt= "ventana3"></center>
+            <center><p class="destaca">Fig 3: Esto es el filtrado, es un text field en el cual dependiendo de que le introduzcamos no podra filtrar por aforo o por fecha : </p><img src ="../images/filtro.png" alt= "ventana3"></center>
             <br>
-            <p>Para usarlo solo hay que hacer click en la cajita que hay debajo de donde pone "FILTRAR:" y aparecerán dos opciones de filtrado; por id de evento, por tipo de evento y ninguno.</p>
+            <p>Para usarlo simplemente tienes que saber porque lo quieres filtras, si es por aforo tendras q introducir numeros mayor que 0 y darle a buscar, si tienes alguna coincidencia la tabla se actualizara con los datos, en el caso de la fecha tendras q introducirla con formato yyyy-MM-dd y se repetira el mismo proceso que con el aforo</p>
             <br>
-            <center><p class="destaca">Fig 4: Por ejemplo, al elegir filtrar por id del evento y ecribir un id de un evento que existe, la tabla mostrará dicho evento</p><img src ="images/filtrado.png" alt= "ventana4"></center>
-            <p>En caso de que se intente filtrar un dato inexistente, la tabla, simplemente, no mostrará nada.</p>
+            <center><p class="destaca">Fig 4: Por ejemplo, al elegir filtrar por aforo y ecribir un aforo que existe, la tabla mostrará dicho evento filtrado por aforo</p><img src ="../images/filtradoAforo.png" alt= "ventana4"></center>
+            <p>En caso de que se intente filtrar un dato inexistente saltara un error.</p>
             <br>
-            <center><p class="destaca">Fig 5: En caso de que intente filtrar un dato de carácter incorrecto, se le avisará con una advertencia y se borrará los datos que ha intendo filtrar </p><img src ="images/errorFiltro.png" alt= "ventana5"></center>
+            <center><p class="destaca">Fig 5: En caso de que intente filtrar por fecha y escriba una fecha existente la tabla mostrara el evento filtrado por esa fecha </p><img src ="../images/filtradoFecha.png" alt= "ventana5"></center>
+            <p>En caso de que quieras resetear el filtro y vuelva a salir la tabla con todos los datos en el text field de filtrado lo tendras q vaciar y pulsar el boton de buscar </p>
             <br>
-            <center><p class="destaca">Fig 6: Para generar un informe solo tiene que darle al botón de informe. Tardará solo unos segundos en mostrar un informe </p><img src ="images/botones.png" alt= "ventana6"> He aquí el informe:<img src ="images/informe.png" alt= "ventana7"></center>
-            <center><p class="destaca">Fig 6.2: Para subscribirse, más de lo mismo. Haga click en el botón y se enviará un correo al email perteneciente a su cuenta como recordatorio. </p><img src ="images/botones.png" alt= "ventana8"></center>
+            <center><p class="destaca">Fig 6: Para generar un informe solo tiene que darle al botón de informe. Tardará solo unos segundos en mostrar un informe </p><img src ="../images/botonInforme.png" alt= "ventana6"><br> He aquí el informe:<img src ="../images/informe.png" alt= "ventana7"></center>
             <br>
-            <center><p class="destaca">Fig 7: Si desea salir de la aplicación, haga click en el botón de cerrar y se abrirá una ventana de advertencia para confirmar su decision </p><img src ="images/cerrar.png" alt= "ventana9"></center>
+            <center><p class="destaca">Fig 6.2: Para insertar un evento tendras que escribir todos los campos en sus formatos correctos una vez esten todos escritos pulsaras en el boton de insertar y si todo ha salido correctamente saldra un mensaje diciendo que se ha creado un nuevo evento en caso contrario saldra un error con lo q ha ido mal</p><img src ="../images/botonInsertar.png" alt= "ventana8">Si todo ha salido bn:<img src ="../images/crearCorrecto.png" alt= "ventana7"></center>
             <br>
-            <center><p class="destaca">Fig 12: Navegación Menubar</p><img src ="images/menubar.png" alt= "ventana15"></center>
+            <center><p class="destaca">Fig 6.2: Para modificar un evento tendras que seleccionar una fila de la tabla y modificar el campo que desees con su formato correcto una vez estes seguro de que quieras modificar eso pulsaras en el boton de insertar y si todo ha salido correctamente saldra un mensaje diciendo que se ha modificado el evento en caso contrario saldra un error con lo q ha ido mal</p><img src ="../images/botonEditar.png" alt= "ventana8">Si todo ha salido bn:<img src ="../images/crearCorrecto.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 6.2: Para eliminar un evento tendras que seleccionar la fila de la tabla que quieras eliminar  pulsaras en el boton de eliminar y si todo ha salido correctamente saldra un mensaje diciendo que se ha borrado el evento en caso contrario saldra un error con lo q ha ido mal</p><img src ="../images/botonEliminar.png" alt= "ventana8"><br>Si todo ha salido bn:<img src ="../images/borrarCorrecto.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 7: Si desea salir de la aplicación, haga click en la X de arriba a la derecha y se abrirá una ventana de advertencia para confirmar su decision </p><img src ="../images/cerrar.png" alt= "ventana9"></center>
+            <br>
+            <center><p class="destaca">Fig 12: Navegación Menubar</p><img src ="../images/menubar.png" alt= "ventana15"></center>
             <p>Arriba a la izquierda tenemos un menubar para navegar entre distintas ventanas, con varias opciones: </p>
             <ul type ="number">
                <li>Home:<br>
