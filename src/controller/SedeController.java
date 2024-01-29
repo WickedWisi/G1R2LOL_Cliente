@@ -32,6 +32,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.WindowEvent;
+import model.Evento;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -48,7 +49,6 @@ public class SedeController {
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
     private ObservableList<Sede> sedeData;
-    
 
     @FXML
     private Stage stage;
@@ -99,20 +99,16 @@ public class SedeController {
     @FXML
     private Menu menuC;
     @FXML
-    private MenuItem menuEvento;
+    private MenuItem mVerEventos;
     @FXML
     private MenuItem menuSede;
     @FXML
     private MenuItem menuPatrocinador;
     @FXML
-    private MenuItem mVerEventos;
-    @FXML
     private ContextMenu cMenu;
     @FXML
     private MenuItem mBorrarSede;
 
-    private UserType loggedInUserType;
-    
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
     UserType tipo = miTipoSesion.getTipoSesion();
@@ -121,7 +117,7 @@ public class SedeController {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        if (loggedInUserType == UserType.VOLUNTARIO || loggedInUserType == null) {
+        if (tipo == UserType.VOLUNTARIO) {
 
             tPais.setDisable(true);
             tAforoMax.setDisable(true);
@@ -434,13 +430,13 @@ public class SedeController {
                 // Actualizar la tabla para reflejar los cambios
                 // Limpiar los datos después de la creación
                 limpiarDatos();
+                // Alert("SEDE CREADA CON EXITO!!!!!");
+                throw new Exception("SEDE CREADA CON EXITO");
+            } else {
+                throw new Exception("Ha habido un fallo en la creacion de la sede");
             }
-        } catch (FormatErrorException e) {
-            try {
-                throw new FormatErrorException("Los datos no estan validados");
-            } catch (FormatErrorException ex) {
-
-            }
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();
         }
     }
 
@@ -485,10 +481,6 @@ public class SedeController {
             tFinDeContrato.setValue(null);
 
         }
-    }
-
-    public void setLoggedInUserType(UserType loggedInUserType) {
-        this.loggedInUserType = loggedInUserType;
     }
 
     @FXML
