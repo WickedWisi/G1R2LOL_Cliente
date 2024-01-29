@@ -430,13 +430,13 @@ public class SedeController {
                 // Actualizar la tabla para reflejar los cambios
                 // Limpiar los datos después de la creación
                 limpiarDatos();
+                // Alert("SEDE CREADA CON EXITO!!!!!");
+                throw new Exception("SEDE CREADA CON EXITO");
+            } else {
+                throw new Exception("Ha habido un fallo en la creacion de la sede");
             }
-        } catch (FormatErrorException e) {
-            try {
-                throw new FormatErrorException("Los datos no estan validados");
-            } catch (FormatErrorException ex) {
-
-            }
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();
         }
     }
 
