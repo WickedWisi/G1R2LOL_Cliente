@@ -12,19 +12,10 @@ import javax.crypto.Cipher;
 
 public class AsimetricC {
 
-    private static final String OUTPUT_PATH = "C:\\Cifrado\\UserCredentialC.properties";
+   //private static final String OUTPUT_PATH = "C:\\Cifrado\\UserCredentialC.properties";
     private static final String PUBLIC_KEY_PATH = "C:\\Cifrado\\publicKey.der";
 
-    private void fileWriter(String path, byte[] data) {
-        try (FileOutputStream fos = new FileOutputStream(path)) {
-            fos.write(data);
-            System.out.println("Datos cifrados guardados en: " + path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private PublicKey loadPublicKey() {
+    public PublicKey loadPublicKey() {
         // Load Public Key from file
         try {
             byte[] keyBytes = Files.readAllBytes(Paths.get(PUBLIC_KEY_PATH));
@@ -37,20 +28,35 @@ public class AsimetricC {
         }
     }
 
-    private void keyGenerator() {
-        GenerarClaves gc = new GenerarClaves();
+    /*public void keyGenerator() {
+        Chiper.GenerarClaves gc = new Chiper.GenerarClaves();
         gc.keyGenerator("C:\\Cifrado");
-    }
-
-    private void encryptAndSaveData(String message, PublicKey publicKey, String outputPath) {
+    }*/
+    public byte[] encryptAndSaveData(String message, PublicKey publicKey) {
+        byte[] encryptedData = null;
         try {
-            Cipher cipher = Cipher.getInstance("RSA");
+            String folderPath = "C:\\Cifrado";
+            File folder = new File(folderPath);
+
+            if (!folder.exists()) {
+                if (folder.mkdir()) {
+                    System.out.println("Carpeta creada exitosamente en C:");
+                } else {
+                    System.err.println("Error al crear la carpeta");
+
+                    //return;
+                }
+            } else {
+                System.err.println("La carpeta ya existe");
+            }
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            byte[] encryptedData = cipher.doFinal(message.getBytes());
-            fileWriter(outputPath, encryptedData);
+            encryptedData = cipher.doFinal(message.getBytes());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return encryptedData;
     }
 
     private byte[] fileReader(String path) {
@@ -61,39 +67,5 @@ public class AsimetricC {
             e.printStackTrace();
         }
         return ret;
-    }
-
-    public static void main(String[] args) {
-        AsimetricC asimetricC = new AsimetricC();
-
-        // Lanza el generador de claves
-        asimetricC.keyGenerator();
-
-        // Load Public Key
-        PublicKey publicKey = asimetricC.loadPublicKey();
-
-        if (publicKey != null) {
-            // Create directory if it doesn't exist
-            String folderPath = "C:\\Cifrado";
-            File folder = new File(folderPath);
-
-            if (!folder.exists()) {
-                if (folder.mkdir()) {
-                    System.out.println("Carpeta creada exitosamente en C:");
-                } else {
-                    System.err.println("Error al crear la carpeta");
-                    return;
-                }
-            } else {
-                System.err.println("La carpeta ya existe");
-            }
-
-            String message = "SIII"; // Reemplaza esto con el mensaje que desees cifrar
-
-            // Encrypt and Save Data
-            asimetricC.encryptAndSaveData(message, publicKey, OUTPUT_PATH);
-        } else {
-            System.out.println("Error: Clave pública no encontrada.");
-        }
     }
 }

@@ -5,7 +5,9 @@
  */
 package controller;
 
+import cipher.AsimetricC;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -80,12 +82,18 @@ public class SignInController {
 
     private void handleSignInAction(ActionEvent event) {
         try {
+
+            AsimetricC asimetric = new AsimetricC();
+            PublicKey publicKey;
+            publicKey = asimetric.loadPublicKey();
+            User user = new User();
+            user.setPasswd(pswfPasswd.getText());
+            String contraHex = javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(pswfPasswd.getText(), publicKey));
+            System.out.println(contraHex);
             String email = txtEmail.getText();
-            String password = pswfPasswd.getText();
-            // Lógica de inicio de sesión, reemplázala con tu propia implementación
-            // User user = userfact.getFactory().findUserByEmailAndPasswd_XML(User.class, email, password);
-            //User user = userfact.getFactory().findUserByEmailAndPasswd_XML(email, password);
-            List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, password);
+            //String password = pswfPasswd.getText();
+
+            List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, contraHex);
 
             if (userList != null) {
                 loggedInUserType = userList.get(0).getUserType();
