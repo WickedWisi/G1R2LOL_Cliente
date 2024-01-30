@@ -37,5 +37,13 @@ public interface VoluntarioManager {
 
     public List<Voluntario> findAll_JSON(Class<Voluntario> responseType) throws WebApplicationException;
 
+    public void RecuperarContra_XML(Object requestEntity) throws WebApplicationException;
+
+    public void RecuperarContra_JSON(Object requestEntity) throws WebApplicationException;
+
+    public void cambiarContra_XML(Object requestEntity) throws WebApplicationException;
+
+    public void cambiarContra_JSON(Object requestEntity) throws WebApplicationException;
+
     public void remove(String id) throws WebApplicationException;
 }

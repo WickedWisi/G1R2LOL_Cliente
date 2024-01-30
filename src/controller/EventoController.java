@@ -141,6 +141,7 @@ public class EventoController {
             tfFiltro.setDisable(false);
             tfNombre.setDisable(true);
             taDescripcion.setDisable(true);
+            mtem4.setDisable(true);
 
             //habilitamos los botonoes
             btnInsertar.setDisable(true);
@@ -168,11 +169,11 @@ public class EventoController {
             btnInsertar.setOnAction(this::handleCrearButtonAction);
             btnInforme.setOnAction(this::handleInformeButtonAction);
             btnEliminar.setOnAction(this::handleEliminarButtonAction);
+            mtem4.setOnAction(this::handleMtem4);
             btnEditar.setOnAction(this::handleModificarButtonAction);
             btnBuscar.setOnAction(this::handleBuscarButtonAction);
             stage.setOnCloseRequest(this::handleExitButtonAction);
             tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
-            mtem4.setOnAction(this::handleMtem4);
             mtem5.setOnAction(this::handleViewPatrocinador);
 
             //Con el siguiente codigo asignamos a las columnas los tipos y los nombres
@@ -342,8 +343,7 @@ public class EventoController {
                     tfAforo.setText("");
                     cbCatering.isDisable();
                     dpFechaEvento.setValue(null);
-                    throw new Exception("LUGAR CREADO CON EXITO");
-
+                    throw new Exception("EVENTO CREADO CON EXITO");
                 } catch (Exception e) {
                     new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
                 }
@@ -377,9 +377,7 @@ public class EventoController {
             jasperViewer.setVisible(true);
 
         } catch (JRException ex) {
-
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
-
         }
 
     }
@@ -390,36 +388,31 @@ public class EventoController {
         //lo primero que hacemos sera seleccionar una fila de nuestra tabla
         Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
         try {
-            try {
-                Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
-                ventanita.setHeaderText(null);
-                ventanita.setTitle("Advertencia");
-                ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
-                //Con este Optional<ButtonType> creamos botones de Ok y cancelar
-                Optional<ButtonType> action = ventanita.showAndWait();
-                //Si le da a OK el borrara ese lugar
-                if (action.get() == ButtonType.OK) {
-                    eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
-                    eventoData = FXCollections.observableArrayList(cargarTodo());
-                    tfNombre.setText("");
-                    taDescripcion.setText("");
-                    tfAforo.setText("");
-                    cbCatering.isDisable();
-                    dpFechaEvento.setValue(null);
-                    throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
-                } else {
-                    //Si le da a cancelar la ventana emergente se cerrará
-                    ventanita.close();
-                }
 
-            } catch (Exception e) {
-                new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+            Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+            ventanita.setHeaderText(null);
+            ventanita.setTitle("Advertencia");
+            ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
+            //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+            Optional<ButtonType> action = ventanita.showAndWait();
+            //Si le da a OK el borrara ese lugar
+            if (action.get() == ButtonType.OK) {
+                eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
+                eventoData = FXCollections.observableArrayList(cargarTodo());
+                tfNombre.setText("");
+                taDescripcion.setText("");
+                tfAforo.setText("");
+                cbCatering.isDisable();
+                dpFechaEvento.setValue(null);
+                throw new Exception("EL EVENTO SE HA ELIMINADO CORRECTAMENTE");
+            } else {
+                //Si le da a cancelar la ventana emergente se cerrará
+                ventanita.close();
             }
 
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
         }
-
     }
 
     @FXML
@@ -466,7 +459,7 @@ public class EventoController {
                     tfAforo.setText("");
                     cbCatering.isDisable();
                     dpFechaEvento.setValue(null);
-                    throw new Exception("LUGAR MODIFICADO CON EXITO");
+                    throw new Exception("EVENTO MODIFICADO CON EXITO");
 
                 } catch (Exception e) {
                     new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
@@ -497,11 +490,13 @@ public class EventoController {
             if (filtro.isEmpty()) {
                 eventoData = FXCollections.observableArrayList(cargarTodo());
                 tbvEvento.setItems(eventoData);
+
             } else {
                 // Resto del código para buscar por aforo o fecha
                 if (filtro.matches("\\d+")) {
                     ObservableList<Evento> eventosPorAforo = FXCollections.observableArrayList(
-                            eventofact.getFactory().viewEventoByAforoMax_XML(Evento.class, filtro)
+                            eventofact.getFactory().viewEventoByAforoMax_XML(Evento.class,
+                                    filtro)
                     );
                     tbvEvento.setItems(eventosPorAforo);
                 } else {
@@ -510,7 +505,8 @@ public class EventoController {
                         Date fecha = dateFormat.parse(filtro);
 
                         ObservableList<Evento> eventosPorFecha = FXCollections.observableArrayList(
-                                eventofact.getFactory().viewEventoByDate_XML(Evento.class, dateFormat.format(fecha))
+                                eventofact.getFactory().viewEventoByDate_XML(Evento.class,
+                                        dateFormat.format(fecha))
                         );
                         tbvEvento.setItems(eventosPorFecha);
                     } catch (ParseException ex) {
@@ -550,7 +546,9 @@ public class EventoController {
     private ObservableList<Evento> cargarTodo() {
         ObservableList<Evento> listaEvento;
         List<Evento> todosEventos;
-        todosEventos = eventofact.getFactory().viewEvents_XML(Evento.class);
+        todosEventos
+                = eventofact.getFactory().viewEvents_XML(Evento.class
+                );
 
         listaEvento = FXCollections.observableArrayList(todosEventos);
         tbvEvento.setItems(listaEvento);
@@ -563,35 +561,31 @@ public class EventoController {
 
         //lo primero que hacemos sera seleccionar una fila de nuestra tabla
         Evento selectedEvento = (Evento) tbvEvento.getSelectionModel().getSelectedItem();
-        try {
-            try {
-                Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
-                ventanita.setHeaderText(null);
-                ventanita.setTitle("Advertencia");
-                ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
-                //Con este Optional<ButtonType> creamos botones de Ok y cancelar
-                Optional<ButtonType> action = ventanita.showAndWait();
-                //Si le da a OK el borrara ese lugar
-                if (action.get() == ButtonType.OK) {
-                    eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
-                    eventoData = FXCollections.observableArrayList(cargarTodo());
-                    tfNombre.setText("");
-                    taDescripcion.setText("");
-                    tfAforo.setText("");
-                    cbCatering.isDisable();
-                    dpFechaEvento.setValue(null);
-                    throw new Exception("EL LUGAR SE HA ELIMINADO CORRECTAMENTE");
-                } else {
-                    //Si le da a cancelar la ventana emergente se cerrará
-                    ventanita.close();
-                }
 
-            } catch (Exception e) {
-                new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
+        try {
+            Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
+            ventanita.setHeaderText(null);
+            ventanita.setTitle("Advertencia");
+            ventanita.setContentText("¿Estas seguro de que quieres eliminar ese evento?");
+            //Con este Optional<ButtonType> creamos botones de Ok y cancelar
+            Optional<ButtonType> action = ventanita.showAndWait();
+            //Si le da a OK el borrara ese lugar
+            if (action.get() == ButtonType.OK) {
+                eventofact.getFactory().deleteEvent(selectedEvento.getId_evento().toString());
+                eventoData = FXCollections.observableArrayList(cargarTodo());
+                tfNombre.setText("");
+                taDescripcion.setText("");
+                tfAforo.setText("");
+                cbCatering.isDisable();
+                dpFechaEvento.setValue(null);
+                throw new Exception("EL EVENTO SE HA ELIMINADO CORRECTAMENTE");
+            } else {
+                //Si le da a cancelar la ventana emergente se cerrará
+                ventanita.close();
             }
 
         } catch (Exception e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, e.getMessage()).showAndWait();
         }
 
     }
@@ -607,7 +601,8 @@ public class EventoController {
 
         try {
             // Intenta obtener la lista de patrocinadores asociados al evento
-            filtradoParam = FXCollections.observableArrayList(sedefact.getFactory().findEventoBySede_XML(Evento.class, sede.getId_sede().toString())
+            filtradoParam = FXCollections.observableArrayList(sedefact.getFactory().findEventoBySede_XML(Evento.class,
+                    sede.getId_sede().toString())
             );
             listaEvento = FXCollections.observableArrayList(filtradoParam);
             tbvEvento.setItems(listaEvento);
@@ -617,7 +612,7 @@ public class EventoController {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("TABLA VACIA");
                 alert.setHeaderText(null);
-                alert.setContentText("No hay ningún patrocinador en ese evento.");
+                alert.setContentText("No hay ningún evento.");
                 alert.showAndWait();
             }
         } catch (Exception e) {
@@ -667,14 +662,6 @@ public class EventoController {
             patrocinadorController.initStage(root);
             patrocinadorController.cargarFiltroPatrocinadores();
 
-        } catch (IOException ex) {
-            // Manejo de excepciones de E/S
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error evento");
-            alert.setHeaderText(null);
-            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
-            alert.showAndWait();
-            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             // Manejo de excepciones generales
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -682,7 +669,9 @@ public class EventoController {
             alert.setHeaderText(null);
             alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
             alert.showAndWait();
-            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger
+                    .getLogger(EventoController.class
+                            .getName()).log(Level.SEVERE, null, ex);
         }
 
     }

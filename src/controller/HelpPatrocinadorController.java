@@ -31,7 +31,6 @@ public class HelpPatrocinadorController {
         stage.setScene(scene);
         stage.setOnShowing(this::shoWindow);
         stage.setTitle("Manual de ventana de Patrocinador");
-
         stage.show();
 
     }

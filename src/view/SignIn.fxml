@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -61,11 +62,6 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="281.0" layoutY="607.0" text="¿Has olvidado la contraseña?" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
       <Label layoutX="255.0" layoutY="228.0" prefHeight="38.0" prefWidth="359.0" text="Sign In with your LOL account" textFill="WHITE">
          <font>
             <Font size="24.0" />
@@ -76,5 +72,10 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Hyperlink fx:id="hpPass" layoutX="261.0" layoutY="611.0" prefHeight="45.0" prefWidth="340.0" text="¿Has olvidado la contraseña?" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Hyperlink>
    </children>
 </Pane>

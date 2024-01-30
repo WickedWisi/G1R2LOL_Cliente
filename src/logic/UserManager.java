@@ -44,6 +44,10 @@ public interface UserManager {
     public List<User> findForUserType_XML(Class<User> responseType, String userType) throws WebApplicationException;
 
     public List<User> findForUserType_JSON(Class<User> responseType, String userType) throws WebApplicationException;
+    
+    public List<User> findUserforEmail_XML(Class<User> responseType, String email) throws WebApplicationException;
+    
+    public List<User> findUserforEmail_JSON(Class<User> responseType, String email) throws WebApplicationException;
 
     public void remove(String id) throws WebApplicationException;
 }

@@ -81,50 +81,59 @@ public class UserRESTClient implements UserManager {
                 });
     }
 
+    @Override
     public <User> User find_XML(Class<User> responseType, String id) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
+    @Override
     public <User> User find_JSON(Class<User> responseType, String id) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    @Override
     public <User> User findRange_XML(Class<User> responseType, String from, String to) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
+    @Override
     public <User> User findRange_JSON(Class<User> responseType, String from, String to) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    @Override
     public void create_XML(Object requestEntity) throws WebApplicationException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), User.class);
     }
 
+    @Override
     public void create_JSON(Object requestEntity) throws WebApplicationException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), User.class);
     }
 
+    @Override
     public List<User> findAll_XML(Class<User> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<User>>() {
         });
     }
 
+    @Override
     public List<User> findAll_JSON(Class<User> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<User>>() {
         });
     }
 
+    @Override
     public List<User> findForUserType_XML(Class<User> responseType, String userType) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("findForUserType/{0}", new Object[]{userType}));
@@ -132,6 +141,7 @@ public class UserRESTClient implements UserManager {
         });
     }
 
+    @Override
     public List<User> findForUserType_JSON(Class<User> responseType, String userType) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("findForUserType/{0}", new Object[]{userType}));
@@ -139,9 +149,27 @@ public class UserRESTClient implements UserManager {
         });
     }
 
+    @Override
     public void remove(String id) throws WebApplicationException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
+
+    @Override
+    public List<User> findUserforEmail_XML(Class<User> responseType, String email) throws WebApplicationException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("findUserforEmail/{0}", new Object[]{email}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<User>>() {
+        });
+    }
+
+    @Override
+    public List<User> findUserforEmail_JSON(Class<User> responseType, String email) throws WebApplicationException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("findUserforEmail/{0}", new Object[]{email}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(new GenericType<List<User>>() {
+        });
+    }
+    
 
     public void close() {
         client.close();

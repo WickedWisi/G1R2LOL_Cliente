@@ -5,9 +5,10 @@
  */
 package controller;
 
+import cipher.AsimetricC;
 import exception.UserNotFoundException;
 import java.io.IOException;
-import java.net.ConnectException;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -21,12 +22,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.security.auth.login.CredentialException;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.ProcessingException;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
@@ -52,6 +55,8 @@ public class SignInController {
     private Button btnLogin;
     @FXML
     private Button btnSignUp;
+    @FXML
+    private Hyperlink hpPass;
 
     private UserType loggedInUserType;
 
@@ -63,6 +68,8 @@ public class SignInController {
         stage.setOnCloseRequest(this::handleExitButtonAction);
         btnSignUp.setOnAction(this::handleSignUpAction);
         btnLogin.setOnAction(this::handleSignInAction);
+        hpPass.setOnAction(this::handleRecuperarContra);
+
         stage.show();
     }
 
@@ -85,14 +92,18 @@ public class SignInController {
 
     private void handleSignInAction(ActionEvent event) {
         try {
-            String email = txtEmail.getText();
-            String password = pswfPasswd.getText();
-            // Lógica de inicio de sesión, reemplázala con tu propia implementación
-            // User user = userfact.getFactory().findUserByEmailAndPasswd_XML(User.class, email, password);
-            //User user = userfact.getFactory().findUserByEmailAndPasswd_XML(email, password);
-            List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, password);
 
-            if (userList != null) {
+            AsimetricC asimetric = new AsimetricC();
+            PublicKey publicKey;
+            publicKey = asimetric.loadPublicKey();
+            User user = new User();
+            user.setPasswd(pswfPasswd.getText());
+            String contraHex = javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(pswfPasswd.getText(), publicKey));
+            String email = txtEmail.getText();
+
+            List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, contraHex);
+
+            if (!userList.isEmpty()) {
                 loggedInUserType = userList.get(0).getUserType();
                 UserSesionType miTipoSesion = UserSesionType.getInstance();
                 miTipoSesion.setTipoSesion(loggedInUserType);
@@ -112,6 +123,8 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Las credenciales proporcionadas no son correctas. Por favor, verifica tu email y contraseña e inténtalo nuevamente.").showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotFoundException ex2) {
+            new Alert(Alert.AlertType.INFORMATION, "Rellena los campos.").showAndWait();
         }
     }
 
@@ -133,8 +146,23 @@ public class SignInController {
             controller.initStage(root);
 
         } catch (Exception e) {
-
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+
+    private void handleRecuperarContra(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/recuperarContrasena.fxml"));
+            Parent root = (Parent) loader.load();
+            RecuperarContrasenaController controller = ((RecuperarContrasenaController) loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
+
+        } catch (Exception e) {
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, e);
+        }
+
     }
 
     public void setStage(Stage stage) {

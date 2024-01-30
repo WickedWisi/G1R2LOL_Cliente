@@ -129,7 +129,7 @@ public class SedeController {
             bEditar.setDisable(true);
             bEliminar.setDisable(true);
             bInsert.setDisable(true);
-
+            mBorrarSede.setDisable(true);
             tabla.setDisable(false);
             tFinDeContrato.setDisable(true);
 
@@ -580,8 +580,7 @@ public class SedeController {
         try {
             if (selectedSede == null) {
                 // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
-                LOGGER.info("esto esta mal");
-                return;
+                throw new Exception("Selecciona una sede");
             }
             // Verificar si hay patrocinadores en el evento
 
@@ -601,12 +600,10 @@ public class SedeController {
 
         } catch (IOException ex) {
             // Manejo de excepciones de E/S
-            //mostrarAlerta("Error de E/S", "Error al cargar la vista de animales.");
             Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             // Manejo de excepciones generales
-            //mostrarAlerta("Error", "Ocurrió un error inesperado.");
-            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+            new Alert(Alert.AlertType.INFORMATION, ex.getMessage()).showAndWait();
         }
 
     }
