@@ -85,8 +85,8 @@ public class RecuperarContrasenaController {
             voluntario.setTelefono(vol.getTelefono());
             voluntario.setEmail(vol.getEmail());
            
-            voluntariofact.getFactory().RecuperarContra_XML(voluntario);
-            voluntariofact.getFactory().cambiarContra_XML(voluntario);
+           voluntariofact.getFactory().RecuperarContra_XML(voluntario);
+                   
             
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(" Recuperar contraseña");
@@ -96,7 +96,7 @@ public class RecuperarContrasenaController {
             
             
         } catch (Exception e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
 
     }

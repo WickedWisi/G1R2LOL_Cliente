@@ -87,7 +87,7 @@ public class SignInController {
 
     private void handleSignInAction(ActionEvent event) {
         try {
-
+            
             AsimetricC asimetric = new AsimetricC();
             PublicKey publicKey;
             publicKey = asimetric.loadPublicKey();

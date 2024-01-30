@@ -17,33 +17,23 @@ import model.Voluntario;
  */
 public interface VoluntarioManager {
 
-    public void edit_XML(Object requestEntity, String id) throws WebApplicationException;
-
-    public void edit_JSON(Object requestEntity, String id) throws WebApplicationException;
-
-    public <Voluntario> Voluntario find_XML(Class<Voluntario> responseType, String id) throws WebApplicationException;
-
-    public <Voluntario> Voluntario find_JSON(Class<Voluntario> responseType, String id) throws WebApplicationException;
-
-    public <Voluntario> Voluntario findRange_XML(Class<Voluntario> responseType, String from, String to) throws WebApplicationException;
-
-    public <Voluntario> Voluntario findRange_JSON(Class<Voluntario> responseType, String from, String to) throws WebApplicationException;
-
-    public void create_XML(Object requestEntity) throws WebApplicationException;
-
-    public void create_JSON(Object requestEntity) throws WebApplicationException;
-
-    public List<Voluntario> findAll_XML(Class<Voluntario> responseType) throws WebApplicationException;
-
-    public List<Voluntario> findAll_JSON(Class<Voluntario> responseType) throws WebApplicationException;
+    public Voluntario find_XML(Class<Voluntario> responseType, String id) throws WebApplicationException;
+    
+    public Voluntario  find_JSON(Class<Voluntario> responseType, String id) throws WebApplicationException;
 
     public void RecuperarContra_XML(Object requestEntity) throws WebApplicationException;
 
-    public void RecuperarContra_JSON(Object requestEntity) throws WebApplicationException;
+    public void RecuperarContra_JSON(Object requestEntity) throws WebApplicationException ;
+
+    public void create_XML(Object requestEntity) throws WebApplicationException;
+
+    public void create_JSON(Object requestEntity) throws WebApplicationException ;
+
+    public List<Voluntario>  findAll_XML(Class<Voluntario> responseType) throws WebApplicationException ;
+
+    public List<Voluntario>  findAll_JSON(Class<Voluntario> responseType) throws WebApplicationException;
 
     public void cambiarContra_XML(Object requestEntity) throws WebApplicationException;
 
-    public void cambiarContra_JSON(Object requestEntity) throws WebApplicationException;
-
-    public void remove(String id) throws WebApplicationException;
+    public void cambiarContra_JSON(Object requestEntity) throws WebApplicationException ;
 }
