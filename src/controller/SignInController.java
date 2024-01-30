@@ -5,7 +5,9 @@
  */
 package controller;
 
+import exception.UserNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -23,6 +25,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.security.auth.login.CredentialException;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.ProcessingException;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
 import model.User;
@@ -99,24 +104,26 @@ public class SignInController {
                 controller.initStage(root);
                 stage.close();
             } else {
-                mostrarError("Error de inicio de sesión", "Credenciales incorrectas. Por favor, inténtalo de nuevo.");
+                throw new UserNotFoundException();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace(); // Imprimir la traza de la excepción
-            // Manejar el error de acuerdo a tus necesidades
+        } catch (ProcessingException e2) {
+            mostrarErrorConexionNoDisponible();
+        } catch (UserNotFoundException ex) {
+            new Alert(Alert.AlertType.ERROR, "Las credenciales proporcionadas no son correctas. Por favor, verifica tu email y contraseña e inténtalo nuevamente.").showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    // Método auxiliar para mostrar un cuadro de diálogo de error
-    private void mostrarError(String header, String content) {
+    private void mostrarErrorConexionNoDisponible() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setTitle("Error de conexión");
+        alert.setHeaderText(null);
+        alert.setContentText("La conexión al servidor no está disponible en este momento. Inténtelo nuevamente más tarde.");
         alert.showAndWait();
     }
 
+    // Método auxiliar para mostrar un cuadro de diálogo de error
     private void handleSignUpAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
