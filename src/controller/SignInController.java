@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -49,6 +50,8 @@ public class SignInController {
     private Button btnLogin;
     @FXML
     private Button btnSignUp;
+    @FXML
+    private Hyperlink hpPass;
 
     private UserType loggedInUserType;
 
@@ -60,6 +63,8 @@ public class SignInController {
         stage.setOnCloseRequest(this::handleExitButtonAction);
         btnSignUp.setOnAction(this::handleSignUpAction);
         btnLogin.setOnAction(this::handleSignInAction);
+        hpPass.setOnAction(this::handleRecuperarContra);
+
         stage.show();
     }
 
@@ -89,7 +94,6 @@ public class SignInController {
             User user = new User();
             user.setPasswd(pswfPasswd.getText());
             String contraHex = javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(pswfPasswd.getText(), publicKey));
-            System.out.println(contraHex);
             String email = txtEmail.getText();
             //String password = pswfPasswd.getText();
 
@@ -136,6 +140,21 @@ public class SignInController {
         } catch (Exception e) {
 
         }
+    }
+
+    private void handleRecuperarContra(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/recuperarContrasena.fxml"));
+            Parent root = (Parent) loader.load();
+            RecuperarContrasenaController controller = ((RecuperarContrasenaController) loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
+
+        } catch (Exception e) {
+
+        }
+
     }
 
     public void setStage(Stage stage) {
