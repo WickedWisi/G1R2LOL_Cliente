@@ -288,7 +288,7 @@ public class PatrocinadorController {
         
         try {
             //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
-            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/PatrocinadorReports.jrxml"));
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/PatrocinadorReport.jrxml"));
             JRBeanCollectionDataSource dataItems;
             dataItems = new JRBeanCollectionDataSource((Collection<Patrocinador>) this.tbPatrocinador.getItems());
             Map<String, Object> parameters = new HashMap<>();
