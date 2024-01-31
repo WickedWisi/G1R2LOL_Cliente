@@ -12,7 +12,7 @@ package model;
 public class UserSesionType {
 
     private static UserSesionType instance = null;
-    private UserType tipo;
+    private User tipo;
 
     private UserSesionType() {
         tipo = null;
@@ -25,13 +25,13 @@ public class UserSesionType {
         return instance;
     }
 
-    public void setTipoSesion(UserType tipo) {
+    public void setTipoSesion(User tipo) {
 
         this.tipo = tipo;
 
     }
 
-    public UserType getTipoSesion() {
+    public User getTipoSesion() {
 
         return tipo;
     }

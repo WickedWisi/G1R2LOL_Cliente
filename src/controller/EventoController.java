@@ -51,6 +51,7 @@ import logic.SedeManagerFactory;
 import model.Evento;
 import model.Patrocinador;
 import model.Sede;
+import model.User;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -125,7 +126,7 @@ public class EventoController {
 
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
-    UserType tipo = miTipoSesion.getTipoSesion();
+    User tipo = miTipoSesion.getTipoSesion();
 
     public void initStage(Parent root) {
 
@@ -135,7 +136,7 @@ public class EventoController {
         Stage stage = new Stage();
         stage.setScene(scene);
 
-        if (tipo == UserType.VOLUNTARIO) {
+        if (tipo.getUserType() == UserType.VOLUNTARIO) {
             //habilitamos los txt
             tfAforo.setDisable(true);
             tfFiltro.setDisable(false);

@@ -33,6 +33,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.WindowEvent;
 import model.Evento;
+import model.User;
 import model.UserSesionType;
 import model.UserType;
 import net.sf.jasperreports.engine.JRException;
@@ -111,13 +112,13 @@ public class SedeController {
 
     UserSesionType miTipoSesion = UserSesionType.getInstance();
 
-    UserType tipo = miTipoSesion.getTipoSesion();
+    User tipo = miTipoSesion.getTipoSesion();
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
-        if (tipo == UserType.VOLUNTARIO) {
+        if (tipo.getUserType() == UserType.VOLUNTARIO) {
 
             tPais.setDisable(true);
             tAforoMax.setDisable(true);

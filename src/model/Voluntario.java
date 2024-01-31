@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Voluntario extends User {
 
     private static final long serialVersionUID = 1L;

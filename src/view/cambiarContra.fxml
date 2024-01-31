@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CambiarContrasenaController">
    <children>
       <ImageView fitHeight="607.0" fitWidth="900.0" layoutY="-7.0" pickOnBounds="true" smooth="false">
          <image>
@@ -30,17 +30,17 @@
             <Font name="Georgia Pro Semibold Italic" size="48.0" />
          </font>
       </Label>
-      <PasswordField layoutX="152.0" layoutY="154.0" promptText="Contraseña Actual" style="-fx-background-radius: 40;">
+      <PasswordField fx:id="pswfPass" layoutX="152.0" layoutY="154.0" promptText="Contraseña Actual" style="-fx-background-radius: 40;">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField>
-      <PasswordField layoutX="152.0" layoutY="253.0" promptText="Nueva Coñtraseña" style="-fx-background-radius: 40;">
+      <PasswordField fx:id="pswfNewPass" layoutX="152.0" layoutY="253.0" promptText="Nueva Coñtraseña" style="-fx-background-radius: 40;">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField>
-      <PasswordField layoutX="152.0" layoutY="363.0" promptText="Confirmar Contraseña" style="-fx-background-radius: 40;">
+      <PasswordField fx:id="pswfReNewPass" layoutX="152.0" layoutY="363.0" promptText="Confirmar Contraseña" style="-fx-background-radius: 40;">
          <font>
             <Font size="24.0" />
          </font>
@@ -65,7 +65,7 @@
             <Image url="@../images/candado.png" />
          </image>
       </ImageView>
-      <Button layoutX="152.0" layoutY="468.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="297.0" style="-fx-background-radius: 40; -fx-background-color: #3307D9;" text="Cambiar Contraseña" textFill="WHITE">
+      <Button fx:id="btnCambiarContrasena" layoutX="152.0" layoutY="468.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="297.0" style="-fx-background-radius: 40; -fx-background-color: #3307D9;" text="Cambiar Contraseña" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>

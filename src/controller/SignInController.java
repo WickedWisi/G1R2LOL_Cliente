@@ -53,7 +53,7 @@ public class SignInController {
     @FXML
     private Hyperlink hpPass;
 
-    private UserType loggedInUserType;
+    private User userFull;
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
@@ -100,9 +100,9 @@ public class SignInController {
             List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, contraHex);
 
             if (userList != null) {
-                loggedInUserType = userList.get(0).getUserType();
+                userFull = userList.get(0);
                 UserSesionType miTipoSesion = UserSesionType.getInstance();
-                miTipoSesion.setTipoSesion(loggedInUserType);
+                miTipoSesion.setTipoSesion(userFull);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
                 Parent root = (Parent) loader.load();
                 SedeController controller = ((SedeController) loader.getController());
@@ -138,7 +138,7 @@ public class SignInController {
             controller.initStage(root);
 
         } catch (Exception e) {
-
+             e.getMessage();
         }
     }
 
@@ -152,7 +152,7 @@ public class SignInController {
             controller.initStage(root);
 
         } catch (Exception e) {
-
+            e.getMessage();
         }
 
     }

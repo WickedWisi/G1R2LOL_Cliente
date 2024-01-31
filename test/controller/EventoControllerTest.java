@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import model.Evento;
+import model.User;
 import model.UserSesionType;
 import model.UserType;
 import static org.hibernate.criterion.Projections.rowCount;
@@ -190,9 +191,9 @@ public class EventoControllerTest extends ApplicationTest {
     public void test6_TipoUsuario() {
 
         UserSesionType miTipoSesion = UserSesionType.getInstance();
-        UserType tipo = miTipoSesion.getTipoSesion();
+        User tipo = miTipoSesion.getTipoSesion();
 
-        if (tipo == UserType.VOLUNTARIO) {
+        if (tipo.getUserType() == UserType.VOLUNTARIO) {
             assertTrue(tfNombre.isDisabled());
             assertTrue(taDescripcion.isDisabled());
             assertTrue(tfAforo.isDisabled());

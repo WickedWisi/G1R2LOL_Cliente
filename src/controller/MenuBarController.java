@@ -70,6 +70,9 @@ public class MenuBarController {
 
     @FXML
     private MenuItem mitCerrarSesion;
+    
+    @FXML
+    private MenuItem MitContrasena;
 
     private boolean cerrarSesionEjecutado = false;
 
@@ -82,6 +85,7 @@ public class MenuBarController {
         mitPatro.setDisable(false);
         MitEve.setDisable(false);
         mitSede.setDisable(false);
+        MitContrasena.setDisable(false);
 
         /*
         //Meotdos de los menús y menúbars
@@ -260,6 +264,25 @@ public class MenuBarController {
         }
 
         // Resto de la lógica según la clase actual
+    }
+
+    @FXML
+    private void mitContrasena(ActionEvent event) {
+
+        try {
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cambiarContra.fxml"));
+            Parent root = (Parent) loader.load();
+            CambiarContrasenaController controller = ((CambiarContrasenaController) loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
+            
+  
+            
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
     }
 
     // Otros métodos y atributos

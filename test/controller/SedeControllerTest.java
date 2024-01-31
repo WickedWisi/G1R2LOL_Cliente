@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Sede;
+import model.User;
 import model.UserSesionType;
 import model.UserType;
 import org.apache.lucene.search.FilteredQuery;
@@ -213,9 +214,9 @@ public class SedeControllerTest extends ApplicationTest {
     @Ignore
     public void test5_tipoUsuarios() {
         UserSesionType miTipoSesion = UserSesionType.getInstance();
-        UserType tipo = miTipoSesion.getTipoSesion();
+        User tipo = miTipoSesion.getTipoSesion();
 
-        if (tipo == UserType.VOLUNTARIO) {
+        if (tipo.getUserType() == UserType.VOLUNTARIO) {
             assertTrue(tPais.isDisabled());
             assertTrue(tAforoMax.isDisabled());
             assertTrue(tNumVolMax.isDisabled());

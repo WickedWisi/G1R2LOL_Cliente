@@ -20,6 +20,7 @@
       <Menu fx:id="menAyud" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-padding: 12px 122px;" text="Ayuda">
          <items>
             <MenuItem fx:id="MitAyuda" mnemonicParsing="false" onAction="#menAyud" text="Ayuda" />
+            <MenuItem fx:id="MitContrasena" mnemonicParsing="false" onAction="#mitContrasena" text="CambiarContraseña" />
          </items>
       </Menu>
       <Menu fx:id="MenCerr" mnemonicParsing="false" onAction="#menCerr" style="-fx-font-size: 18px; -fx-padding: 12px 152px;" text="Cerrar Sesion">
