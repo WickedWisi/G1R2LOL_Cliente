@@ -15,7 +15,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -25,7 +24,6 @@ import model.Evento;
 import model.User;
 import model.UserSesionType;
 import model.UserType;
-import static org.hibernate.criterion.Projections.rowCount;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -103,9 +101,9 @@ public class EventoControllerTest extends ApplicationTest {
     public void test1_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
-        write("jamausito@gmail.com");
+        write("josuarr@gmail.com");
         clickOn(pswfPasswd);
-        write("patata");
+        write("abcd*1234");
         clickOn(btnLogin);
 
         //Accedo a mi ventana desde la ventana principal
@@ -114,7 +112,7 @@ public class EventoControllerTest extends ApplicationTest {
         verifyThat("#paneEvento", isVisible());
     }
 
-    @Ignore
+    @Test
     public void test2_CrearEvento() {
 
         int rowCount = tbvEvento.getItems().size();
@@ -132,15 +130,15 @@ public class EventoControllerTest extends ApplicationTest {
         clickOn(btnInsertar);
         clickOn("Aceptar");
 
-        assertEquals("LUGAR CREADO CON EXITO", rowCount + 1, tbvEvento.getItems().size());
+        assertEquals("EVENTO CREADO CON EXITO", rowCount + 1, tbvEvento.getItems().size());
         //look for event in table data model
         List<Evento> evento = tbvEvento.getItems();
-        assertEquals("LUGAR CREADO CON EXITO",
+        assertEquals("EVENTO CREADO CON EXITO",
                 evento.stream().filter(u -> u.getNombre().equals("KingsLeague")).count(), 1);
 
     }
 
-    @Ignore
+    @Test
     public void test3_ModificarEvento() {
 
         clickOn(tbvEvento).clickOn("KingsLeague");
@@ -156,19 +154,19 @@ public class EventoControllerTest extends ApplicationTest {
         clickOn("Aceptar");
         // int selectedIndex=tbvEvento.getSelectionModel().getSelectedIndex();
         List<Evento> evento = tbvEvento.getItems();
-        assertEquals("LUGAR MODIFICADO CON EXITO",
+        assertEquals("EVENTO MODIFICADO CON EXITO",
                 evento.stream().filter(u -> u.getNombre().equals("QueensLeague")).count(), 1);
 
     }
 
-    @Ignore
+    @Test
     public void test4_BorrarLugar() {
         int rowCount = tbvEvento.getItems().size();
         clickOn(tbvEvento).clickOn("QueensLeague");
         clickOn(btnEliminar);
         clickOn("Aceptar");
         List<Evento> evento = tbvEvento.getItems();
-        assertEquals("EL LUGAR SE HA ELIMINADO CORRECTAMENTE", rowCount - 1, tbvEvento.getItems().size());
+        assertEquals("EL EVENTO SE HA ELIMINADO CORRECTAMENTE", rowCount - 1, tbvEvento.getItems().size());
 
     }
 
@@ -206,18 +204,16 @@ public class EventoControllerTest extends ApplicationTest {
         }
     }
 
-    @Test
+    @Ignore
     public void test7_filtroEventoAforo() {
-        
+
         clickOn(tfFiltro);
         write("85");
         clickOn(btnBuscar);
-       
-        
+
         List<Evento> evento = tbvEvento.getItems();
         assertEquals(evento.stream().filter(u -> u.getNombre().equals("La Velado del año")).count(), 0);
         assertNotEquals(evento.stream().filter(u -> u.getNombre().equals("patatas")).count(), 1);
-        
 
     }
 

@@ -81,36 +81,36 @@ public class SignUpController {
 
     @FXML
     private void handleSignUpAction(ActionEvent event) {
-        try{
-        if (validar()) {
-            AsimetricC asimetric = new AsimetricC();
-            PublicKey publicKey;
-            publicKey = asimetric.loadPublicKey();
-            String contraHex= javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(txtPasswd.getText(), publicKey));
-            // Resto del código...
-            Voluntario voluntario = new Voluntario();
-            voluntario.setEmail(txtEmail.getText());
-            voluntario.setDNI(txtDNI.getText());
-            voluntario.setNombre(txtName.getText());
-            voluntario.setApellido(txtSurname.getText());
-            voluntario.setTelefono(Integer.parseInt(txtPhoneNumber.getText()));
-            voluntario.setNumero_Voluntariados(Integer.parseInt(txtNumeroVol.getText()));
-            voluntario.setPasswd(contraHex);
-            voluntario.setConfirmPasswd(txtConfirmPasswd.getText());
-            voluntario.setUserType(UserType.VOLUNTARIO);
-            volfact.getFactory().create_JSON(voluntario);
-            
-             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
-            
+        try {
+            if (validar()) {
+                AsimetricC asimetric = new AsimetricC();
+                PublicKey publicKey;
+                publicKey = asimetric.loadPublicKey();
+                String contraHex = javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(txtPasswd.getText(), publicKey));
+                // Resto del código...
+                Voluntario voluntario = new Voluntario();
+                voluntario.setEmail(txtEmail.getText());
+                voluntario.setDNI(txtDNI.getText());
+                voluntario.setNombre(txtName.getText());
+                voluntario.setApellido(txtSurname.getText());
+                voluntario.setTelefono(Integer.parseInt(txtPhoneNumber.getText()));
+                voluntario.setNumero_Voluntariados(Integer.parseInt(txtNumeroVol.getText()));
+                voluntario.setPasswd(contraHex);
+                voluntario.setConfirmPasswd(txtConfirmPasswd.getText());
+                voluntario.setUserType(UserType.VOLUNTARIO);
+                volfact.getFactory().create_JSON(voluntario);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+
                 Parent root = (Parent) loader.load();
-            
+
                 SignInController controller = ((SignInController) loader.getController());
 
                 controller.setStage(stage);
                 controller.initStage(root);
-        }
-        }catch(IOException e){
-        
+            }
+        } catch (IOException e) {
+            Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
