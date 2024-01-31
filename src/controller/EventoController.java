@@ -122,6 +122,8 @@ public class EventoController {
 
     private Sede sede;
 
+    private Patrocinador patrocinador;
+
     private SedeManagerFactory sedefact = new SedeManagerFactory();
 
     UserSesionType miTipoSesion = UserSesionType.getInstance();
@@ -601,6 +603,10 @@ public class EventoController {
         this.sede = sede;
     }
 
+    public void setPatrocinador(Patrocinador patrocinador) {
+        this.patrocinador = patrocinador;
+    }
+
     public ObservableList<Evento> cargarFiltroEvento() {
 
         ObservableList<Evento> listaEvento = null;
@@ -622,15 +628,7 @@ public class EventoController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            // Maneja la excepción, por ejemplo, imprime el error
-            e.printStackTrace();
-            // O muestra un mensaje de error al usuario si es apropiado
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error al cargar patrocinadores. Detalles: " + e.getMessage());
-            alert.showAndWait();
-            // Puedes ajustar la lógica de manejo de errores según tus necesidades
+            e.getMessage();
         }
         return listaEvento;
     }

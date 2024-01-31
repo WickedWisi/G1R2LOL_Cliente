@@ -7,6 +7,7 @@ package controller;
 
 import exception.EmptyTextFieldsException;
 import exception.FormatErrorException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -27,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -175,6 +177,7 @@ public class PatrocinadorController {
         stage.setOnCloseRequest(this::handleExitButtonAction);
         tbPatrocinador.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
         miEliminar.setOnAction(this::handleMiEliminar);
+        miEvento.setOnAction(this::handleViewEvento);
 
         //Con el siguiente codigo asignamos a las columnas los tipos y los nombres 
         tbColNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -291,7 +294,7 @@ public class PatrocinadorController {
 
         try {
             //este metodo sirve para sacar un report con los datos que hay en la tabla de la ventana 
-            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/PatrocinadorReports.jrxml"));
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/PatrocinadorReport.jrxml"));
             JRBeanCollectionDataSource dataItems;
             dataItems = new JRBeanCollectionDataSource((Collection<Patrocinador>) this.tbPatrocinador.getItems());
             Map<String, Object> parameters = new HashMap<>();
@@ -532,17 +535,63 @@ public class PatrocinadorController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            // Maneja la excepción, por ejemplo, imprime el error
-            e.printStackTrace();
-            // O muestra un mensaje de error al usuario si es apropiado
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error al cargar patrocinadores. Detalles: " + e.getMessage());
-            alert.showAndWait();
-            // Puedes ajustar la lógica de manejo de errores según tus necesidades
+            LOGGER.log(Level.SEVERE,
+                    "PatrocinadorController: Entrando a la ventana Evento",
+                    e.getMessage());
         }
         return listaPatrocinadores;
     }
+   
+     @FXML
+    public void handleViewEvento(ActionEvent event) {
 
+        Patrocinador selectedPatrocinador = tbPatrocinador.getSelectionModel().getSelectedItem();
+
+        try {
+            if (selectedPatrocinador == null) {
+                // Mostrar un mensaje al usuario indicando que debe seleccionar una zona.
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error patrocinador");
+                alert.setHeaderText(null);
+                alert.setContentText("El patrocinador que has seleccionado no tiene eventos asignados");
+                alert.showAndWait();
+
+                return;
+            }
+            // Verificar si hay eventos en el patrocinador
+
+            // Cerrar la ventana actual
+            Stage ventanaActual = (Stage) tbPatrocinador.getScene().getWindow();
+            ventanaActual.close();
+
+            // Abrir la nueva ventana
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
+            Parent root = loader.load();
+
+            EventoController eventoController = ((EventoController) loader.getController());
+            eventoController.setPatrocinador(selectedPatrocinador);
+            eventoController.setStage(stage);
+            eventoController.initStage(root);
+            eventoController.cargarFiltroEvento();
+
+        } catch (IOException ex) {
+            // Manejo de excepciones de E/S
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            // Manejo de excepciones generales
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error evento");
+            alert.setHeaderText(null);
+            alert.setContentText("Ha ocurrido un error al ejecutar esta accion");
+            alert.showAndWait();
+            Logger.getLogger(EventoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

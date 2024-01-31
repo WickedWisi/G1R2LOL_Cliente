@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
@@ -11,13 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Egoitz Fernandez
- */
-@XmlRootElement
+@XmlRootElement(name = "patrocinador")
 public class Patrocinador implements Serializable {
-
 
     private Integer id_Patrocinador;
     private String nombre;
@@ -25,64 +15,62 @@ public class Patrocinador implements Serializable {
     private String email;
     private Integer telefono;
     private Date DuracionPatrocinio;
-
     private List<Evento> evento;
-
-    public void setId_Patrocinador(Integer id_Patrocinador) {
-        this.id_Patrocinador = id_Patrocinador;
-    }
 
     public Integer getId_Patrocinador() {
         return id_Patrocinador;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId_Patrocinador(Integer id_Patrocinador) {
+        this.id_Patrocinador = id_Patrocinador;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
         return Descripcion;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDescripcion(String Descripcion) {
+        this.Descripcion = Descripcion;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setTelefono(Integer telefono) {
-        this.telefono = telefono;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getTelefono() {
         return telefono;
     }
 
-    public void setDuracionPatrocinio(Date DuracionPatrocinio) {
-        this.DuracionPatrocinio = DuracionPatrocinio;
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
     }
 
     public Date getDuracionPatrocinio() {
         return DuracionPatrocinio;
     }
 
-    public void setEvento(List<Evento> evento) {
-        this.evento = evento;
+    public void setDuracionPatrocinio(Date duracionPatrocinio) {
+        this.DuracionPatrocinio = duracionPatrocinio;
     }
 
-    @XmlTransient
     public List<Evento> getEvento() {
         return evento;
+    }
+
+    public void setEvento(List<Evento> evento) {
+        this.evento = evento;
     }
 
     @Override
@@ -104,15 +92,11 @@ public class Patrocinador implements Serializable {
             return false;
         }
         final Patrocinador other = (Patrocinador) obj;
-        if (this.id_Patrocinador != other.id_Patrocinador) {
-            return false;
-        }
-        return true;
+        return this.id_Patrocinador.equals(other.id_Patrocinador);
     }
 
     @Override
     public String toString() {
         return "Patrocinador{" + "id_Patrocinador=" + id_Patrocinador + '}';
     }
-
 }
