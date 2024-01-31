@@ -120,6 +120,8 @@ public class EventoController {
     private MenuItem mtem5;
 
     private Sede sede;
+    
+    private Patrocinador patrocinador;
 
     private SedeManagerFactory sedefact = new SedeManagerFactory();
 
@@ -599,7 +601,9 @@ public class EventoController {
     public void setSede(Sede sede) {
         this.sede = sede;
     }
-
+    public void setPatrocinador(Patrocinador patrocinador) {
+        this.patrocinador = patrocinador;
+    }
     public ObservableList<Evento> cargarFiltroEvento() {
 
         ObservableList<Evento> listaEvento = null;
