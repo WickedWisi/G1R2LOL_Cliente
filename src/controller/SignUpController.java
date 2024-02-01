@@ -87,7 +87,7 @@ public class SignUpController {
                 PublicKey publicKey;
                 publicKey = asimetric.loadPublicKey();
                 String contraHex = javax.xml.bind.DatatypeConverter.printHexBinary(asimetric.encryptAndSaveData(txtPasswd.getText(), publicKey));
-                // Resto del código...
+               
                 Voluntario voluntario = new Voluntario();
                 voluntario.setEmail(txtEmail.getText());
                 voluntario.setDNI(txtDNI.getText());
