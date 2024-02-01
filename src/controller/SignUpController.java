@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Hyperlink;
 import logic.UserManagerFactory;
 import logic.VoluntarioManagerFactory;
 import model.UserType;
@@ -53,6 +54,8 @@ public class SignUpController {
     private Button btnSave;
     @FXML
     private Button btnCancel;
+    @FXML
+    private Hyperlink hpYaCuenta;
 
     public void initStage(javafx.scene.Parent root) {
         javafx.scene.Scene scene = new javafx.scene.Scene(root);
@@ -61,10 +64,25 @@ public class SignUpController {
         stage.setOnCloseRequest(this::handleExitButtonAction);
         btnCancel.setOnAction(this::handleCancelAction);
         btnSave.setOnAction(this::handleSignUpAction);
+        hpYaCuenta.setOnAction(this::handleHpYaCuenta);
 
         stage.show();
     }
+    
+    @FXML
+    private void handleHpYaCuenta(ActionEvent Event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+            Parent root = (Parent) loader.load();
+            SignInController controller = ((SignInController) loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
 
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+    
     @FXML
     private void handleExitButtonAction(WindowEvent event) {
         Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
