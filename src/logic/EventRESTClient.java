@@ -6,6 +6,7 @@
 package logic;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
@@ -31,7 +32,8 @@ public class EventRESTClient implements EventoManager {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/G1R2LOL_Server/webresources";
+    
+    private static final String BASE_URI = ResourceBundle.getBundle("properties.Url").getString("url");
 
     public EventRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
