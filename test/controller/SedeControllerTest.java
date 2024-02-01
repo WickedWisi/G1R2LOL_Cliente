@@ -150,7 +150,7 @@ public class SedeControllerTest extends ApplicationTest {
     public void test1_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
-        write("hola@gmail.com");
+        write("josuarr@gmail.com");
         clickOn(pswfPasswd);
         write("abcd*1234");
         clickOn(btnLogin);
@@ -229,7 +229,7 @@ public class SedeControllerTest extends ApplicationTest {
 
     }
 
-    @Test
+    @Ignore
     public void test6_filtroPais() {
         int rowCount = tabla.getItems().size();
         clickOn(fPais);

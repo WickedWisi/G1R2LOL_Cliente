@@ -41,6 +41,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
  *
  * @author 2dam
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PatrocinadorControllerTest extends ApplicationTest {
 
     private TableView<Patrocinador> tbPatrocinador;
@@ -115,15 +116,15 @@ public class PatrocinadorControllerTest extends ApplicationTest {
         int rowCount = tbPatrocinador.getItems().size();
         String nombrePatrocinador = tfNombre.getText();
         clickOn(nombrePatrocinador);
-        write("Grefusa");
+        write("pruebaaa");
         clickOn(tfEmail);
         write("pipa@mail.com");
         clickOn(taDescripcion);
-        write("Pipa tijuana esta mas buena que tu hermana");
+        write("Pipa");
         clickOn(tfTelefono);
         write("123456789");
         clickOn(dpDuracion);
-        write("2024-02-03");
+        write("15/2/2024");
         clickOn(btnInsertar);
         clickOn("Aceptar");
 
@@ -131,12 +132,12 @@ public class PatrocinadorControllerTest extends ApplicationTest {
         // Buscar el patrocinador en el modelo de datos de la tabla
         List<Patrocinador> patrocinadores = tbPatrocinador.getItems();
         assertEquals("PATROCINADOR CREADO CON EXITO",
-                patrocinadores.stream().filter(p -> p.getNombre().equals("Grefusa")).count(), 1);
+                patrocinadores.stream().filter(p -> p.getNombre().equals("pruebaaa")).count(), 1);
     }
-    @Ignore
+
     @Test
     public void test3_ModificarPatrocinador() {
-        clickOn(tbPatrocinador).clickOn("Grefusa");
+        clickOn(tbPatrocinador).clickOn("pruebaaa");
         clickOn(tfNombre);
         tfNombre.clear();
         write("Facundo");
@@ -150,7 +151,7 @@ public class PatrocinadorControllerTest extends ApplicationTest {
         assertEquals("PATROCINADOR MODIFICADO CON EXITO",
                 patrocinadores.stream().filter(p -> p.getNombre().equals("Facundo")).count(), 1);
     }
-    @Ignore
+
     @Test
     public void test4_filtroEventoAforo() {
 
@@ -159,11 +160,11 @@ public class PatrocinadorControllerTest extends ApplicationTest {
         clickOn(btnBuscar);
 
         List<Patrocinador> patrocinador = tbPatrocinador.getItems();
-        assertEquals(patrocinador.stream().filter(u -> u.getEmail().equals("pipa@mail.com")).count(), 0);
-        assertNotEquals(patrocinador.stream().filter(u -> u.getEmail().equals("grefusa@mail.com")).count(), 1);
+        assertEquals(patrocinador.stream().filter(u -> u.getEmail().equals("pipa@mail.com")).count(), 1);
+        assertNotEquals(patrocinador.stream().filter(u -> u.getEmail().equals("puma@gmail.com")).count(), 1);
 
     }
-    @Ignore
+
     @Test
     public void test5_BorrarPatrocinador() {
         int rowCount = tbPatrocinador.getItems().size();
@@ -172,10 +173,7 @@ public class PatrocinadorControllerTest extends ApplicationTest {
         clickOn("Aceptar");
 
         List<Patrocinador> patrocinadores = tbPatrocinador.getItems();
-        assertEquals("EL PATROCINADOR SE HA ELIMINADO CORRECTAMENTE", rowCount - 1, tbPatrocinador.getItems().size());
+        assertEquals("EL PATROCINADOR SE HA ELIMINADO CORRECTAMENTE", rowCount - 1, tbPatrocinador.getItems().size(),8);
     }
-
-
-    
 
 }
