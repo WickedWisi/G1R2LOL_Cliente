@@ -103,7 +103,7 @@ public class SignInController {
 
             List<User> userList = userfact.getFactory().findUserByEmailAndPasswd_XML(email, contraHex);
 
-            if (userList != null) {
+            if (!userList.isEmpty()) {
                 userFull = userList.get(0);
                 UserSesionType miTipoSesion = UserSesionType.getInstance();
                 miTipoSesion.setTipoSesion(userFull);
