@@ -85,7 +85,7 @@ public class RecuperarContrasenaController {
             voluntario.setTelefono(vol.getTelefono());
             voluntario.setEmail(vol.getEmail());
            
-           voluntariofact.getFactory().RecuperarContra_JSON(voluntario);
+           voluntariofact.getFactory().RecuperarContra_XML(voluntario);
                    
             
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
