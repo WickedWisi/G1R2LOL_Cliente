@@ -1,24 +1,30 @@
 package cipher;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ResourceBundle;
 import javax.crypto.Cipher;
+import static org.apache.poi.util.IOUtils.toByteArray;
 
 public class AsimetricC {
 
    //private static final String OUTPUT_PATH = "C:\\Cifrado\\UserCredentialC.properties";
-    private static final String PUBLIC_KEY_PATH = "C:\\Cifrado\\publicKey.der";
-
+    //esta es la linea original
+    private static final String PUBLIC_KEY_PATH = "./src/cipher/publicKey.der";
+    
+    
     public PublicKey loadPublicKey() {
         // Load Public Key from file
         try {
-            byte[] keyBytes = Files.readAllBytes(Paths.get(PUBLIC_KEY_PATH));
+            byte[] keyBytes = fileReader(PUBLIC_KEY_PATH);
             X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePublic(spec);
@@ -62,7 +68,9 @@ public class AsimetricC {
     private byte[] fileReader(String path) {
         byte[] ret = null;
         try {
-            ret = Files.readAllBytes(Paths.get(path));
+            
+           InputStream in= getClass().getResourceAsStream("publicKey.der");
+           ret = toByteArray(in);
         } catch (IOException e) {
             e.printStackTrace();
         }

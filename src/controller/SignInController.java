@@ -123,9 +123,7 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Las credenciales proporcionadas no son correctas. Por favor, verifica tu email y contraseña e inténtalo nuevamente.").showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotFoundException ex2) {
-            new Alert(Alert.AlertType.INFORMATION, "Rellena los campos.").showAndWait();
-        }
+        } 
     }
 
     private void mostrarErrorConexionNoDisponible() {
