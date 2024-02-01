@@ -69,6 +69,8 @@ public class SignInController {
         btnSignUp.setOnAction(this::handleSignUpAction);
         btnLogin.setOnAction(this::handleSignInAction);
         hpPass.setOnAction(this::handleRecuperarContra);
+        stage.setResizable(false);
+
 
         stage.show();
     }

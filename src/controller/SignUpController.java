@@ -56,10 +56,12 @@ public class SignUpController {
     private Button btnCancel;
     @FXML
     private Hyperlink hpYaCuenta;
+    
 
     public void initStage(javafx.scene.Parent root) {
         javafx.scene.Scene scene = new javafx.scene.Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
 
         stage.setOnCloseRequest(this::handleExitButtonAction);
         btnCancel.setOnAction(this::handleCancelAction);
