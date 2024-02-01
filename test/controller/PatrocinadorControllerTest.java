@@ -100,7 +100,7 @@ public class PatrocinadorControllerTest extends ApplicationTest {
     public void test1_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
-        write("josuarr@gmail.com");
+        write("josuarroyo@gmail.com");
         clickOn(pswfPasswd);
         write("abcd*1234");
         clickOn(btnLogin);

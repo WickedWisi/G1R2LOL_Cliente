@@ -1,7 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controlador para la ventana de cambio de contraseña.
+ * Permite a los voluntarios cambiar su contraseña utilizando cifrado asimétrico.
+ *
+ * La ventana contiene campos para la contraseña actual, nueva contraseña y confirmación de nueva contraseña.
+ * Utiliza la clase AsimetricC para cifrar la nueva contraseña antes de almacenarla en la base de datos.
+ *
+ * @author josu
  */
 package controller;
 
@@ -21,10 +25,6 @@ import model.UserSesionType;
 import model.UserType;
 import model.Voluntario;
 
-/**
- *
- * @author 2dam
- */
 public class CambiarContrasenaController {
 
     @FXML
@@ -50,6 +50,11 @@ public class CambiarContrasenaController {
 
     private VoluntarioManagerFactory vmf = new VoluntarioManagerFactory();
 
+    /**
+     * Inicializa la ventana y configura el manejo de eventos para el botón de cambiar contraseña.
+     *
+     * @param root El nodo raíz de la escena.
+     */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -61,8 +66,13 @@ public class CambiarContrasenaController {
         stage.show();
     }
 
+    /**
+     * Maneja el evento de clic en el botón de cambiar contraseña.
+     * Cifra la nueva contraseña y actualiza la información del voluntario en la base de datos.
+     *
+     * @param event El evento de acción asociado al clic en el botón de cambiar contraseña.
+     */
     private void handleCambiarContrasena(ActionEvent event) {
-
         AsimetricC asimetric = new AsimetricC();
         PublicKey publicKey;
         publicKey = asimetric.loadPublicKey();
@@ -87,11 +97,14 @@ public class CambiarContrasenaController {
         alert.setHeaderText(null);
         alert.setContentText("Has cambiado la contraseña correctamente ");
         alert.showAndWait();
-
     }
 
+    /**
+     * Establece el escenario para el controlador.
+     *
+     * @param stage El escenario principal.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }

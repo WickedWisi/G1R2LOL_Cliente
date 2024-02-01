@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controlador para la barra de menú principal de la aplicación.
+ * Gestiona la navegación entre diferentes vistas y proporciona opciones como cerrar sesión y ayuda.
+ * Se utiliza en conjunto con las vistas y controladores correspondientes para cada funcionalidad.
+ *
+ * @author josu
  */
 package controller;
 
@@ -27,20 +29,12 @@ import javafx.stage.Window;
 import javax.ws.rs.WebApplicationException;
 import model.User;
 
-/**
- *
- * @author 2dam
- */
 public class MenuBarController {
 
-    // private Stage stage = new Stage();
     private Stage stage;
-
     private Scene scene;
-
     private User user;
 
-    // private EventoController ventanaActualController;
     @FXML
     private Menu menPrin;
 
@@ -70,14 +64,20 @@ public class MenuBarController {
 
     @FXML
     private MenuItem mitCerrarSesion;
-    
+
     @FXML
     private MenuItem MitContrasena;
 
     private boolean cerrarSesionEjecutado = false;
 
+    /**
+     * Inicializa la barra de menú con las opciones y eventos correspondientes.
+     *
+     * @param url La URL no utilizada.
+     * @param rb El ResourceBundle no utilizado.
+     */
     public void initialize(URL url, ResourceBundle rb) {
-        //Habilitación del menu
+        // Habilitación del menú
         menPrin.setDisable(false);
         menNave.setDisable(false);
         menAyud.setDisable(false);
@@ -86,85 +86,88 @@ public class MenuBarController {
         MitEve.setDisable(false);
         mitSede.setDisable(false);
         MitContrasena.setDisable(false);
-
-        /*
-        //Meotdos de los menús y menúbars
-        menPrin.setOnAction(this::menPrin);
-        // menAyud.setOnAction(this::menAyud);
-        menCerr.setOnAction(this::menCerr);
-        mitPatro.setOnAction(this::mitPatro);
-        MitEve.setOnAction(this::mitEve);
-        mitSede.setOnAction(this::mitSede);
-         */
     }
 
+    /**
+     * Maneja el evento de selección del menú principal, abre la vista de Sede.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void menPrin(ActionEvent event) {
-
         try {
             cerrarVentanaActual();
-            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
             Parent root = (Parent) loader.load();
             SedeController sedeController = ((SedeController) loader.getController());
             sedeController.initStage(root);
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Maneja el evento de selección del menú de Eventos, abre la vista de
+     * Evento.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void mitEve(ActionEvent event) {
-
         try {
-
             cerrarVentanaActual();
-            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Evento.fxml"));
             Parent root = (Parent) loader.load();
             EventoController eventoController = ((EventoController) loader.getController());
             eventoController.initStage(root);
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
-
     }
 
+    /**
+     * Maneja el evento de selección del menú de Patrocinadores, abre la vista
+     * de Patrocinador.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void mitPatro(ActionEvent event) {
-
         try {
             cerrarVentanaActual();
-            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Patrocinador.fxml"));
             Parent root = (Parent) loader.load();
             PatrocinadorController patrocinadorController = ((PatrocinadorController) loader.getController());
             patrocinadorController.initStage(root);
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
-
     }
 
+    /**
+     * Maneja el evento de selección del menú de Sedes, abre la vista de Sede.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void mitSede(ActionEvent event) {
-
         try {
             cerrarVentanaActual();
-            // Al abrir una nueva ventana, actualiza ventanaActualController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Sede.fxml"));
             Parent root = (Parent) loader.load();
             SedeController sedeController = ((SedeController) loader.getController());
             sedeController.initStage(root);
-
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Maneja el evento de selección del menú de Cerrar Sesión. Cierra la sesión
+     * actual y abre la ventana de inicio de sesión.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void menCerr(ActionEvent event) {
         try {
@@ -193,25 +196,24 @@ public class MenuBarController {
         }
     }
 
+    /**
+     * Maneja el evento de selección del menú de Ayuda. Abre la ventana de ayuda
+     * correspondiente según el título de la ventana actual.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void menAyud(ActionEvent event) {
-
         switch (((Stage) this.mbLol.getScene().getWindow()).getTitle()) {
             case "EVENTO":
                 try {
                     Stage mainStage = new Stage();
                     URL viewLink = getClass().getResource("/view/HelpEvento.fxml");
-                    // initialition loader
                     FXMLLoader loader = new FXMLLoader(viewLink);
-                    //make the root with the loader
                     Parent root = (Parent) loader.load();
-                    //Get the controller
                     HelpEventController mainStageController = ((HelpEventController) loader.getController());
-                    //set the stage
                     mainStageController.setStage(mainStage);
-                    //start the stage
                     mainStageController.initStage(root);
-                    //this.stage.close();
                 } catch (IOException ex) {
                     Logger.getLogger(EventoController.class.getName())
                             .log(Level.SEVERE, null, ex);
@@ -221,17 +223,11 @@ public class MenuBarController {
                 try {
                     Stage mainStage = new Stage();
                     URL viewLink = getClass().getResource("/view/HelpSede.fxml");
-                    // initialition loader
                     FXMLLoader loader = new FXMLLoader(viewLink);
-                    //make the root with the loader
                     Parent root = (Parent) loader.load();
-                    //Get the controller
                     HelpSedeController mainStageController = ((HelpSedeController) loader.getController());
-                    //set the stage
                     mainStageController.setStage(mainStage);
-                    //start the stage
                     mainStageController.initStage(root);
-                    //this.stage.close();
                 } catch (IOException ex) {
                     Logger.getLogger(EventoController.class.getName())
                             .log(Level.SEVERE, null, ex);
@@ -241,17 +237,11 @@ public class MenuBarController {
                 try {
                     Stage mainStage = new Stage();
                     URL viewLink = getClass().getResource("/view/HelpPatrocinador.fxml");
-                    // initialition loader
                     FXMLLoader loader = new FXMLLoader(viewLink);
-                    //make the root with the loader
                     Parent root = (Parent) loader.load();
-                    //Get the controller
                     HelpPatrocinadorController mainStageController = ((HelpPatrocinadorController) loader.getController());
-                    //set the stage
                     mainStageController.setStage(mainStage);
-                    //start the stage
                     mainStageController.initStage(root);
-                    //this.stage.close();
                 } catch (IOException ex) {
                     Logger.getLogger(EventoController.class.getName())
                             .log(Level.SEVERE, null, ex);
@@ -262,34 +252,42 @@ public class MenuBarController {
                 // Cargar la ayuda predeterminada o mostrar un mensaje de error
                 break;
         }
-
         // Resto de la lógica según la clase actual
     }
 
+    /**
+     * Maneja el evento de selección del menú de Cambiar Contraseña. Abre la
+     * ventana de cambio de contraseña.
+     *
+     * @param event El evento de acción.
+     */
     @FXML
     private void mitContrasena(ActionEvent event) {
-
         try {
-            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/cambiarContra.fxml"));
             Parent root = (Parent) loader.load();
-            CambiarContrasenaController controller = ((CambiarContrasenaController) loader.getController());
+            CambiarContrasenaController controller
+                    = ((CambiarContrasenaController) loader.getController());
             controller.setStage(stage);
             controller.initStage(root);
-            
-  
-            
+
         } catch (Exception e) {
             e.getMessage();
         }
-
     }
 
-    // Otros métodos y atributos
+  /**
+     * Establece la escena actual.
+     *
+     * @param scene La escena actual.
+     */
     public void setScene(Scene scene) {
         this.scene = scene;
     }
 
+    /**
+     * Cierra la ventana actual.
+     */
     private void cerrarVentanaActual() {
         // Obtener el Stage actual desde cualquier nodo en la escena
         Stage stage = (Stage) mbLol.getScene().getWindow();
@@ -297,5 +295,4 @@ public class MenuBarController {
         // Cerrar la ventana actual
         stage.close();
     }
-
 }

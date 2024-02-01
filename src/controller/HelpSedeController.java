@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package controller;
-
 /**
+ * Controlador para la ventana de ayuda de Sede.
+ * Muestra un manual en formato HTML en una WebView dentro de la interfaz gráfica.
+ * Se inicializa con el método `initStage` y utiliza un archivo HTML ubicado en "/view/SedeHelp.html".
  *
  * @author josu
  */
+package controller;
+
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,30 +18,43 @@ import javafx.stage.WindowEvent;
 public class HelpSedeController {
 
     Stage stage = new Stage();
+
     @FXML
     private WebView webView1;
 
+    /**
+     * Inicializa la ventana de ayuda con el manual en formato HTML.
+     *
+     * @param root El nodo raíz de la escena.
+     */
     public void initStage(Parent root) {
-
-        //init the scene with the root you got from singInController
+        // Inicializa la escena con el nodo raíz proporcionado por el controlador principal.
         Scene scene = new Scene(root);
-        //Stage stage = new Stage();
         stage.setScene(scene);
         stage.setOnShowing(this::shoWindow);
         stage.setTitle("Manual de ventana de Sede");
 
         stage.show();
-
     }
 
+    /**
+     * Carga el manual en formato HTML en la WebView al mostrar la ventana.
+     *
+     * @param event El evento de ventana asociado al mostrar la ventana.
+     */
     @FXML
     private void shoWindow(WindowEvent event) {
+        // Obtiene la instancia de WebEngine y carga el archivo HTML desde la ubicación especificada.
         WebEngine webEngine = webView1.getEngine();
         webEngine.load(getClass().getResource("/view/SedeHelp.html").toExternalForm());
     }
 
+    /**
+     * Establece el escenario para el controlador.
+     *
+     * @param stage El escenario principal.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
 }

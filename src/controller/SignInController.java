@@ -1,7 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Controlador para la ventana de inicio de sesión (SIGN IN).
  */
 package controller;
 
@@ -39,8 +37,7 @@ import model.UserType;
 import model.Voluntario;
 
 /**
- *
- * @author Eneko.
+ * Controlador para la ventana de inicio de sesión (SIGN IN).
  */
 public class SignInController {
 
@@ -60,6 +57,11 @@ public class SignInController {
 
     private User userFull;
 
+    /**
+     * Inicializa la escena.
+     *
+     * @param root La raíz del componente de la escena.
+     */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
 
@@ -71,30 +73,36 @@ public class SignInController {
         hpPass.setOnAction(this::handleRecuperarContra);
         stage.setResizable(false);
 
-
         stage.show();
     }
 
+    /**
+     * Maneja el evento de cierre de la ventana.
+     *
+     * @param event El evento de ventana.
+     */
     @FXML
     private void handleExitButtonAction(WindowEvent event) {
         Alert ventanita = new Alert(Alert.AlertType.CONFIRMATION);
         ventanita.setHeaderText(null);
         ventanita.setTitle("Advertencia");
         ventanita.setContentText("¿Deseas Salir?");
-        // Con este Optional<ButtonType> creamos botones de Ok y cancelar
         Optional<ButtonType> action = ventanita.showAndWait();
-        // Si le da a OK el programa cesará de existir, se cierra por completo
+
         if (action.orElse(ButtonType.CANCEL) == ButtonType.OK) {
             Platform.exit();
         } else {
-            // Si le da a cancelar la ventana emergente se cerrará pero la ventana principal se mantiene
-            event.consume();  // Consume el evento para evitar que se cierre
+            event.consume();
         }
     }
 
+    /**
+     * Maneja el evento de inicio de sesión.
+     *
+     * @param event El evento de acción.
+     */
     private void handleSignInAction(ActionEvent event) {
         try {
-            
             AsimetricC asimetric = new AsimetricC();
             PublicKey publicKey;
             publicKey = asimetric.loadPublicKey();
@@ -125,9 +133,12 @@ public class SignInController {
             new Alert(Alert.AlertType.ERROR, "Las credenciales proporcionadas no son correctas. Por favor, verifica tu email y contraseña e inténtalo nuevamente.").showAndWait();
         } catch (IOException ex) {
             Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
+    /**
+     * Muestra una alerta de error cuando la conexión no está disponible.
+     */
     private void mostrarErrorConexionNoDisponible() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error de conexión");
@@ -136,7 +147,12 @@ public class SignInController {
         alert.showAndWait();
     }
 
-    // Método auxiliar para mostrar un cuadro de diálogo de error
+    /**
+     * Maneja el evento de registro.
+     *
+     * @param event El evento de acción.
+     */
+    @FXML
     private void handleSignUpAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
@@ -144,27 +160,32 @@ public class SignInController {
             SignUpController controller = ((SignUpController) loader.getController());
             controller.setStage(stage);
             controller.initStage(root);
-
         } catch (Exception e) {
-             e.getMessage();
+            e.getMessage();
         }
     }
-
+/**
+     * Maneja el evento de recuperación de contraseña.
+     *
+     * @param event El evento de acción.
+     */
     private void handleRecuperarContra(ActionEvent event) {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/recuperarContrasena.fxml"));
             Parent root = (Parent) loader.load();
             RecuperarContrasenaController controller = ((RecuperarContrasenaController) loader.getController());
             controller.setStage(stage);
             controller.initStage(root);
-
-        } catch (Exception e) {
+        }  catch (Exception e) {
             e.getMessage();
         }
-
     }
 
+    /**
+     * Establece el escenario de la aplicación.
+     *
+     * @param stage El escenario principal de la aplicación.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
