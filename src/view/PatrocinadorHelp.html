@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Patrocinador</title>
+        <style type="text/css">
+            body{
+                background-color: beige;
+                align-items: center;
+                margin: 50px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            div.cuerpo{
+                margin: 20px;
+                margin-top: 30px;
+                align-content: center;
+            }
+            img{
+                
+                width: 700px;
+                height: 500px;
+            }
+            hr{
+                border-collapse: collapse;
+                border: 2px solid white;
+                border-radius: 5px;
+            }
+            p.destaca{
+                color: #3EFA18;
+            }
+            p{
+                text-align: center;
+            }
+            
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <hr>
+        <h1 align="Center">Patrocinadores</h1>
+        <hr>
+        <div class="cuerpo">
+            <center><p class="destaca">Fig 1: Ventana Patrocinador</p><img src ="../images/patrocinador1.png" alt= "ventana"></center>
+            <p>Al abrir la ventana, se mostrará una ventana como la de arriba, solo se podra acceder como usuario tipo Socio, ya que los voluntarios no tienen acceso, los socios podran crear, modificar, filtrar o eliminar los datos de la tabla, ademas podra generar informes</p>
+            <br>
+            <center><p class="destaca">Fig 2: Al seleccionar cualquier fila de la tabla ,se situaran los datos de esa fila en sus correspondientes campos "</p><img src ="../images/patrocinador2.png" alt= "ventana2"> </center>
+            <p>se mostraran en los fields correspondientes</p>
+            <br>
+            <center><p class="destaca">Fig 3: En el filtrado contamos con un unico textField encargado de filtrar por nombre o fecha : </p><img src ="../images/patrocinador3.png" alt= "ventana3"></center>
+            <br>
+            <p>Para usarlo simplemente debera introducir un nombre o fecha, si es por nombre tendra que escribir caracteres unicamente, si coincide con un campo o campos de la tabla se actualizara con esos campos, en el caso de la fecha tendra que ser introducida en formato yyyy-MM-dd y se repetira el mismo proceso que con el nombre</p>
+            <br>
+            <center><p class="destaca">Fig 4: Por ejemplo, al elegir filtrar por nombre y ecribir un nombre que existe, la tabla mostrará dicho patrocinador </p><img src ="../images/patrocinador4.png" alt= "ventana4"></center>
+            <p>En caso de que se intente filtrar un dato inexistente saltara un error.</p>
+            <br>
+            <center><p class="destaca">Fig 5: En caso de que intente filtrar por fecha y escriba una fecha existente la tabla mostrara dicho patrocinador </p><img src ="../images/patrocinador5.png" alt= "ventana5"></center>
+            <p>En caso de que quieras resetear el filtro y vuelva a salir la tabla con todos los datos en el text field de busqueda lo tendras que vaciar y pulsar el boton de buscar </p>
+            <br>
+            <center><p class="destaca">Fig 6: Para generar un informe solo tiene que darle al botón de informe. Tardará solo unos segundos en mostrar un informe </p><img src ="../images/patrocinador6.png" alt= "ventana6"><br> He aquí el informe:<img src ="../images/patrocinador7.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 6.2: Para insertar un patrocinador tendra que escribir todos los campos en sus formatos correctos una vez esten todos escritos pulsara en el boton de insertar y si todo esta correctamente saldra un mensaje informando que se ha creado un nuevo patrocinador en caso contrario saldra un error informando del error cometido</p><img src ="../images/patrocinador8.png" alt= "ventana8">Si todo ha salido como se esperaba:<img src ="../images/patrocinador9.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 6.2: Para modificar un patrocinador tendra que seleccionar una fila de la tabla y modificar el campo que desee con su formato correcto una vez este seguro de que lo quiere modificar debera pulsar en el boton de insertar y si todo ha salido correctamente saldra un mensaje informando que se ha modificado el patrocinador en caso contrario saldra el error cometido</p><img src ="../images/patrocinador10.png" alt= "ventana8">Si todo ha salido como se esperaba:<img src ="../images/patrocinador11.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 6.2: Para eliminar un patrocinador tendra que seleccionar la fila de la tabla que quiera eliminar pulsara en el boton de eliminar y si todo ha salido correctamente saldra un mensaje informando que se ha borrado el patrocinador, en caso contrario saldra el error cometido</p><img src ="../images/patrocinador12.png" alt= "ventana8"><br>Si todo ha salido como se esperaba:<img src ="../images/patrocinador13.png" alt= "ventana7"></center>
+            <br>
+            <center><p class="destaca">Fig 7: Si desea salir de la aplicación, haga click en la X de arriba a la derecha y se abrirá una ventana de advertencia para confirmar su decision </p><</center>
+            <br>
+            <center><p class="destaca">Fig 12: Navegación Menubar</p></center>
+            <p>En la parte posterior de la aplicacion tenemos un menubar para navegar entre distintas ventanas, con varias opciones: </p>
+            <ul type ="number">
+               <li>Principal:<br>
+                Esta opcion redigira a la ventana principal ya vista nada mas iniciar sesion</li>
+                 <li>Navegación:<br>
+                Tiene 3 opciónes, con cada una de las ventanas interactivas principales, cada una de estas te enviará a la ventana seleccionada</li>
+                 <li>Ayuda:<br>
+                Nos redirigira a la ventana de ayuda de cada ventana 
+                 <li>Cerrar sesión:<br>
+                Cierra la sesión y te envia a la ventana de inicio de sesion de nuestra app.</li>
+            </ul>
+            
+        </div>
+        
+    </body>
+</html>

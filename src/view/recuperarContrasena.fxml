@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RecuperarContrasenaController">
+   <children>
+      <ImageView fitHeight="607.0" fitWidth="900.0" layoutY="-7.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@../images/rojoazul.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="901.0" fitWidth="900.0" layoutX="-1.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/rojo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="316.0" fitWidth="925.0" layoutX="-13.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/WaveAzul.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="185.0" layoutY="80.0" text="Recuperar Contraseña" textFill="WHITE">
+         <font>
+            <Font name="Georgia Pro Semibold Italic" size="48.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="444.0" fitWidth="499.0" layoutX="471.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/snk.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnEmail" layoutX="220.0" layoutY="405.0" mnemonicParsing="false" style="-fx-background-color: #3307D9; -fx-background-radius: 40;" text="Enviar Email" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <TextField id="txtEmail" fx:id="txtEmailRecup" alignment="TOP_LEFT" layoutX="143.0" layoutY="271.0" prefHeight="51.0" prefWidth="297.0" promptText="Introduce el E-mail" style="-fx-background-radius: 40;">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+   </children>
+</Pane>

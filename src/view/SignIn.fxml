@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignInController">
+   <children>
+      <ImageView fx:id="fondoAzul" fitHeight="785.0" fitWidth="1660.0" layoutX="-288.0" layoutY="-15.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/rojoazul.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="1388.0" fitWidth="1373.0" layoutY="-423.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/rojo.png" />
+         </image>
+      </ImageView>
+      <ImageView id="perfil" fx:id="pngPerfil" fitHeight="51.0" fitWidth="67.0" layoutX="164.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/perfil.png.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mano" fitHeight="664.0" fitWidth="653.0" layoutX="661.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/snk.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="curvaAzul" fitHeight="535.0" fitWidth="1535.0" layoutX="-146.0" layoutY="-277.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/WaveAzul.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="candado" fitHeight="51.0" fitWidth="60.0" layoutX="168.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/candado.png" />
+         </image>
+      </ImageView>
+      <TextField id="txtEmail" fx:id="txtEmail" alignment="TOP_LEFT" layoutX="234.0" layoutY="296.0" prefHeight="51.0" prefWidth="400.0" promptText="E-mail" style="-fx-background-radius: 40;">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="pswfPasswd" layoutX="234.0" layoutY="410.0" prefHeight="42.0" prefWidth="400.0" promptText="Password" style="-fx-background-radius: 40;">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </PasswordField>
+      <Button id="btnLogin" fx:id="btnLogin" layoutX="234.0" layoutY="528.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" style="-fx-background-color: #3307D9; -fx-background-radius: 40;" text="Login" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button id="btnSignUp" fx:id="btnSignUp" layoutX="465.0" layoutY="528.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="169.0" style="-fx-background-color: #3307D9; -fx-background-radius: 40;" text="Sign Up" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label layoutX="255.0" layoutY="228.0" prefHeight="38.0" prefWidth="359.0" text="Sign In with your LOL account" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="234.0" layoutY="475.0" text="*Ejemplo (Contraseña123)" textFill="#00c0ff">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="hpPass" layoutX="261.0" layoutY="611.0" prefHeight="45.0" prefWidth="340.0" text="¿Has olvidado la contraseña?" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</Pane>
