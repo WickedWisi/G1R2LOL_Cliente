@@ -101,7 +101,7 @@ public class EventoControllerTest extends ApplicationTest {
     public void test1_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
-        write("josuarroyo@gmail.com");
+        write("admin@gmail.com");
         clickOn(pswfPasswd);
         write("abcd*1234");
         clickOn(btnLogin);
@@ -175,9 +175,9 @@ public class EventoControllerTest extends ApplicationTest {
     public void test5_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
-        write("empirico@gmail.com");
+        write("inigo@gmail.com");
         clickOn(pswfPasswd);
-        write("lol123");
+        write("abcd*1234");
         clickOn(btnLogin);
 
         //Accedo a mi ventana desde la ventana principal
