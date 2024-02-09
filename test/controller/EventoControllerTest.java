@@ -97,7 +97,7 @@ public class EventoControllerTest extends ApplicationTest {
         cbCatering = lookup("#cbCatering").query();
     }
 
-    @Test
+    @Ignore
     public void test1_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
@@ -171,7 +171,7 @@ public class EventoControllerTest extends ApplicationTest {
 
     }
 
-    @Ignore
+    @Test
     public void test5_InicioVentana() {
         //Inicio sesión
         clickOn(txtEmail);
@@ -186,7 +186,7 @@ public class EventoControllerTest extends ApplicationTest {
         verifyThat("#paneEvento", isVisible());
     }
 
-    @Ignore
+    @Test
     public void test6_TipoUsuario() {
 
         UserSesionType miTipoSesion = UserSesionType.getInstance();
@@ -202,7 +202,19 @@ public class EventoControllerTest extends ApplicationTest {
             assertTrue(btnEditar.isDisabled());
             assertTrue(btnEliminar.isDisabled());
 
+        } else {
+
+            assertFalse(tfNombre.isDisabled());
+            assertFalse(taDescripcion.isDisabled());
+            assertFalse(tfAforo.isDisabled());
+            assertFalse(cbCatering.isDisabled());
+            assertFalse(dpFechaEvento.isDisabled());
+            assertFalse(btnInsertar.isDisabled());
+            assertFalse(btnEditar.isDisabled());
+            assertFalse(btnEliminar.isDisabled());
+
         }
+
     }
 
     @Ignore

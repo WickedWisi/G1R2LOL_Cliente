@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
@@ -119,6 +121,8 @@ public class EventoController {
     private MenuItem mtem4;
     @FXML
     private MenuItem mtem5;
+    @FXML
+    private ComboBox<Boolean> cbFiltro;
 
     private Sede sede;
 
@@ -159,6 +163,9 @@ public class EventoController {
             //habilitamos el DatePicker
             dpFechaEvento.setDisable(true);
 
+            //habilitamos la comboBox 
+            cbFiltro.setDisable(false);
+
             //El foco estará puesto en el campo de nombre de evento.
             tfNombre.requestFocus();
 
@@ -176,6 +183,9 @@ public class EventoController {
             btnEditar.setOnAction(this::handleModificarButtonAction);
             btnBuscar.setOnAction(this::handleBuscarButtonAction);
             stage.setOnCloseRequest(this::handleExitButtonAction);
+            //cbFiltro.getItems().addAll("true", "false", "ninguno");
+            cbFiltro.getItems().addAll(true, false, null);
+
             tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
             mtem5.setOnAction(this::handleViewPatrocinador);
 
@@ -225,6 +235,8 @@ public class EventoController {
 
             //habilitamos la tabla
             tbvEvento.setDisable(false);
+            //habilitamos la comboBox 
+            cbFiltro.setDisable(false);
 
             //habilitamos el DatePicker
             dpFechaEvento.setDisable(false);
@@ -245,6 +257,12 @@ public class EventoController {
             btnEditar.setOnAction(this::handleModificarButtonAction);
             btnBuscar.setOnAction(this::handleBuscarButtonAction);
             stage.setOnCloseRequest(this::handleExitButtonAction);
+            //vale aqui estamos haciendo lo del filtrado del catering primero cargando la combo 
+            // cbFiltro.getItems().addAll("true", "false", "ninguno");
+            cbFiltro.getItems().addAll(true, false, null);
+
+            //habilitando que cuando cambiemos algo en la combo salte un evento 
+            cbFiltro.valueProperty().addListener(this::handleFiltradoCatering);
             tbvEvento.getSelectionModel().selectedItemProperty().addListener(this::handleUsersTableSelectionChanged);
             mtem4.setOnAction(this::handleMtem4);
             mtem5.setOnAction(this::handleViewPatrocinador);
@@ -736,6 +754,44 @@ public class EventoController {
                             .getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    @FXML
+    private void handleFiltradoCatering(ObservableValue observable, Object oldValue, Object newValue) {
+
+        Boolean filtro = cbFiltro.getValue();
+        if (filtro != null) {
+            if (filtro) {
+                cargarFiltro();
+            } else {
+                cargarFiltro();
+            }
+        } else {
+            cargarTodo();
+        }
+
+    }
+
+    @FXML
+    private ObservableList<Evento> cargarFiltro() {
+        ObservableList<Evento> listaEvento;
+        List<Evento> todosEventos;
+
+        todosEventos = eventofact.getFactory().viewEvents_XML(Evento.class);
+
+        // Obtener el valor seleccionado del ComboBox
+        Boolean filtro = cbFiltro.getSelectionModel().getSelectedItem();
+
+        // Filtrar eventos según el valor seleccionado del ComboBox
+        List<Evento> eventosFiltrados = todosEventos.stream()
+                .filter(evento -> evento.getCatering() != null && evento.getCatering().equals(filtro))
+                .collect(Collectors.toList());
+
+        listaEvento = FXCollections.observableArrayList(eventosFiltrados);
+        tbvEvento.setItems(listaEvento);
+        tbvEvento.refresh();
+
+        return listaEvento;
     }
 
 }

@@ -211,7 +211,7 @@ public class SedeControllerTest extends ApplicationTest {
 
     }
 
-    @Ignore
+    @Test
     public void test5_tipoUsuarios() {
         UserSesionType miTipoSesion = UserSesionType.getInstance();
         User tipo = miTipoSesion.getTipoSesion();
